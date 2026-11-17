@@ -1,0 +1,555 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Property Video Preview - Smart Rental Finder</title>
+    <style>
+        /* GENERAL */
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: Arial, sans-serif;
+        }
+
+        body {
+            background: #edf2ff;
+            color: #14234e;
+        }
+
+        /* MAIN CONTAINER */
+        .container {
+            max-width: 1150px;
+            margin: 25px auto;
+            padding: 12px;
+        }
+
+        /* MAIN CARD */
+        .video-card {
+            background: white;
+            padding: 18px;
+            border-radius: 13px;
+            box-shadow: 0 4px 15px rgba(0, 0, 0, 0.06);
+        }
+
+        /* HEADER */
+       
+            .video-header {
+                display: flex;
+                justify-content: space-between;
+                align-items: center;
+                margin-bottom: 16px;
+                gap: 10px;
+            }
+
+            .property-title h1 {
+                font-size: 21px;
+                margin-bottom: 7px;
+            }
+
+            .property-title p {
+                font-size: 12px;
+                color: #64748b;
+            }
+
+            .property-title p span {
+                color: #075bea;
+            }
+
+            /* FAVORITE BUTTON */
+            .favorite-btn {
+                width: 39px;
+                height: 39px;
+                border: 1px solid #e5eaf3;
+                background: white;
+                color: #263858;
+                font-size: 22px;
+                border-radius: 50%;
+                cursor: pointer;
+                transition: 0.3s;
+                flex-shrink: 0;
+            }
+
+            .favorite-btn.active {
+                color: #ef3155;
+                background: #fff0f3;
+            }
+
+            /* VIDEO PLAYER */
+            /* VIDEO PLAYER */
+            .video-wrapper {
+                width: 100%;
+                position: relative;
+                background: #111827;
+                border-radius: 11px;
+                overflow: hidden;
+                aspect-ratio: 16 / 9;
+            }
+
+            .video-wrapper video {
+                width: 100%;
+                height: 100%;
+                display: block;
+                object-fit: contain;
+                background: #111;
+            }
+
+            /* CUSTOM PLAY BUTTON */
+            .big-play {
+                position: absolute;
+                top: 50%;
+                left: 50%;
+                transform: translate(-50%, -50%);
+                width: 65px;
+                height: 65px;
+                border-radius: 50%;
+                background: rgba(7, 91, 234, 0.95);
+                color: white;
+                border: none;
+                font-size: 25px;
+                cursor: pointer;
+                display: grid;
+                place-items: center;
+                transition: 0.3s;
+            }
+
+            .big-play:hover {
+                transform: translate(-50%, -50%) scale(1.1);
+            }
+
+           
+                .big-play.hidden {
+                    display: none;
+                }
+
+                /* VIDEO CONTROLS */
+                .controls {
+                    position: absolute;
+                    bottom: 0;
+                    left: 0;
+                    width: 100%;
+                    padding: 12px;
+                    background: linear-gradient(transparent,
+                            rgba(0, 0, 0, 0.85));
+                    color: white;
+                    display: flex;
+                    flex-direction: column;
+                    gap: 9px;
+                    opacity: 0;
+                    transition: 0.3s;
+                }
+
+                .video-wrapper:hover .controls,
+                .video-wrapper.paused .controls {
+                    opacity: 1;
+                }
+
+                /* PROGRESS BAR */
+                .progress {
+                    width: 100%;
+                    height: 5px;
+                    background: rgba(255, 255, 255, 0.35);
+                    border-radius: 5px;
+                    cursor: pointer;
+                    overflow: hidden;
+                }
+
+                .progress-filled {
+                    height: 100%;
+                    width: 0%;
+                    background: #1680ff;
+                    background: #1680ff;
+                    border-radius: 5px;
+                }
+
+                /* CONTROL BUTTONS */
+                .control-row {
+                    display: flex;
+                    align-items: center;
+                    gap: 12px;
+                }
+
+                .control-row button {
+                    background: transparent;
+                    color: white;
+                    border: none;
+                    font-size: 17px;
+                    cursor: pointer;
+                }
+
+                .time {
+                    font-size: 11px;
+                    flex: 1;
+                }
+
+                .volume {
+                    width: 65px;
+                    cursor: pointer;
+                }
+
+                /* VIDEO INFORMATION */
+                .video-info {
+                    display: flex;
+                    justify-content: space-between;
+                    align-items: center;
+                    gap: 10px;
+                    padding: 17px 2px;
+                    border-bottom: 1px solid #edf0f5;
+                }
+
+                .video-info h2 {
+                    font-size: 15px;
+                    margin-bottom: 5px;
+                    margin-bottom: 5px;
+                }
+
+                .video-info p {
+                    font-size: 11px;
+                    color: #64748b;
+                }
+
+                .duration {
+                    background: #e8f0ff;
+                    color: #075bea;
+                    padding: 7px 12px;
+                    border-radius: 6px;
+                    font-size: 11px;
+                    font-weight: bold;
+                    white-space: nowrap;
+                }
+
+                /* DESCRIPTION */
+                .description {
+                    padding: 17px 2px;
+                }
+
+                .description h3 {
+                    font-size: 15px;
+                    margin-bottom: 9px;
+                }
+
+                .description p {
+                    color: #64748b;
+                    font-size: 12px;
+                    line-height: 1.8;
+                }
+
+                /* FOOTER BUTTONS */
+                .footer-buttons {
+                    display: flex;
+                    justify-content: space-between;
+                    gap: 12px;
+                    margin-top: 10px;
+                }
+
+                .footer-buttons button {
+                    padding: 11px 17px;
+                    border-radius: 7px;
+                    font-size: 12px;
+                    font-weight: bold;
+                    cursor: pointer;
+                }
+
+                .back-btn {
+                    background: white;
+                    color: #075bea;
+                    border: 1px solid #075bea;
+                }
+
+                .details-btn {
+                    background: #075bea;
+                    color: white;
+                    border: 1px solid #075bea;
+                }
+
+                /* RESPONSIVE */
+                @media(max-width: 600px) {
+                    .container {
+                        margin: 8px auto;
+                        padding: 8px;
+                    }
+
+                    .video-card {
+                        padding: 12px;
+                    }
+
+                    .property-title h1 {
+                        font-size: 17px;
+                    }
+
+                    .video-wrapper {
+                        aspect-ratio: 16 / 9;
+                    }
+
+                    .big-play {
+                        .big-play {
+                            width: 52px;
+                            height: 52px;
+                            font-size: 21px;
+                        }
+
+                        .video-info h2 {
+                            font-size: 13px;
+                        }
+
+                        .footer-buttons button {
+                            padding: 10px;
+                            font-size: 11px;
+                        }
+
+                        .volume {
+                            width: 45px;
+                        }
+                    }
+    </style>
+</head>
+
+<body>
+    <div class="container">
+        <main class="video-card">
+            <!-- HEADER -->
+            <header class="video-header">
+                <div class="property-title">
+                    <h1>Property Video Preview</h1>
+                    <p>
+                        <span> </span>
+                        <span id="propertyLocation">
+                            Morogoro Town
+                        </span>
+                        </span>
+                    </p>
+                </div>
+                <button class="favorite-btn" id="favoriteBtn" onclick="toggleFavorite()">
+                    ♡
+                </button>
+            </header>
+            <!-- VIDEO PLAYER -->
+            <section class="video-wrapper paused" id="videoWrapper">
+                <video id="propertyVideo" preload="metadata" playsinline>
+                    <source src="property-video.mp4" type="video/mp4">
+                    Your browser does not support HTML5 video.
+                </video>
+                <!-- BIG PLAY BUTTON -->
+                <button class="big-play" id="bigPlay" onclick="togglePlay()">
+                    ▶
+                </button>
+                <!-- CUSTOM CONTROLS -->
+                <div class="controls">
+                    <div class="progress" id="progress" onclick="seekVideo(event)">
+                        <div class="progress-filled" id="progressFilled">
+                        </div>
+                    </div>
+                    <div class="control-row">
+                        <button onclick="togglePlay()" id="playButton">
+                            ▶
+                        </button>
+                        <span class="time" id="timeDisplay">
+                            00:00 / 00:00
+                        </span>
+                        <span> </span>
+                        <input class="volume" type="range" min="0" max="1" step="0.1" step="0.1" value="1"
+                            id="volumeControl">
+                        <button onclick="toggleFullscreen()">
+                            ⛶
+                        </button>
+                    </div>
+                </div>
+            </section>
+            <!-- VIDEO INFORMATION -->
+            <section class="video-info">
+                <div>
+                    <h2 id="houseName">
+                        3 Bedroom House
+                    </h2>
+                    <p>
+                        Property walkthrough video
+                    </p>
+                </div>
+                <span class="duration" id="duration">
+                    Video Preview
+                </span>
+            </section>
+            <!-- DESCRIPTION -->
+            <section class="description">
+                <h3>About This Property</h3>
+                <p>
+                    Explore this beautiful rental property located
+                    in Morogoro. Watch the video to see the house
+                    design, rooms, interior and surrounding environment
+                    before making your booking decision.
+                </p>
+            </section>
+            <!-- FOOTER BUTTONS -->
+            <div class="footer-buttons">
+                <button class="back-btn" onclick="goBack()">
+                    ← Back to Details
+                </button>
+                <button class="details-btn" onclick="goToDetails()">
+                    View Property Details →
+                </button>
+            </div>
+        </main>
+    </div>
+    <script>
+        /* GET PROPERTY DATA */
+       
+const savedProperty =
+            localStorage.getItem("selectedProperty");
+        if (savedProperty) {
+            const property = JSON.parse(savedProperty);
+            document.getElementById("houseName")
+                .textContent = property.name;
+            document.getElementById("propertyLocation")
+                .textContent = property.location;
+        }
+        /* VIDEO ELEMENTS */
+        const video =
+            document.getElementById("propertyVideo");
+        const wrapper =
+            document.getElementById("videoWrapper");
+        const bigPlay =
+            document.getElementById("bigPlay");
+        const playButton =
+            document.getElementById("playButton");
+        const progressFilled =
+            document.getElementById("progressFilled");
+        const timeDisplay =
+            document.getElementById("timeDisplay");
+        /* FORMAT VIDEO TIME */
+        function formatTime(seconds) {
+            
+                if (!Number.isFinite(seconds)) {
+                    return "00:00";
+                }
+                const minutes =
+                    Math.floor(seconds / 60);
+                const remainingSeconds =
+                    Math.floor(seconds % 60);
+                return String(minutes).padStart(2, "0")
+                    + ":"
+                    + String(remainingSeconds).padStart(2, "0");
+            }
+            /* PLAY AND PAUSE */
+            function togglePlay() {
+                if (video.paused) {
+                    video.play().catch(() => {
+                        alert("Unable to play video. Check the video file.");
+                    });
+                } else {
+                    video.pause();
+                }
+            }
+            /* UPDATE PLAYER STATUS */
+            video.addEventListener("play", function () {
+                bigPlay.classList.add("hidden");
+                wrapper.classList.remove("paused");
+                playButton.textContent = "Ⅱ";
+            });
+            video.addEventListener("pause", function () {
+                bigPlay.classList.remove("hidden");
+                wrapper.classList.add("paused");
+                playButton.textContent = "▶";
+            });
+            /* VIDEO PROGRESS */
+            video.addEventListener("timeupdate", function () {
+                if (video.duration) {
+                    const percentage =
+                        (video.currentTime / video.duration) * 100;
+                    progressFilled.style.width =
+                        percentage + "%";
+                    timeDisplay.textContent =
+                        formatTime(video.currentTime)
+                        + " / "
+                        + formatTime(video.duration);
+                }
+            });
+            /* VIDEO DURATION */
+            video.addEventListener("loadedmetadata", function () {
+                document.getElementById("duration")
+                    .textContent = formatTime(video.duration);
+                timeDisplay.textContent =
+                    "00:00 / " + formatTime(video.duration);
+            });
+            /* SEEK VIDEO */
+            function seekVideo(event) {
+                if (!video.duration) return;
+                const progress =
+                    document.getElementById("progress");
+                const rect =
+                    progress.getBoundingClientRect();
+                const position =
+                    (event.clientX - rect.left) / rect.width;
+                video.currentTime =
+                    Math.max(0, Math.min(1, position)) *
+                    video.duration;
+            }
+            /* VOLUME CONTROL */
+            document.getElementById("volumeControl")
+                .addEventListener("input", function () {
+                    video.volume = Number(this.value);
+                });
+      
+        /* FULLSCREEN */
+        function toggleFullscreen() {
+            if (!document.fullscreenElement) {
+                wrapper.requestFullscreen?.();
+            } else {
+                document.exitFullscreen?.();
+            }
+        }
+        /* FAVORITE */
+        let favorites = JSON.parse(
+            localStorage.getItem("favorites") || "[]"
+        );
+        const currentProperty =
+            savedProperty ? JSON.parse(savedProperty) : null;
+        const favoriteId =
+            currentProperty
+                ? Object.keys({
+                    house1: true,
+                    house2: true,
+                    house3: true
+                }).find(id => id === id)
+                : null;
+        const favoriteButton =
+            document.getElementById("favoriteBtn");
+        
+            function toggleFavorite() {
+                const id = currentProperty
+                    ? currentProperty.name
+                    : "house1";
+                if (favorites.includes(id)) {
+                    favorites = favorites.filter(item => item !== id);
+                    favoriteButton.textContent = "♡";
+                    favoriteButton.classList.remove("active");
+                } else {
+                    favorites.push(id);
+                    favoriteButton.textContent = "` ";
+                    favoriteButton.classList.add("active");
+                }
+                localStorage.setItem(
+                    "favorites",
+                    JSON.stringify(favorites)
+                );
+            }
+            if (currentProperty &&
+                favorites.includes(currentProperty.name)) {
+                favoriteButton.textContent = " ";
+                favoriteButton.classList.add("active");
+            }
+            /* NAVIGATION */
+            /* NAVIGATION */
+            /* NAVIGATION */
+            /* NAVIGATION */
+            function goBack() {
+                window.location.href = "house-details.html";
+            }
+            function goToDetails() {
+                window.location.href = "house-details.html";
+            }
+    </script>
+</body>
+
+</html>

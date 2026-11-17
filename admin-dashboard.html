@@ -1,0 +1,513 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Admin Dashboard - Smart Rental Finder</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: Arial, sans-serif;
+        }
+
+        body {
+            background: #f1f5fc;
+            color: #142957;
+        }
+
+        .container {
+            display: flex;
+            min-height: 100vh;
+        }
+
+        /* SIDEBAR */
+        .sidebar {
+            width: 220px;
+            background: #102e6c;
+            color: white;
+            padding: 20px 12px;
+            flex-shrink: 0;
+        }
+
+        .logo {
+            text-align: center;
+            font-size: 20px;
+            font-weight: bold;
+            margin-bottom: 35px;
+            line-height: 1.4;
+        }
+        
+
+        .logo span {
+            color: #60a5fa;
+        }
+
+        .sidebar a {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            text-decoration: none;
+            color: #dbeafe;
+            padding: 13px 12px;
+            margin-bottom: 8px;
+            border-radius: 7px;
+            font-size: 14px;
+            transition: .3s;
+        }
+
+        .sidebar a:hover,
+        .sidebar a.active {
+            background: #1764e8;
+            color: white;
+        }
+
+        .sidebar a span {
+            font-size: 17px;
+        }
+
+        /* MAIN */
+        .main {
+            flex: 1;
+            min-width: 0;
+            padding: 25px;
+        }
+
+        .topbar {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 25px;
+        }
+        
+
+        .topbar h2 {
+            font-size: 24px;
+        }
+
+        .topbar p {
+            color: #64748b;
+            font-size: 13px;
+            margin-top: 5px;
+        }
+
+        .admin-profile {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+        }
+
+        .admin-profile img {
+            width: 42px;
+            height: 42px;
+            border-radius: 50%;
+            object-fit: cover;
+        }
+
+        /* STATISTICS */
+        .stats {
+            display: grid;
+            grid-template-columns: repeat(5, 1fr);
+            gap: 13px;
+            margin-bottom: 25px;
+        }
+
+        .stat-card {
+            padding: 18px 12px;
+            border-radius: 12px;
+            min-height: 105px;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            box-shadow: 0 3px 10px #dfe7f4;
+            box-shadow: 0 3px 10px #dfe7f4;
+        }
+
+        .stat-card .icon {
+            font-size: 24px;
+            margin-bottom: 5px;
+        }
+
+        .stat-card h2 {
+            font-size: 23px;
+            margin-bottom: 4px;
+        }
+
+        .stat-card p {
+            font-size: 12px;
+            font-weight: bold;
+        }
+
+        .users {
+            background: #dceaff;
+            color: #1555cf;
+        }
+
+        .properties {
+            background: #dcfce7;
+            color: #159447;
+        }
+
+        .requests {
+            background: #fff0cb;
+            color: #d58a0c;
+        }
+
+        .bookings {
+            background: #ffe0e0;
+            color: #dc3535;
+        }
+
+        .complaints {
+            background: #efd9ff;
+            color: #9333c7;
+        }
+    
+
+        /* DASHBOARD CONTENT */
+        .dashboard-content {
+            display: grid;
+            grid-template-columns: 1.6fr 1fr;
+            gap: 20px;
+        }
+
+        .panel {
+            background: white;
+            border-radius: 12px;
+            padding: 20px;
+            box-shadow: 0 3px 12px #dfe7f4;
+        }
+
+        .panel h3 {
+            font-size: 17px;
+            margin-bottom: 20px;
+        }
+
+        /* STATISTICS CHART */
+        .chart {
+            height: 250px;
+            display: flex;
+            align-items: flex-end;
+            justify-content: space-around;
+            border-bottom: 1px solid #dce3ef;
+            position: relative;
+            padding: 15px 10px 0;
+            background: repeating-linear-gradient(to bottom,
+                    transparent 0,
+                    transparent 48px,
+                    #edf1f7 49px);
+        }
+
+        .bar-group {
+            height: 100%;
+            display: flex;
+            flex-direction: column;
+            flex-direction: column;
+            justify-content: flex-end;
+            align-items: center;
+            flex: 1;
+        }
+
+        .bar {
+            width: 35px;
+            background: linear-gradient(to top,
+                    #0755d9,
+                    #63a1ff);
+            border-radius: 3px 3px 0 0;
+            transition: .3s;
+        }
+
+        .bar:hover {
+            background: #102e6c;
+        }
+
+        .bar-group span {
+            font-size: 12px;
+            color: #64748b;
+            margin-top: 9px;
+        }
+
+        /* RECENT ACTIVITIES */
+        .activity {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            padding: 15px 5px;
+            border-bottom: 1px solid #edf0f5;
+        }
+
+        .activity-icon {
+            width: 38px;
+            height: 38px;
+            border-radius: 50%;
+            background: #eaf1ff;
+            display: flex;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            font-size: 18px;
+            flex-shrink: 0;
+        }
+
+        .activity-info h4 {
+            font-size: 13px;
+            margin-bottom: 5px;
+        }
+
+        .activity-info p {
+            font-size: 11px;
+            color: #94a3b8;
+        }
+
+        /* FOOTER */
+        footer {
+            text-align: center;
+            padding: 25px 10px;
+            color: #64748b;
+            font-size: 12px;
+        }
+
+        /* RESPONSIVE */
+        @media(max-width:1100px) {
+            .stats {
+                grid-template-columns: repeat(3, 1fr);
+            }
+        }
+
+        @media(max-width:850px) {
+            .dashboard-content {
+                grid-template-columns: 1fr;
+            }
+        }
+
+        @media(max-width:650px) {
+            .container {
+                flex-direction: column;
+            }
+        }
+
+        .sidebar {
+            width: 100%;
+            display: flex;
+            flex-wrap: wrap;
+            align-items: center;
+            padding: 12px;
+        }
+
+        .logo {
+            width: 100%;
+            margin-bottom: 10px;
+        }
+
+        .sidebar a {
+            padding: 10px;
+            margin: 3px;
+            font-size: 12px;
+        }
+
+        .main {
+            padding: 15px;
+        }
+
+        .stats {
+            grid-template-columns: repeat(2, 1fr);
+        }
+
+        .topbar h2 {
+            font-size: 19px;
+        }
+        
+
+        @media(max-width:380px) {
+            .stats {
+                grid-template-columns: 1fr 1fr;
+            }
+
+            .bar {
+                width: 23px;
+            }
+        }
+        
+    </style>
+</head>
+
+<body>
+    <div class="container">
+        <!-- SIDEBAR -->
+        <aside class="sidebar">
+            <div class="logo">
+                Smart Rental<br>
+                <span>Finder</span>
+            </div>
+            <a href="admin-dashboard.html" class="active">
+                <span>▣</span> Dashboard
+            </a>
+            <a href="manage-properties.html">
+                <span>♙</span> Manage Users
+            </a>
+            <a href="properties.html">
+                <span>⌂</span> Properties
+            </a>
+            <a href="complaints.html">
+                <span>▤</span> Complaints
+            </a>
+            <a href="report-fraud.html">
+                <span>▧</span> Reports
+            </a>
+            <a href="settings.html">
+                <span>⚙</span> Settings
+            </a>
+            <a href="login.html">
+                <a href="login.html">
+                    <span>⇥</span> Logout
+                </a>
+        </aside>
+        <!-- MAIN CONTENT -->
+        <main class="main">
+            <!-- TOPBAR -->
+            <div class="topbar">
+                <div>
+                    <h2>Admin Dashboard</h2>
+                    <p>Welcome back, Administrator!</p>
+                </div>
+                <div class="admin-profile">
+                    <span> </span>
+                    <img src="https://i.pravatar.cc/100?img=12" alt="Admin Profile">
+                </div>
+            </div>
+            <!-- STATISTICS CARDS -->
+            <section class="stats">
+                <div class="stat-card users">
+                    <div class="icon"> </div>
+                    <h2 id="usersCount">120</h2>
+                    <p>Users</p>
+                </div>
+                <div class="stat-card properties">
+                    <div class="icon"> </div>
+                    <h2 id="propertiesCount">85</h2>
+                    <p>Properties</p>
+                </div>
+                <div class="stat-card requests">
+                    <div class="stat-card requests">
+                        <div class="icon"> </div>
+                        <h2 id="requestsCount">45</h2>
+                        <p>Properties</p>
+                    </div>
+                    <div class="stat-card bookings">
+                        <div class="icon"> </div>
+                        <h2 id="bookingsCount">23</h2>
+                        <p>Bookings</p>
+                    </div>
+                    <div class="stat-card complaints">
+                        <div class="icon"> </div>
+                        <h2 id="complaintsCount">7</h2>
+                        <p>Complaints</p>
+                    </div>
+            </section>
+            <!-- CHART AND ACTIVITIES -->
+            <section class="dashboard-content">
+                <!-- SYSTEM STATISTICS -->
+                <div class="panel">
+                    <h3>System Statistics</h3>
+                    <div class="chart">
+                        <div class="bar-group">
+                            <div class="bar" style="height:30%"></div>
+                            <span>Jan</span>
+                        </div>
+                        <div class="bar-group">
+                            <div class="bar" style="height:40%"></div>
+                            <span>Feb</span>
+                        </div>
+                        <div class="bar-group">
+                            <div class="bar" style="height:48%"></div>
+                            <div class="bar" style="height:48%"></div>
+                            <span>Mar</span>
+                        </div>
+                        <div class="bar-group">
+                            <div class="bar" style="height:45%"></div>
+                            <span>Apr</span>
+                        </div>
+                        <div class="bar-group">
+                            <div class="bar" style="height:55%"></div>
+                            <span>May</span>
+                        </div>
+                        <div class="bar-group">
+                            <div class="bar" style="height:65%"></div>
+                            <span>Jun</span>
+                        </div>
+                        <div class="bar-group">
+                            <div class="bar" style="height:78%"></div>
+                            <span>Jul</span>
+                        </div>
+                    </div>
+                </div>
+                <!-- RECENT ACTIVITIES -->
+                <div class="panel">
+                    <h3>Recent Activities</h3>
+                    <div class="activity">
+                        <div class="activity-icon"> </div>
+                        <div class="activity-info">
+                            <h4>New property added</h4>
+                            <p>2 hours ago</p>
+                        </div>
+                    </div>
+                    <div class="activity">
+                        <div class="activity-icon"> </div>
+                        <div class="activity-info">
+                            <h4>Complaint resolved</h4>
+                            <p>6 hours ago</p>
+                        </div>
+                    </div>
+                    <div class="activity">
+                        <div class="activity-icon"> </div>
+                        <div class="activity-info">
+                            <h4>New user registered</h4>
+                            <p>1 day ago</p>
+                        </div>
+                    </div>
+                </div>
+            </section>
+            <footer>
+                © 2026 Smart Rental Finder. All Rights Reserved.
+            </footer>
+        </main>
+    </div>
+    <script>
+        // Dashboard statistics (demo data)
+        const dashboardData = {
+            users: 120,
+            users: 120,
+            properties: 85,
+            requests: 45,
+            bookings: 23,
+            complaints: 7
+        };
+        document.getElementById("usersCount").textContent =
+            dashboardData.users;
+        document.getElementById("propertiesCount").textContent =
+            dashboardData.properties;
+        document.getElementById("requestsCount").textContent =
+            dashboardData.requests;
+        document.getElementById("bookingsCount").textContent =
+            dashboardData.bookings;
+        document.getElementById("complaintsCount").textContent =
+            dashboardData.complaints;
+        // Sidebar active navigation
+        const links = document.querySelectorAll(".sidebar a");
+        links.forEach(link => {
+            link.addEventListener("click", function () {
+                if (this.getAttribute("href") !== "login.html") {
+                    links.forEach(item =>
+                        item.classList.remove("active")
+                    );
+                    this.classList.add("active");
+                }
+            });
+        });
+    </script>
+</body>
+
+</html>

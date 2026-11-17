@@ -1,0 +1,490 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Notifications - Smart Rental Finder</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: Arial, sans-serif;
+        }
+
+        body {
+            background: #f1f5fc;
+            color: #142957;
+        }
+
+        .container {
+            display: flex;
+            min-height: 100vh;
+        }
+
+        /* SIDEBAR */
+        .sidebar {
+            width: 220px;
+            background: #102e6c;
+            color: white;
+            padding: 20px 12px;
+            flex-shrink: 0;
+        }
+
+        .logo {
+            text-align: center;
+            font-size: 20px;
+            font-weight: bold;
+            line-height: 1.4;
+            margin-bottom: 35px;
+            margin-bottom: 35px;
+        }
+
+        .logo span {
+            color: #60a5fa;
+        }
+
+        .sidebar a {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            text-decoration: none;
+            color: #dbeafe;
+            padding: 13px 12px;
+            margin-bottom: 8px;
+            border-radius: 7px;
+            font-size: 14px;
+            transition: .3s;
+        }
+
+        .sidebar a:hover,
+        .sidebar a.active {
+            background: #1764e8;
+            color: white;
+        }
+
+        /* MAIN */
+        .main {
+            flex: 1;
+            min-width: 0;
+            padding: 30px;
+        }
+
+        .topbar {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 25px;
+        }
+
+        .topbar h2 {
+            font-size: 24px;
+            font-size: 24px;
+        }
+
+        .topbar p {
+            color: #64748b;
+            font-size: 13px;
+            margin-top: 6px;
+        }
+
+        .profile {
+            display: flex;
+            align-items: center;
+            gap: 15px;
+        }
+
+        .profile img {
+            width: 42px;
+            height: 42px;
+            border-radius: 50%;
+            object-fit: cover;
+        }
+
+        /* NOTIFICATION PANEL */
+        .notification-panel {
+            background: white;
+            max-width: 950px;
+            border-radius: 12px;
+            padding: 25px;
+            box-shadow: 0 3px 12px #dfe7f4;
+        }
+
+        .notification-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 22px;
+            gap: 10px;
+        }
+
+        .notification-header h2 {
+            font-size: 21px;
+        }
+        
+
+        .mark-read {
+            border: none;
+            background: none;
+            color: #0755d9;
+            font-size: 12px;
+            font-weight: bold;
+            cursor: pointer;
+        }
+
+        .mark-read:hover {
+            text-decoration: underline;
+        }
+
+        /* NOTIFICATION ITEM */
+        .notification {
+            display: flex;
+            align-items: center;
+            gap: 15px;
+            padding: 20px 12px;
+            border-bottom: 1px solid #edf0f5;
+            cursor: pointer;
+            transition: .2s;
+            border-radius: 8px;
+        }
+
+        .notification:hover {
+            background: #f8faff;
+        }
+
+        .notification:last-child {
+            border-bottom: none;
+        }
+
+        .notification.unread {
+            background: #f7f9ff;
+        }
+
+        .notification-icon {
+            width: 43px;
+            height: 43px;
+            height: 43px;
+            min-width: 43px;
+            border-radius: 50%;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            font-size: 19px;
+        }
+
+        .red {
+            background: #ffe1e1;
+        }
+
+        .purple {
+            background: #f0e1ff;
+        }
+
+        .blue {
+            background: #dceaff;
+        }
+
+        .orange {
+            background: #fff0d8;
+        }
+
+        .notification-info {
+            flex: 1;
+            min-width: 0;
+        }
+
+        .notification-info h3 {
+            font-size: 14px;
+            margin-bottom: 6px;
+            color: #142957;
+        }
+
+        .notification-info p {
+            font-size: 12px;
+            color: #64748b;
+            line-height: 1.5;
+        }
+
+        .notification-info small {
+            display: block;
+            color: #94a3b8;
+            font-size: 11px;
+            margin-top: 6px;
+        }
+
+        .notification-right {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+        }
+
+        .notification-right .arrow {
+            color: #64748b;
+            font-size: 22px;
+        }
+
+        .dot {
+            width: 8px;
+            height: 8px;
+            background: #1764e8;
+            border-radius: 50%;
+        }
+
+        .notification.read .dot {
+            display: none;
+        }
+
+        /* EMPTY STATE */
+        .empty-state {
+            display: none;
+            text-align: center;
+            padding: 45px 15px;
+            color: #64748b;
+        }
+
+        .empty-state .icon {
+            font-size: 40px;
+            margin-bottom: 12px;
+        }
+        
+
+        /* FOOTER */
+        footer {
+            text-align: center;
+            padding: 25px 10px;
+            color: #64748b;
+            font-size: 12px;
+        }
+
+        /* RESPONSIVE */
+        @media(max-width:750px) {
+            .container {
+                flex-direction: column;
+            }
+
+            .sidebar {
+                width: 100%;
+                display: flex;
+                flex-wrap: wrap;
+                align-items: center;
+                padding: 12px;
+            }
+
+            .logo {
+                width: 100%;
+                margin-bottom: 10px;
+            }
+
+            .sidebar a {
+                padding: 10px;
+                margin: 3px;
+                font-size: 12px;
+            }
+
+            .main {
+                padding: 15px;
+            }
+
+            .notification-panel {
+                padding: 15px;
+                padding: 15px;
+            }
+
+            .notification-header h2 {
+                font-size: 18px;
+            }
+
+            .notification {
+                gap: 10px;
+                padding: 17px 5px;
+            }
+
+            .notification-info h3 {
+                font-size: 12px;
+            }
+
+            .notification-info p {
+                font-size: 11px;
+            }
+        }
+
+        @media(max-width:400px) {
+            .notification-icon {
+                width: 36px;
+                height: 36px;
+                min-width: 36px;
+                font-size: 16px;
+            }
+
+            .notification-right .arrow {
+                font-size: 17px;
+            }
+        }
+    </style>
+</head>
+
+<body>
+    <div class="container">
+        <!-- SIDEBAR -->
+        <!-- SIDEBAR -->
+        <aside class="sidebar">
+            <div class="logo">
+                Smart Rental<br>
+                <span>Finder</span>
+            </div>
+            <a href="renter-dashboard.html">
+                <span>▣</span> Dashboard
+            </a>
+            <a href="advanced-search.html">
+                <span>⌕</span> Search Homes
+            </a>
+            <a href="my-bookings.html">
+                <span>▤</span> My Bookings
+            </a>
+            <a href="chat.html">
+                <span>▣</span> Messages
+            </a>
+            <a href="notifications.html" class="active">
+                <span>♧</span> Notifications
+            </a>
+            <a href="profile.html">
+                <span>♙</span> My Profile
+            </a>
+            <a href="help-support.html">
+                <span>?</span> Help & Support
+            </a>
+            <a href="login.html">
+                <span>⇥</span> Logout
+            </a>
+        </aside>
+        <!-- MAIN CONTENT -->
+        <main class="main">
+            <!-- TOPBAR -->
+            <div class="topbar">
+                <div>
+                    <h2>Notifications</h2>
+                    <p>Stay updated with your rental activities.</p>
+                </div>
+                <div class="profile">
+                    <span> </span>
+                    <img src="https://i.pravatar.cc/100?img=12" alt="User Profile">
+                </div>
+            </div>
+            <!-- NOTIFICATIONS PANEL -->
+            <section class="notification-panel">
+                <div class="notification-header">
+                    <h2>Notifications</h2>
+                    <button class="mark-read" onclick="markAllRead()">
+                        Mark all as read
+                    </button>
+                </div>
+                <!-- NOTIFICATION 1 -->
+                <div class="notification unread" onclick="openNotification(this,'my-bookings.html')">
+                    <div class="notification-icon red">
+                    </div>
+                    <div class="notification-info">
+                        <h3>Your booking is approved</h3>
+                        <p>
+                            Your booking for 3 Bedroom House
+                            has been approved by the owner.
+                        </p>
+                        <small>2 hours ago</small>
+                    </div>
+                    <div class="notification-right">
+                        <div class="dot"></div>
+                        <span class="arrow">›</span>
+                    </div>
+                </div>
+                <!-- NOTIFICATION 2 -->
+                <div class="notification unread" onclick="openNotification(this,'chat.html')">
+                    <div class="notification-icon purple">
+                    </div>
+                    <div class="notification-info">
+                        <h3>New message from owner</h3>
+                        <p>
+                            You have received a new message
+                            from a property owner.
+                        </p>
+                        <small>3 hours ago</small>
+                    </div>
+                    <div class="notification-right">
+                        <div class="dot"></div>
+                        <span class="arrow">›</span>
+                    </div>
+                </div>
+                <!-- NOTIFICATION 3 -->
+                <div class="notification unread" onclick="openNotification(this,'house-listings.html')">
+                    <div class="notification-icon blue">
+                    </div>
+                    <div class="notification-info">
+                        <h3>New property in Morogoro</h3>
+                        <p>
+                            A new rental property matching
+                            your interests is now available.
+                        </p>
+                        <small>1 day ago</small>
+                    </div>
+                    <div class="notification-right">
+                        <div class="dot"></div>
+                        <span class="arrow">›</span>
+                    </div>
+                </div>
+                <!-- NOTIFICATION 4 -->
+                <div class="notification unread" onclick="openNotification(this,'profile.html')">
+                    <div class="notification-icon orange">
+                    </div>
+                    <div class="notification-info">
+                        <h3>Your profile updated</h3>
+                        <p>
+                            Your account information has
+                            been successfully updated.
+                        </p>
+                        <small>2 days ago</small>
+                    </div>
+                    <div class="notification-right">
+                        <div class="dot"></div>
+                        <span class="arrow">›</span>
+                    </div>
+                </div>
+                <!-- EMPTY STATE -->
+                <div class="empty-state" id="emptyState">
+                    <div class="icon"> </div>
+                    <h3>No notifications</h3>
+                    <p>You are all caught up!</p>
+                </div>
+            </section>
+            <footer>
+                © 2026 Smart Rental Finder. All Rights Reserved.
+            </footer>
+        </main>
+    </div>
+    <script>
+        // MARK ALL NOTIFICATIONS AS READ
+        function markAllRead() {
+            const notifications =
+                document.querySelectorAll(".notification");
+            notifications.forEach(notification => {
+                notification.classList.remove("unread");
+                notification.classList.add("read");
+            });
+            alert("All notifications marked as read!");
+        }
+        // OPEN INDIVIDUAL NOTIFICATION
+        function openNotification(element, page) {
+            element.classList.remove("unread");
+            element.classList.add("read");
+            window.location.href = page;
+        }
+        // UPDATE NOTIFICATION COUNT
+        function updateNotificationCount() {
+            const unread =
+                document.querySelectorAll(".notification.unread");
+            document.querySelectorAll(".notification.unread");
+            console.log("Unread notifications: " + unread.length);
+        }
+        updateNotificationCount();
+    </script>
+</body>
+
+</html>

@@ -1,0 +1,664 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Owner Settings - Smart Rental Finder</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: Arial, sans-serif;
+        }
+
+        body {
+            background: #f5f7fb;
+            color: #1e293b;
+        }
+
+        .container {
+            display: flex;
+            min-height: 100vh;
+        }
+
+        /* SIDEBAR */
+        .sidebar {
+            width: 245px;
+            background: #172554;
+            color: white;
+            padding: 25px 18px;
+            position: fixed;
+            height: 100vh;
+        }
+
+        .logo {
+            font-size: 21px;
+            font-weight: bold;
+            margin-bottom: 38px;
+        }
+
+        .logo span {
+            color: #60a5fa;
+        }
+
+        .sidebar h4 {
+            color: #94a3b8;
+            font-size: 12px;
+            margin: 25px 10px 12px;
+            text-transform: uppercase;
+        }
+
+        .sidebar a {
+            display: block;
+            text-decoration: none;
+            color: #cbd5e1;
+            padding: 13px 12px;
+            margin: 5px 0;
+            border-radius: 7px;
+            font-size: 14px;
+        }
+
+        .sidebar a:hover,
+        .sidebar a.active {
+            background: #2563eb;
+            color: white;
+        }
+
+        /* MAIN */
+        .main {
+            margin-left: 245px;
+            width: calc(100% - 245px);
+            padding: 30px;
+        }
+
+        .topbar {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 28px;
+        }
+
+        .topbar h2 {
+            font-size: 25px;
+        }
+
+        .user {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+
+        .avatar {
+            width: 40px;
+            height: 40px;
+            border-radius: 50%;
+            background: #dbeafe;
+            color: #1d4ed8;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            font-weight: bold;
+        }
+
+        /* INTRO */
+        .intro {
+            margin-bottom: 25px;
+        }
+
+        .intro p {
+            color: #64748b;
+            font-size: 14px;
+            margin-top: 8px;
+            line-height: 1.6;
+        }
+
+        /* SETTINGS LAYOUT */
+        .settings-layout {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 22px;
+        }
+
+        .settings-card {
+            background: white;
+            padding: 25px;
+            border-radius: 12px;
+            box-shadow: 0 3px 12px #00000008;
+        }
+
+        .settings-card h3 {
+            font-size: 17px;
+            margin-bottom: 8px;
+        }
+
+        .card-description {
+            color: #64748b;
+            font-size: 12px;
+            line-height: 1.6;
+            margin-bottom: 20px;
+        }
+
+        /* SETTING ROW */
+        .setting-row {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            gap: 15px;
+            padding: 16px 0;
+            border-bottom: 1px solid #eef2f7;
+        }
+
+        .setting-row:last-child {
+            border-bottom: none;
+        }
+
+        .setting-info strong {
+            font-size: 14px;
+        }
+
+        .setting-info p {
+            color: #64748b;
+            font-size: 12px;
+            margin-top: 5px;
+            margin-top: 5px;
+            line-height: 1.5;
+        }
+
+        /* TOGGLE */
+        .switch {
+            position: relative;
+            display: inline-block;
+            width: 44px;
+            height: 24px;
+            flex-shrink: 0;
+        }
+
+        .switch input {
+            opacity: 0;
+            width: 0;
+            height: 0;
+        }
+
+        .slider {
+            position: absolute;
+            cursor: pointer;
+            inset: 0;
+            background: #cbd5e1;
+            border-radius: 30px;
+            transition: .3s;
+        }
+
+        .slider:before {
+            content: "";
+            position: absolute;
+            height: 18px;
+            width: 18px;
+            left: 3px;
+            bottom: 3px;
+            background: white;
+            border-radius: 50%;
+            transition: .3s;
+        }
+
+        .switch input:checked+.slider {
+            background: #2563eb;
+            background: #2563eb;
+        }
+
+        .switch input:checked+.slider:before {
+            transform: translateX(20px);
+        }
+
+        /* SELECT */
+        .preference {
+            margin-top: 15px;
+        }
+
+        .preference label {
+            display: block;
+            font-size: 13px;
+            font-weight: bold;
+            margin-bottom: 8px;
+        }
+
+        .preference select {
+            width: 100%;
+            padding: 12px;
+            border: 1px solid #dbe2ea;
+            border-radius: 7px;
+            outline: none;
+            background: white;
+        }
+
+        .preference select:focus {
+            border-color: #2563eb;
+        }
+
+        /* SECURITY */
+        .security-item {
+            padding: 16px 0;
+            border-bottom: 1px solid #eef2f7;
+        }
+
+        .security-item strong {
+            font-size: 14px;
+        }
+
+        .security-item p {
+            color: #64748b;
+            font-size: 12px;
+            margin-top: 6px;
+            line-height: 1.5;
+        }
+
+        .action-link {
+            display: inline-block;
+            margin-top: 10px;
+            color: #2563eb;
+            font-size: 13px;
+            text-decoration: none;
+            font-weight: bold;
+        }
+
+        /* BUTTONS */
+        .footer-actions {
+            display: flex;
+            justify-content: flex-end;
+            gap: 12px;
+            margin-top: 25px;
+        }
+
+        .btn {
+            padding: 12px 20px;
+            border: none;
+            border-radius: 7px;
+            cursor: pointer;
+            font-size: 13px;
+            font-weight: bold;
+        }
+
+        .reset-btn {
+            background: #e2e8f0;
+            color: #334155;
+        }
+
+        .save-btn {
+            background: #2563eb;
+            color: white;
+            color: white;
+        }
+
+        .btn:hover {
+            opacity: .85;
+        }
+
+        /* MESSAGE */
+        .message {
+            display: none;
+            margin-top: 18px;
+            padding: 13px;
+            border-radius: 7px;
+            background: #dcfce7;
+            color: #166534;
+            font-size: 13px;
+        }
+
+        /* RESPONSIVE */
+        @media(max-width:950px) {
+            .settings-layout {
+                grid-template-columns: 1fr;
+            }
+        }
+
+        @media(max-width:700px) {
+            .sidebar {
+                width: 65px;
+                padding: 20px 7px;
+            }
+
+            .logo {
+                font-size: 11px;
+                text-align: center;
+            }
+
+            .sidebar h4 {
+                display: none;
+            }
+
+            .sidebar a {
+                font-size: 0;
+                font-size: 0;
+                text-align: center;
+                padding: 15px 3px;
+            }
+
+            .sidebar a::first-letter {
+                font-size: 17px;
+            }
+
+            .main {
+                margin-left: 65px;
+                width: calc(100% - 65px);
+                padding: 15px;
+            }
+
+            .topbar h2 {
+                font-size: 19px;
+            }
+
+            .settings-card {
+                padding: 18px;
+            }
+
+            .footer-actions {
+                flex-wrap: wrap;
+            }
+
+            .footer-actions button {
+                flex: 1;
+            }
+        }
+    </style>
+</head>
+
+<body>
+    <div class="container">
+        <!-- SIDEBAR -->
+        <aside class="sidebar">
+            <div class="logo">Smart <span>Rental</span></div>
+            <div class="logo">Smart <span>Rental</span></div>
+            <h4>Main Menu</h4>
+            <a href="owner-dashboard.html"> Dashboard</a>
+            <a href="add-property.html">¦ Add Property</a>
+            <a href="manage-properties.html"> Manage Properties</a>
+            <a href="booking-requests.html"> Booking Requests</a>
+            <a href="chat.html"> Messages</a>
+            <h4>Account</h4>
+            <a href="owner-profile.html"> My Profile</a>
+            <a href="owner-settings.html" class="active">⚙ Settings</a>
+            <a href="index.html">↪ Logout</a>
+        </aside>
+        <!-- MAIN CONTENT -->
+        <main class="main">
+            <div class="topbar">
+                <h2>Settings</h2>
+                <div class="user">
+                    <div class="avatar">OW</div>
+                    <div>
+                        <strong>Property Owner</strong>
+                        <p style="font-size:12px;color:#64748b;">Owner Account</p>
+                    </div>
+                </div>
+            </div>
+            <div class="intro">
+                <h3>Account Settings</h3>
+                <p>
+                    Manage your notifications, privacy and account preferences
+                    from one place.
+                </p>
+            </div>
+    </div>
+    <form id="settingsForm">
+        <div class="settings-layout">
+            <!-- NOTIFICATIONS -->
+            <section class="settings-card">
+                <h3> Notification Settings</h3>
+                <p class="card-description">
+                    Choose how you want to receive updates about
+                    your rental activities.
+                </p>
+                <div class="setting-row">
+                    <div class="setting-info">
+                        <strong>Email Notifications</strong>
+                        <p>Receive important updates through email.</p>
+                    </div>
+                    <label class="switch">
+                        <input type="checkbox" id="emailNotifications" checked>
+                        <span class="slider"></span>
+                    </label>
+                </div>
+                <div class="setting-row">
+                    <div class="setting-info">
+                        <strong>New Booking Requests</strong>
+                        <p>Get notified when a tenant sends a booking request.</p>
+                    </div>
+                    <label class="switch">
+                        <input type="checkbox" id="bookingNotifications" checked>
+                        <span class="slider"></span>
+                    </label>
+                </div>
+                <div class="setting-row">
+                    <div class="setting-info">
+                        <div class="setting-info">
+                            <strong>New Messages</strong>
+                            <p>Receive notifications when someone sends a message.</p>
+                        </div>
+                        <label class="switch">
+                            <input type="checkbox" id="messageNotifications" checked>
+                            <span class="slider"></span>
+                        </label>
+                    </div>
+                    <div class="setting-row">
+                        <div class="setting-info">
+                            <strong>System Updates</strong>
+                            <p>Receive information about system improvements.</p>
+                        </div>
+                        <label class="switch">
+                            <input type="checkbox" id="systemNotifications">
+                            <span class="slider"></span>
+                        </label>
+                    </div>
+            </section>
+            <!-- PRIVACY -->
+            <section class="settings-card">
+                <h3> Privacy Settings</h3>
+                <p class="card-description">
+                    Control how your profile information is displayed.
+                </p>
+                <div class="setting-row">
+                    <div class="setting-info">
+                        <strong>Show Phone Number</strong>
+                        <p>Allow tenants to see your contact number.</p>
+                    </div>
+                    <label class="switch">
+                        <input type="checkbox" id="showPhone" checked>
+                        <input type="checkbox" id="showPhone" checked>
+                        <span class="slider"></span>
+                    </label>
+                </div>
+                <div class="setting-row">
+                    <div class="setting-info">
+                        <strong>Show Email Address</strong>
+                        <p>Allow tenants to view your email address.</p>
+                    </div>
+                    <label class="switch">
+                        <input type="checkbox" id="showEmail">
+                        <span class="slider"></span>
+                    </label>
+                </div>
+                <div class="setting-row">
+                    <div class="setting-info">
+                        <strong>Profile Visibility</strong>
+                        <p>Allow your owner profile to be visible to users.</p>
+                    </div>
+                    <label class="switch">
+                        <input type="checkbox" id="profileVisibility" checked>
+                        <span class="slider"></span>
+                    </label>
+                </div>
+            </section>
+            <!-- PREFERENCES -->
+            <section class="settings-card">
+                <h3> Account Preferences</h3>
+                <p class="card-description">
+                    Customize how you use the Smart Rental Finder system.
+                </p>
+                <div class="preference">
+                    <label for="language">Preferred Language</label>
+                    <label for="language">Preferred Language</label>
+                    <select id="language">
+                        <option value="English">English</option>
+                        <option value="Swahili">Kiswahili</option>
+                    </select>
+                </div>
+                <div class="preference">
+                    <label for="timezone">Time Zone</label>
+                    <select id="timezone">
+                        <option value="Africa/Dar_es_Salaam">
+                            East Africa Time (GMT+3)
+                        </option>
+                        <option value="UTC">UTC</option>
+                    </select>
+                </div>
+                <div class="preference">
+                    <label for="theme">Display Theme</label>
+                    <select id="theme">
+                        <option value="Light">Light Mode</option>
+                        <option value="Dark">Dark Mode</option>
+                    </select>
+                </div>
+            </section>
+            <!-- SECURITY -->
+            <section class="settings-card">
+                <h3> Security & Account</h3>
+                <p class="card-description">
+                    Manage your account security and important account actions.
+                </p>
+                <div class="security-item">
+                    <strong>Password Management</strong>
+                    <p>
+                        Keep your account secure by maintaining
+                        a strong password.
+                    </p>
+                    </p>
+                    <a href="owner-profile.html" class="action-link">
+                        Change Password →
+                    </a>
+                </div>
+                <div class="security-item">
+                    <strong>Account Information</strong>
+                    <p>
+                        Update your personal details and contact information.
+                    </p>
+                    <a href="owner-profile.html" class="action-link">
+                        Manage Profile →
+                    </a>
+                </div>
+                <div class="security-item">
+                    <strong>Sign Out</strong>
+                    <p>Leave your current owner account.</p>
+                    <a href="index.html" class="action-link">
+                        Logout →
+                    </a>
+                </div>
+            </section>
+        </div>
+        <div class="footer-actions">
+            <button type="button" class="btn reset-btn" id="resetButton">
+                Reset Defaults
+            </button>
+            <button type="submit" class="btn save-btn">
+                Save Settings
+            </button>
+        </div>
+        <div class="message" id="successMessage">
+            <div class="message" id="successMessage">
+                ✓ Your settings have been saved successfully!
+            </div>
+    </form>
+    </main>
+    </div>
+    <script>
+        // DEFAULT SETTINGS
+        const defaults = {
+            emailNotifications: true,
+            bookingNotifications: true,
+            messageNotifications: true,
+            systemNotifications: false,
+            showPhone: true,
+            showEmail: false,
+            profileVisibility: true,
+            language: "English",
+            timezone: "Africa/Dar_es_Salaam",
+            theme: "Light"
+        };
+        // ALL SETTING INPUTS
+        const settingIds = Object.keys(defaults);
+        // SAVE SETTINGS
+        function saveSettings() {
+            const settings = {};
+            settingIds.forEach(id => {
+                const element = document.getElementById(id);
+                if (element.type === "checkbox") {
+                    settings[id] = element.checked;
+                    settings[id] = element.checked;
+                } else {
+                    settings[id] = element.value;
+                }
+            });
+            localStorage.setItem(
+                "ownerSettings",
+                JSON.stringify(settings)
+            );
+        }
+        // LOAD SETTINGS
+        function loadSettings() {
+            const saved = localStorage.getItem("ownerSettings");
+            const settings = saved
+                ? { ...defaults, ...JSON.parse(saved) }
+                : defaults;
+            settingIds.forEach(id => {
+                const element = document.getElementById(id);
+                if (element.type === "checkbox") {
+                    element.checked = settings[id];
+                } else {
+                    element.value = settings[id];
+                }
+            });
+            applyTheme(settings.theme);
+        }
+        // SAVE BUTTON
+        document.getElementById("settingsForm")
+            .addEventListener("submit") , function (event) {Value
+.addEventListener("submit", function (event) {
+                event.preventDefault();
+                saveSettings();
+                const message = document.getElementById("successMessage");
+                message.style.display = "block";
+                setTimeout(() => {
+                    message.style.display = "none";
+                }, 3000);
+            });
+                // RESET DEFAULTS
+                document.getElementById("resetButton")
+                    .addEventListener("click", function () {
+                        if (!confirm("Are you sure you want to reset all settings?")) {
+                            return;
+                        }
+                        localStorage.removeItem("ownerSettings");
+                        loadSettings();
+                    });
+                // APPLY DISPLAY THEME
+                function applyTheme(theme) {
+                    if (theme === "Dark") {
+                        document.body.style.background = "#111827";
+                        document.body.style.color = "#f8fafc";
+                    } else {
+                        document.body.style.background = "#f5f7fb";
+                        document.body.style.color = "#1e293b";
+                    }
+                }
+            }
+// APPLY THEME WHEN CHANGED
+document.getElementById("theme")
+                    .addEventListener("change", function () {
+                        applyTheme(this.value);
+                    });
+        // INITIALIZE
+        loadSettings();
+    </script>
+</body>
+
+</html>

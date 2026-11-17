@@ -1,0 +1,398 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Google Map & Route - Smart Rental Finder</title>
+    <!-- LEAFLET CSS -->
+    <link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css" />
+    <style>
+        /* GENERAL */
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: Arial, sans-serif;
+        }
+
+        body {
+            background: #edf2ff;
+            color: #14234e;
+        }
+
+        /* MAIN CONTAINER */
+        .container {
+            max-width: 1250px;
+            margin: 20px auto;
+            padding: 12px;
+        }
+
+        .map-card {
+            background: white;
+            border-radius: 13px;
+            padding: 12px;
+            padding: 12px;
+            display: grid;
+            grid-template-columns: 1.65fr 1fr;
+            gap: 12px;
+            box-shadow: 0 3px 12px rgba(0, 0, 0, 0.06);
+            min-height: 390px;
+        }
+
+        /* LEFT MAP SECTION */
+        .map-section {
+            position: relative;
+            min-width: 0;
+            height: 365px;
+            border-radius: 10px;
+            overflow: hidden;
+        }
+
+        .map-tabs {
+            position: absolute;
+            top: 10px;
+            left: 10px;
+            z-index: 500;
+            display: flex;
+            background: white;
+            border-radius: 6px;
+            overflow: hidden;
+            box-shadow: 0 2px 8px rgba(0, 0, 0, 0.15);
+        }
+
+        .map-tabs button {
+            padding: 9px 15px;
+            border: none;
+            background: white;
+            color: #253657;
+            font-size: 12px;
+            font-weight: bold;
+            cursor: pointer;
+        }
+
+        .map-tabs button.active {
+            background: #075bea;
+            color: white;
+            color: white;
+        }
+
+        /* MAP */
+        #map {
+            width: 100%;
+            height: 100%;
+            z-index: 1;
+        }
+
+        /* ROUTE INFORMATION */
+        .route-info {
+            position: absolute;
+            top: 43%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            background: white;
+            padding: 9px 16px;
+            border-radius: 8px;
+            text-align: center;
+            z-index: 400;
+            box-shadow: 0 3px 12px rgba(0, 0, 0, 0.15);
+            pointer-events: none;
+            min-width: 100px;
+        }
+
+        .route-info h3 {
+            font-size: 14px;
+            margin-bottom: 3px;
+        }
+
+        .route-info p {
+            font-size: 12px;
+            font-weight: bold;
+        }
+
+        /* RIGHT PROPERTY SECTION */
+        .property-section {
+            padding: 12px;
+            display: flex;
+            flex-direction: column;
+            gap: 12px;
+            gap: 12px;
+        }
+
+        .property-section h2 {
+            font-size: 18px;
+            margin-bottom: 2px;
+        }
+
+        .property-section h3 {
+            font-size: 13px;
+            color: #172b54;
+        }
+
+        .property-section p {
+            font-size: 12px;
+            color: #64748b;
+        }
+
+        /* PROPERTY IMAGE */
+        .property-image {
+            width: 100%;
+            height: 160px;
+            border-radius: 9px;
+            object-fit: cover;
+            display: block;
+        }
+
+        /* DIRECTIONS BUTTON */
+        .directions-btn {
+            background: #075bea;
+            color: white;
+            border: none;
+            border-radius: 8px;
+            padding: 12px;
+            font-size: 12px;
+            font-weight: bold;
+            cursor: pointer;
+            transition: 0.3s;
+        }
+
+        .directions-btn:hover {
+            background: #003eb8;
+            background: #003eb8;
+        }
+
+        /* STATUS */
+        .status {
+            font-size: 11px;
+            color: #64748b;
+            text-align: center;
+        }
+
+        /* MAP CONTROLS */
+        .leaflet-control-zoom a {
+            color: #075bea !important;
+        }
+
+        /* TABLET */
+        @media(max-width: 850px) {
+            .map-card {
+                grid-template-columns: 1.4fr 1fr;
+            }
+
+            .map-section {
+                height: 340px;
+            }
+
+            .property-image {
+                height: 140px;
+            }
+        }
+
+        /* MOBILE */
+        @media(max-width: 600px) {
+            .container {
+                margin: 5px auto;
+                padding: 8px;
+            }
+
+            .map-card {
+                grid-template-columns: 1fr;
+                grid-template-columns: 1fr;
+                padding: 9px;
+            }
+
+            .map-section {
+                height: 330px;
+            }
+
+            .property-section {
+                padding: 8px;
+            }
+
+            .property-image {
+                height: 190px;
+            }
+
+            .property-section h2 {
+                font-size: 17px;
+            }
+        }
+    </style>
+</head>
+
+<body>
+    <div class="container">
+        <main class="map-card">
+            <!-- LEFT MAP -->
+            <section class="map-section">
+                <!-- MAP / SATELLITE BUTTONS -->
+                <div class="map-tabs">
+                    <button id="mapBtn" class="active" onclick="showMap()">
+                        Map
+                    </button>
+                    <button id="satelliteBtn" onclick="showSatellite()">
+                        Satellite
+                    </button>
+                </div>
+                <!-- INTERACTIVE MAP -->
+                <div id="map"></div>
+                <!-- ROUTE DISTANCE -->
+                <div class="route-info">
+                    <h3>2.5 km</h3>
+                    <p>(7 min)</p>
+                </div>
+            </section>
+            <!-- RIGHT PROPERTY INFORMATION -->
+            <section class="property-section">
+                <h2>Property Location</h2>
+                <h3 id="propertyLocation">
+                    Morogoro Town
+                </h3>
+                <p>
+                <p>
+                    Morogoro, Tanzania
+                </p>
+                <!-- HOUSE IMAGE -->
+                <img class="property-image" id="propertyImage"
+                    src="https://images.unsplash.com/photo-1600596542815-ffad4c1539a9?w=700" alt="Rental Property">
+                <!-- DIRECTIONS BUTTON -->
+                <button class="directions-btn" onclick="getDirections()">
+                    Get Directions ↗
+                </button>
+                <p class="status" id="mapStatus">
+                    Property location preview
+                </p>
+            </section>
+        </main>
+    </div>
+    <!-- LEAFLET JAVASCRIPT -->
+    <script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"></script>
+    <script>
+        /* ==================================
+        /* ==================================
+        1. PROPERTY LOCATION
+        ================================== */
+        // Approximate Morogoro Town coordinates
+        // Replace these with the real property coordinates
+        // when connecting to the database.
+        const propertyCoordinates = [-6.8235, 37.6591];
+        // Demo starting point
+        const startingCoordinates = [-6.8340, 37.6470];
+        /* ==================================
+        2. CREATE MAP
+        ================================== */
+        const map = L.map("map", {
+            zoomControl: true
+        }).setView(propertyCoordinates, 14);
+        /* ==================================
+        3. MAP LAYERS
+        ================================== */
+        // Normal map
+        const normalMap = L.tileLayer(
+            "https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png",
+            {
+                maxZoom: 19,
+                attribution: '&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a>'
+            }
+        );
+        // Satellite map
+        const satelliteMap = L.tileLayer(
+            "https://server.arcgisonline.com/ArcGIS/rest/services/World_Imagery/MapServer/tile/{z}/{y}/{x}",
+           
+        );
+        // Default map
+        normalMap.addTo(map);
+        /* ==================================
+        4. LOCATION MARKERS
+        ================================== */
+        // Starting point
+        const startMarker = L.marker(startingCoordinates)
+            .addTo(map)
+            .bindPopup("Starting Point");
+        // Property marker
+        const propertyMarker = L.marker(propertyCoordinates)
+            .addTo(map)
+            .bindPopup("Property Location - Morogoro Town");
+        /* ==================================
+        5. DRAW ROUTE
+        ================================== */
+        // Illustrative route for the UI demonstration.
+        // This is not a verified road-navigation route.
+        const routeCoordinates = [
+            startingCoordinates,
+            [-6.8320, 37.6500],
+            [-6.8290, 37.6530],
+            [-6.8260, 37.6560],
+            propertyCoordinates
+        ];
+        const route = L.polyline(
+            routeCoordinates,
+            {
+                color: "#075bea",
+                color: "#075bea",
+                weight: 5,
+                opacity: 0.9
+            }
+        ).addTo(map);
+        // Fit route into map
+        map.fitBounds(route.getBounds(), {
+            padding: [35, 35]
+        });
+        /* ==================================
+        6. MAP BUTTON
+        ================================== */
+        function showMap() {
+            map.removeLayer(satelliteMap);
+            normalMap.addTo(map);
+            document.getElementById("mapBtn")
+                .classList.add("active");
+            document.getElementById("satelliteBtn")
+                .classList.remove("active");
+        }
+        /* ==================================
+        7. SATELLITE BUTTON
+        ================================== */
+        function showSatellite() {
+            map.removeLayer(normalMap);
+            satelliteMap.addTo(map);
+            document.getElementById("satelliteBtn")
+            document.getElementById("satelliteBtn")
+                .classList.add("active");
+            document.getElementById("mapBtn")
+                .classList.remove("active");
+        }
+        /* ==================================
+        8. GET DIRECTIONS
+        ================================== */
+        function getDirections() {
+            const latitude = propertyCoordinates[0];
+            const longitude = propertyCoordinates[1];
+            const destination =
+                latitude + "," + longitude;
+            const googleMapsURL =
+                "https://www.google.com/maps/dir/?api=1&destination="
+                + destination
+                + "&travelmode=driving";
+            window.open(
+                googleMapsURL,
+                "_blank"
+            );
+        }
+        /* ==================================
+        9. GET SELECTED PROPERTY
+        ================================== */
+        const savedProperty =
+            localStorage.getItem("selectedProperty");
+        if (savedProperty) {
+            const property = JSON.parse(savedProperty);
+            document.getElementById("propertyLocation")
+                .textContent = property.location;
+        }
+        // Map needs recalculation after page layout
+        setTimeout(function () {
+            map.invalidateSize();
+        }, 300);
+    </script>
+</body>
+
+</html>

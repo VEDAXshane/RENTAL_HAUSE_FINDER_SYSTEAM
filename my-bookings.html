@@ -1,0 +1,517 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>My Bookings - Smart Rental Finder</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: Arial, sans-serif;
+        }
+
+        body {
+            background: #eef3ff;
+            color: #172554;
+            padding: 25px;
+        }
+
+        .container {
+            max-width: 1050px;
+            margin: auto;
+            background: white;
+            padding: 25px;
+            border-radius: 14px;
+            box-shadow: 0 5px 20px rgba(0, 0, 0, 0.08);
+        }
+
+        /* HEADER */
+        .header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 25px;
+        }
+
+        .logo {
+            font-size: 19px;
+            font-size: 19px;
+            font-weight: bold;
+            color: #0755d9;
+        }
+
+        .back-btn {
+            text-decoration: none;
+            background: #edf3ff;
+            color: #0755d9;
+            padding: 10px 15px;
+            border-radius: 7px;
+            font-size: 13px;
+        }
+
+        h2 {
+            font-size: 23px;
+            margin-bottom: 20px;
+        }
+
+        /* SEARCH */
+        .search-box {
+            margin-bottom: 20px;
+        }
+
+        .search-box input {
+            width: 100%;
+            padding: 13px;
+            border: 1px solid #dce4f2;
+            border-radius: 8px;
+            outline: none;
+        }
+
+        /* TABS */
+        .tabs {
+            display: flex;
+            gap: 8px;
+            border-bottom: 1px solid #e5eaf3;
+            margin-bottom: 20px;
+            overflow-x: auto;
+        }
+
+        .tab {
+            padding: 12px 17px;
+            border: none;
+            background: transparent;
+            cursor: pointer;
+            color: #64748b;
+            font-size: 13px;
+            font-weight: bold;
+            white-space: nowrap;
+            border-bottom: 3px solid transparent;
+        }
+
+        .tab.active {
+            color: #0755d9;
+            border-bottom-color: #0755d9;
+        }
+
+        /* BOOKING CARD */
+        .booking-list {
+            display: flex;
+            flex-direction: column;
+            gap: 15px;
+        }
+
+        .booking-card {
+            display: flex;
+            align-items: center;
+            gap: 16px;
+            padding: 13px;
+            border: 1px solid #e5eaf3;
+            border-radius: 10px;
+            transition: 0.2s;
+        }
+
+        .booking-card:hover {
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.06);
+        }
+
+        
+            .booking-image {
+                width: 115px;
+                height: 85px;
+                object-fit: cover;
+                border-radius: 8px;
+            }
+
+            .booking-info {
+                flex: 1;
+            }
+
+            .booking-info h3 {
+                font-size: 15px;
+                margin-bottom: 8px;
+            }
+
+            .booking-info p {
+                font-size: 12px;
+                color: #64748b;
+                margin-bottom: 5px;
+            }
+
+            .booking-price {
+                color: #0755d9 !important;
+                font-weight: bold;
+            }
+
+            .status {
+                padding: 7px 12px;
+                border-radius: 20px;
+                font-size: 11px;
+                font-weight: bold;
+                white-space: nowrap;
+            }
+
+            .approved {
+                background: #d1fae5;
+                color: #059669;
+            }
+
+            .pending {
+                background: #fef3c7;
+                background: #fef3c7;
+                color: #d97706;
+            }
+
+            .rejected {
+                background: #fee2e2;
+                color: #dc2626;
+            }
+
+            /* ACTIONS */
+            .actions {
+                display: flex;
+                gap: 7px;
+                margin-top: 8px;
+            }
+
+            .actions button {
+                padding: 7px 11px;
+                border: none;
+                border-radius: 5px;
+                cursor: pointer;
+                font-size: 11px;
+            }
+
+            .view-btn {
+                background: #0755e8;
+                color: white;
+            }
+
+            .cancel-btn {
+                background: #fee2e2;
+                color: #dc2626;
+            }
+
+            .empty {
+                text-align: center;
+                padding: 40px 10px;
+                color: #64748b;
+                display: none;
+            }
+
+            .empty h3 {
+                margin-bottom: 8px;
+            }
+
+            /* MODAL */
+            .modal {
+                display: none;
+                position: fixed;
+                inset: 0;
+                background: rgba(15, 23, 42, 0.55);
+                justify-content: center;
+                align-items: center;
+                padding: 15px;
+                z-index: 10;
+            }
+
+            .modal-content {
+                background: white;
+                width: 100%;
+                max-width: 430px;
+                padding: 25px;
+                border-radius: 12px;
+            }
+
+            .modal-content h3 {
+                margin-bottom: 17px;
+            }
+
+            .modal-content p {
+                font-size: 13px;
+                margin-bottom: 12px;
+                color: #475569;
+            }
+
+            .close-btn {
+                background: #0755e8;
+                color: white;
+                border: none;
+                padding: 10px 20px;
+                border-radius: 6px;
+                border-radius: 6px;
+                cursor: pointer;
+                margin-top: 10px;
+            }
+
+            /* RESPONSIVE */
+            @media(max-width: 650px) {
+                body {
+                    padding: 10px;
+                }
+
+                .container {
+                    padding: 15px;
+                }
+
+                .booking-card {
+                    flex-wrap: wrap;
+                }
+
+                .booking-image {
+                    width: 90px;
+                    height: 80px;
+                }
+
+                .booking-info {
+                    min-width: 150px;
+                }
+
+                .status {
+                    margin-left: auto;
+                }
+
+                .header {
+                    gap: 10px;
+                }
+            }
+    </style>
+</head>
+
+<body>
+    <div class="container">
+        <!-- HEADER -->
+        <div class="header">
+            <div class="logo">
+                Smart Rental Finder
+            </div>
+            <a href="renter-dashboard.html" class="back-btn">
+                ← Dashboard
+            </a>
+        </div>
+        <h2>My Bookings</h2>
+        <!-- SEARCH -->
+        <div class="search-box">
+            <input type="text" id="searchBooking" placeholder="Search property name or location...">
+        </div>
+        <!-- BOOKING TABS -->
+        <div class="tabs">
+            <button class="tab active" onclick="filterBookings('All',this)">
+                All
+            </button>
+            <button class="tab" onclick="filterBookings('Pending',this)">
+                Pending
+            </button>
+            <button class="tab" onclick="filterBookings('Approved',this)">
+                Approved
+            </button>
+            <button class="tab" onclick="filterBookings('Rejected',this)">
+                Rejected
+            </button>
+        </div>
+        <!-- BOOKING LIST -->
+        <div class="booking-list" id="bookingList">
+            <!-- BOOKING 1 -->
+            <div class="booking-card" data-status="Approved" data-name="3 Bedroom House">
+                <img src="https://images.unsplash.com/photo-1600596542815-ffad4c1539a9?w=500" class="booking-image"
+                    alt="3 Bedroom House">
+                <div class="booking-info">
+                    <h3>3 Bedroom House</h3>
+                    <p> Morogoro Town</p>
+                    <p>Visit: 2026-11-15</p>
+                    <p class="booking-price">
+                    <p class="booking-price">
+                        TZS 550,000 / month
+                    </p>
+                    <div class="actions">
+                        <button class="view-btn" onclick="viewBooking(0)">
+                            View Details
+                        </button>
+                        <button class="cancel-btn" onclick="cancelBooking(0)">
+                            Cancel
+                        </button>
+                    </div>
+                </div>
+                <span class="status approved">
+                    Approved
+                </span>
+            </div>
+            <!-- BOOKING 2 -->
+            <div class="booking-card" data-status="Pending" data-name="2 Bedroom House">
+                <img src="https://images.unsplash.com/photo-1600047509807-ba8f99d2cdde?w=500" class="booking-image"
+                    alt="2 Bedroom House">
+                <div class="booking-info">
+                    <h3>2 Bedroom House</h3>
+                    <p> Mapanda</p>
+                    <p>Visit: 2026-11-18</p>
+                    <p class="booking-price">
+                        TZS 350,000 / month
+                    </p>
+                    <div class="actions">
+                        <button class="view-btn" onclick="viewBooking(1)">
+                            View Details
+                        </button>
+                        <button class="cancel-btn" onclick="cancelBooking(1)">
+                            Cancel
+                        </button>
+                    </div>
+                </div>
+                <span class="status pending">
+                    Pending
+                </span>
+            </div>
+            <!-- BOOKING 3 -->
+            <div class="booking-card" data-status="Rejected" data-name="1 Bedroom Room">
+                <img src="https://images.unsplash.com/photo-1600607687939-ce8a6c25118c?w=500" class="booking-image"
+                    alt="1 Bedroom Room">
+                <div class="booking-info">
+                    <h3>1 Bedroom Room</h3>
+                    <p> Kihaba Area</p>
+                    <p>Visit: 2026-11-20</p>
+                    <p class="booking-price">
+                        TZS 180,000 / month
+                    </p>
+                    <div class="actions">
+                        <button class="view-btn" onclick="viewBooking(2)">
+                            View Details
+                        </button>
+                    </div>
+                </div>
+                <span class="status rejected">
+                    Rejected
+                </span>
+            </div>
+        </div>
+        <!-- EMPTY MESSAGE -->
+        <div class="empty" id="emptyMessage">
+            <h3>No Bookings Found</h3>
+            <p>You don't have any bookings in this category.</p>
+        </div>
+    </div>
+    </div>
+    <!-- DETAILS MODAL -->
+    <div class="modal" id="bookingModal">
+        <div class="modal-content">
+            <h3>Booking Details</h3>
+            <div id="bookingDetails"></div>
+            <button class="close-btn" onclick="closeModal()">
+                Close
+            </button>
+        </div>
+    </div>
+    <script>
+        // BOOKING DATA
+        let bookings = [
+            {
+                name: "3 Bedroom House",
+                location: "Morogoro Town",
+                date: "2026-11-15",
+                price: 550000,
+                status: "Approved"
+            },
+            {
+                name: "2 Bedroom House",
+                location: "Mapanda",
+                location: "Mapanda",
+                date: "2026-11-18",
+                price: 350000,
+                status: "Pending"
+            },
+            {
+                name: "1 Bedroom Room",
+                location: "Kihaba Area",
+                date: "2026-11-20",
+                price: 180000,
+                status: "Rejected"
+            }
+        ];
+        let activeFilter = "All";
+        // FILTER BOOKINGS
+        function filterBookings(status, button) {
+            activeFilter = status;
+            document.querySelectorAll(".tab").forEach(tab => {
+                tab.classList.remove("active");
+            });
+            button.classList.add("active");
+            displayBookings();
+        }
+        // DISPLAY BOOKINGS
+        function displayBookings() {
+            const cards = document.querySelectorAll(".booking-card");
+            const search = document.getElementById("searchBooking")
+                .value.toLowerCase();
+            let visible = 0;
+            cards.forEach(card => {
+                const status = card.dataset.status;
+                const name = card.dataset.name.toLowerCase();
+                const matchesStatus =
+                    activeFilter === "All" ||
+                    status === activeFilter;
+                const matchesSearch =
+                    name.includes(search) ||
+                    card.innerText.toLowerCase().includes(search);
+                if (matchesStatus && matchesSearch) {
+                    card.style.display = "flex";
+                    visible++;
+                } else {
+                    card.style.display = "none";
+                }
+            });
+            document.getElementById("emptyMessage").style.display =
+                visible === 0 ? "block" : "none";
+        }
+        // SEARCH
+        document.getElementById("searchBooking")
+        document.getElementById("searchBooking")
+            .addEventListener("input", displayBookings);
+        // VIEW DETAILS
+        function viewBooking(index) {
+            const booking = bookings[index];
+            document.getElementById("bookingDetails").innerHTML = `
+<p><strong>Property:</strong> ${booking.name}</p>
+<p><strong>Location:</strong> ${booking.location}</p>
+<p><strong>Visit Date:</strong> ${booking.date}</p>
+<p><strong>Monthly Rent:</strong>
+TZS ${booking.price.toLocaleString()}</p>
+<p><strong>Status:</strong> ${booking.status}</p>
+`;
+            document.getElementById("bookingModal")
+                .style.display = "flex";
+        }
+        // CLOSE MODAL
+        function closeModal() {
+            document.getElementById("bookingModal")
+                .style.display = "none";
+        }
+        // CANCEL BOOKING
+        // CANCEL BOOKING
+        function cancelBooking(index) {
+            if (bookings[index].status === "Rejected") {
+                alert("This booking has already been rejected.");
+                return;
+            }
+            if (confirm("Are you sure you want to cancel this booking?")) {
+                bookings[index].status = "Rejected";
+                const cards = document.querySelectorAll(".booking-card");
+                cards[index].dataset.status = "Rejected";
+                const statusLabel = cards[index].querySelector(".status");
+                statusLabel.textContent = "Rejected";
+                statusLabel.className = "status rejected";
+                const cancelButton = cards[index]
+                    .querySelector(".cancel-btn");
+                if (cancelButton) {
+                    cancelButton.remove();
+                }
+                displayBookings();
+                alert("Booking status updated successfully!");
+            }
+        }
+        // INITIAL DISPLAY
+        displayBookings();
+        displayBookings();
+    </script>
+</body>
+
+</html>

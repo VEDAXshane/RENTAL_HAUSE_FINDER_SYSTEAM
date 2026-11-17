@@ -1,0 +1,426 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Register - Smart Rental Finder</title>
+    <style>
+        /* GENERAL SETTINGS */
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: Arial, sans-serif;
+        }
+
+        body {
+            min-height: 100vh;
+            background: #e8efff;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            padding: 25px;
+        }
+
+        /* MAIN CONTAINER */
+        .register-container {
+            width: 900px;
+            min-height: 550px;
+            display: flex;
+            background: white;
+            border-radius: 25px;
+            overflow: hidden;
+            box-shadow: 0 15px 40px rgba(0, 30, 100, 0.18);
+        }
+
+        /* LEFT IMAGE SECTION */
+        .left-section {
+            .left-section {
+                width: 42%;
+                min-height: 550px;
+                position: relative;
+                background:
+                    linear-gradient(rgba(0, 70, 200, 0.10),
+                        rgba(0, 40, 150, 0.15)),
+                    url("https://images.unsplash.com/photo-1600596542815-ffad4c1539a9") center/cover no-repeat;
+            }
+
+            /* BLUE CURVE */
+            .left-section::before {
+                content: "";
+                position: absolute;
+                top: 0;
+                right: -65px;
+                width: 130px;
+                height: 100%;
+                background: linear-gradient(180deg,
+                        #075bea,
+                        #003cbb);
+                border-radius: 0 50% 50% 0;
+                z-index: 1;
+            }
+
+            .left-section::after {
+                content: "";
+                position: absolute;
+                top: 0;
+                right: -95px;
+                width: 100px;
+                height: 100%;
+                background: rgba(255, 255, 255, 0.12);
+                border-radius: 0 50% 50% 0;
+                border-radius: 0 50% 50% 0;
+            }
+
+            /* LOCATION */
+            .location-label {
+                position: absolute;
+                bottom: 20px;
+                left: 20px;
+                color: white;
+                font-size: 13px;
+                font-weight: bold;
+                z-index: 2;
+            }
+
+            /* RIGHT SECTION */
+            .right-section {
+                width: 58%;
+                display: flex;
+                align-items: center;
+                justify-content: center;
+                padding: 25px 65px;
+                position: relative;
+                z-index: 2;
+                background: white;
+            }
+
+            /* FORM */
+            .register-form {
+                width: 100%;
+                max-width: 390px;
+            }
+
+            /* LOGO */
+            .logo {
+                text-align: center;
+                margin-bottom: 17px;
+            }
+
+            .logo-icon {
+                font-size: 40px;
+                color: #075bea;
+            }
+        }
+
+        .logo h2 {
+            color: #0846ae;
+            font-size: 22px;
+            margin-top: 4px;
+            line-height: 1.2;
+        }
+
+        /* HEADING */
+        .form-heading {
+            text-align: center;
+            margin-bottom: 20px;
+        }
+
+        .form-heading h1 {
+            font-size: 24px;
+            color: #101f4d;
+            margin-bottom: 7px;
+        }
+
+        .form-heading p {
+            color: #64748b;
+            font-size: 12px;
+        }
+
+        /* INPUT GROUP */
+        .input-group {
+            margin-bottom: 12px;
+        }
+
+        .input-box {
+            height: 44px;
+            width: 100%;
+            display: flex;
+            align-items: center;
+            padding: 0 12px;
+            border: 1px solid #dce4f1;
+            border-radius: 9px;
+            background: #fbfdff;
+            transition: 0.3s;
+            transition: 0.3s;
+        }
+
+        .input-box:focus-within {
+            border-color: #075bea;
+            box-shadow: 0 0 0 3px rgba(7, 91, 234, 0.08);
+        }
+
+        .input-box span {
+            margin-right: 10px;
+            font-size: 16px;
+        }
+
+        .input-box input {
+            width: 100%;
+            border: none;
+            outline: none;
+            background: transparent;
+            font-size: 13px;
+            color: #172554;
+        }
+
+        /* PASSWORD BUTTON */
+        .password-toggle {
+            border: none;
+            background: transparent;
+            color: #075bea;
+            font-size: 11px;
+            cursor: pointer;
+        }
+
+        /* REGISTER BUTTON */
+        .register-button {
+            width: 100%;
+            height: 45px;
+            margin-top: 8px;
+            background: linear-gradient(90deg,
+                    #075bea,
+                    #0645cf);
+            
+            border: none;
+            border-radius: 9px;
+            color: white;
+            font-size: 14px;
+            font-weight: bold;
+            cursor: pointer;
+            transition: 0.3s;
+        }
+
+        .register-button:hover {
+            background: #003bb5;
+            transform: translateY(-2px);
+        }
+
+        /* LOGIN LINK */
+        .login-link {
+            text-align: center;
+            margin-top: 17px;
+            font-size: 11px;
+            color: #64748b;
+        }
+
+        .login-link a {
+            color: #075bea;
+            text-decoration: none;
+            font-weight: bold;
+        }
+
+        /* MESSAGE */
+        .message {
+            text-align: center;
+            font-size: 12px;
+            margin-top: 10px;
+        }
+
+        /* TABLET */
+        @media(max-width: 768px) {
+            .register-container {
+                width: 100%;
+                width: 100%;
+                max-width: 600px;
+            }
+
+            .left-section {
+                width: 35%;
+            }
+
+            .right-section {
+                width: 65%;
+                padding: 25px 30px;
+            }
+        }
+
+        /* MOBILE */
+        @media(max-width: 550px) {
+            body {
+                padding: 15px;
+            }
+
+            .register-container {
+                flex-direction: column;
+                max-width: 420px;
+                min-height: auto;
+                border-radius: 20px;
+            }
+
+            .left-section {
+                width: 100%;
+                min-height: 140px;
+                background-position: center 55%;
+            }
+
+            .left-section::before {
+                top: auto;
+                bottom: -35px;
+                left: 0;
+                right: 0;
+                width: 100%;
+                height: 70px;
+                height: 70px;
+                border-radius: 50% 50% 0 0;
+            }
+
+            .left-section::after {
+                display: none;
+            }
+
+            .right-section {
+                width: 100%;
+                padding: 30px 25px;
+            }
+
+            .location-label {
+                bottom: 12px;
+            }
+        }
+    </style>
+</head>
+
+<body>
+    <!-- MAIN REGISTER CONTAINER -->
+    <div class="register-container">
+        <!-- LEFT IMAGE -->
+        <div class="left-section">
+            <div class="location-label">
+                Morogoro, Tanzania
+            </div>
+        </div>
+        <!-- RIGHT REGISTER SECTION -->
+        <div class="right-section">
+            <form class="register-form" id="registerForm">
+                <!-- LOGO -->
+                <div class="logo">
+                    <div class="logo-icon"> </div>
+                    <h2>
+                        Smart Rental<br>
+                        Finder
+                    </h2>
+                </div>
+                <!-- HEADING -->
+                <div class="form-heading">
+                    <h1>Create Account</h1>
+                    <p>Start your journey</p>
+                </div>
+                <!-- FULL NAME -->
+                <div class="input-group">
+                    <div class="input-box">
+                        <span> </span>
+                        <input type="text" id="fullName" placeholder="Full Name" required>
+                    </div>
+                </div>
+                <!-- EMAIL -->
+                <div class="input-group">
+                    <div class="input-box">
+                        <span> </span>
+                        <input type="email" id="email" placeholder="Email Address" required>
+                    </div>
+                </div>
+                <!-- PHONE -->
+                <div class="input-group">
+                    <div class="input-box">
+                        <span> </span>
+                        <input type="tel" id="phone" placeholder="Phone Number" required>
+                    </div>
+                </div>
+                <!-- PASSWORD -->
+                <div class="input-group">
+                    <div class="input-group">
+                        <div class="input-box">
+                            <span> </span>
+                            <input type="password" id="password" placeholder="Password" minlength="8" required>
+                            <button type="button" class="password-toggle" onclick="togglePassword()" id="eyeButton">
+                                Show
+                            </button>
+                        </div>
+                    </div>
+                    <!-- REGISTER BUTTON -->
+                    <button type="submit" class="register-button">
+                        Register
+                    </button>
+                    <!-- MESSAGE -->
+                    <div class="message" id="message"></div>
+                    <!-- LOGIN LINK -->
+                    <div class="login-link">
+                        Already have an account?
+                        <a href="login.html">
+                            Login
+                        </a>
+                    </div>
+            </form>
+        </div>
+    </div>
+    <!-- JAVASCRIPT -->
+    <script>
+        // SHOW AND HIDE PASSWORD
+        function togglePassword() {
+            const password =
+                document.getElementById("password");
+            const eyeButton =
+                document.getElementById("eyeButton");
+            if (password.type === "password") {
+                password.type = "text";
+                eyeButton.textContent = "Hide";
+            } else {
+                password.type = "password";
+                eyeButton.textContent = "Show";
+            }
+        }
+        // REGISTER FORM VALIDATION
+        document.getElementById("registerForm")
+            .addEventListener("submit", function (event) {
+                event.preventDefault();
+                const fullName =
+                    document.getElementById("fullName").value.trim();
+                const email =
+                    document.getElementById("email").value.trim();
+                const phone =
+                    document.getElementById("phone").value.trim();
+                const password =
+                    document.getElementById("password").value;
+                const message =
+                    document.getElementById("message");
+                // CHECK EMPTY FIELDS
+                if (
+                    fullName === "" ||
+                    email === "" ||
+                    phone === "" ||
+                    password === ""
+                ) {
+                    message.style.color = "red";
+                    message.textContent =
+                        "Please fill in all fields.";
+                    "Please fill in all fields.";
+                    return;
+                }
+                // CHECK PASSWORD LENGTH
+                if (password.length < 8) {
+                    message.style.color = "red";
+                    message.textContent =
+                        "Password must contain at least 8 characters.";
+                    return;
+                }
+                // SUCCESS MESSAGE
+                message.style.color = "#075bea";
+                message.textContent =
+                    "Registration interface is working. Connect PHP and MySQL to save accounts.";
+            });
+    </script>
+</body>
+
+</html>

@@ -1,0 +1,724 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Booking Requests - Smart Rental Finder</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: Arial, sans-serif;
+        }
+
+        body {
+            background: #f5f7fb;
+            color: #1e293b;
+        }
+
+        .container {
+            display: flex;
+            min-height: 100vh;
+        }
+
+        /* SIDEBAR */
+        .sidebar {
+            width: 245px;
+            background: #172554;
+            color: white;
+            padding: 25px 18px;
+            position: fixed;
+            height: 100vh;
+        }
+
+        .logo {
+            font-size: 21px;
+            font-weight: bold;
+            margin-bottom: 38px;
+        }
+
+        .logo span {
+            color: #60a5fa;
+        }
+
+        .sidebar h4 {
+            color: #94a3b8;
+            font-size: 12px;
+            margin: 25px 10px 12px;
+            text-transform: uppercase;
+        }
+
+        .sidebar a {
+            display: block;
+            text-decoration: none;
+            color: #cbd5e1;
+            padding: 13px 12px;
+            margin: 5px 0;
+            border-radius: 7px;
+            font-size: 14px;
+        }
+
+        .sidebar a:hover,
+        .sidebar a.active {
+            background: #2563eb;
+            color: white;
+        }
+
+        /* MAIN */
+        .main {
+            margin-left: 245px;
+            width: calc(100% - 245px);
+            padding: 30px;
+        }
+
+        .topbar {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 30px;
+        }
+
+        .topbar h2 {
+            font-size: 25px;
+        }
+
+        .profile {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+
+        .avatar {
+            width: 40px;
+            height: 40px;
+            background: #dbeafe;
+            color: #1d4ed8;
+            border-radius: 50%;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            font-weight: bold;
+        }
+
+        /* SUMMARY CARDS */
+        .stats {
+            display: grid;
+            grid-template-columns: repeat(4, 1fr);
+            gap: 18px;
+            margin-bottom: 28px;
+        }
+
+        .stat-card {
+            background: white;
+            padding: 22px;
+            border-radius: 12px;
+            box-shadow: 0 3px 12px #00000008;
+        }
+
+        .stat-card p {
+            color: #64748b;
+            font-size: 14px;
+        }
+        
+
+        .stat-card h2 {
+            margin-top: 12px;
+            font-size: 27px;
+        }
+
+        .stat-icon {
+            font-size: 23px;
+            margin-bottom: 12px;
+        }
+
+        /* CONTENT */
+        .content-card {
+            background: white;
+            border-radius: 12px;
+            padding: 24px;
+            box-shadow: 0 3px 12px #00000008;
+        }
+
+        .content-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            gap: 15px;
+            margin-bottom: 22px;
+        }
+
+        .content-header h3 {
+            font-size: 19px;
+        }
+
+        .filters {
+            display: flex;
+            gap: 10px;
+        }
+
+        input,
+        select {
+            padding: 11px 13px;
+            border: 1px solid #dbe2ea;
+            border-radius: 7px;
+            outline: none;
+            outline: none;
+            background: white;
+        }
+
+        input:focus,
+        select:focus {
+            border-color: #2563eb;
+        }
+
+        /* TABLE */
+        .table-wrapper {
+            overflow-x: auto;
+        }
+
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            min-width: 750px;
+        }
+
+        th,
+        td {
+            padding: 16px 12px;
+            text-align: left;
+            border-bottom: 1px solid #eef2f7;
+            font-size: 13px;
+        }
+
+        th {
+            background: #f8fafc;
+            color: #64748b;
+            font-weight: 600;
+        }
+
+        .tenant {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+
+        .tenant-avatar {
+            width: 36px;
+            height: 36px;
+            border-radius: 50%;
+            border-radius: 50%;
+            background: #e0e7ff;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: #3730a3;
+            font-weight: bold;
+        }
+
+        .status {
+            padding: 6px 10px;
+            border-radius: 20px;
+            font-size: 11px;
+            font-weight: bold;
+        }
+
+        .pending {
+            background: #fef3c7;
+            color: #92400e;
+        }
+
+        .approved {
+            background: #dcfce7;
+            color: #166534;
+        }
+
+        .rejected {
+            background: #fee2e2;
+            color: #991b1b;
+        }
+
+        .actions {
+            display: flex;
+            gap: 6px;
+        }
+
+        .btn {
+            border: none;
+            padding: 8px 10px;
+            border-radius: 6px;
+            cursor: pointer;
+            font-size: 12px;
+            font-size: 12px;
+            font-weight: bold;
+        }
+
+        .approve {
+            background: #dcfce7;
+            color: #166534;
+        }
+
+        .reject {
+            background: #fee2e2;
+            color: #991b1b;
+        }
+
+        .view {
+            background: #dbeafe;
+            color: #1d4ed8;
+        }
+
+        .btn:hover {
+            opacity: .8;
+        }
+
+        /* MODAL */
+        .modal {
+            display: none;
+            position: fixed;
+            inset: 0;
+            background: #0008;
+            justify-content: center;
+            align-items: center;
+            padding: 20px;
+            z-index: 10;
+        }
+
+        .modal-content {
+            background: white;
+            width: 100%;
+            max-width: 470px;
+            border-radius: 12px;
+            padding: 25px;
+        }
+        
+
+        .modal-header {
+            display: flex;
+            justify-content: space-between;
+            margin-bottom: 20px;
+        }
+
+        .close {
+            border: none;
+            background: none;
+            font-size: 24px;
+            cursor: pointer;
+        }
+
+        .detail {
+            margin: 13px 0;
+            color: #475569;
+            font-size: 14px;
+        }
+
+        .modal-buttons {
+            display: flex;
+            gap: 10px;
+            margin-top: 25px;
+        }
+
+        .modal-buttons button {
+            flex: 1;
+            padding: 12px;
+        }
+
+        /* RESPONSIVE */
+        @media(max-width:1000px) {
+            .stats {
+                grid-template-columns: repeat(2, 1fr);
+            }
+        }
+
+        @media(max-width:700px) {
+            .sidebar {
+                width: 65px;
+                width: 65px;
+                padding: 20px 7px;
+            }
+
+            .logo {
+                font-size: 12px;
+                text-align: center;
+            }
+
+            .sidebar h4 {
+                display: none;
+            }
+
+            .sidebar a {
+                font-size: 0;
+                text-align: center;
+                padding: 15px 3px;
+            }
+
+            .sidebar a::first-letter {
+                font-size: 17px;
+            }
+
+            .main {
+                margin-left: 65px;
+                width: calc(100% - 65px);
+                padding: 15px;
+            }
+
+            .topbar {
+                align-items: flex-start;
+                gap: 10px;
+            }
+
+            .topbar h2 {
+                font-size: 19px;
+            }
+
+            .stats {
+                grid-template-columns: 1fr 1fr;
+                gap: 10px;
+            }
+        }
+
+        .stat-card {
+            padding: 15px;
+        }
+
+        .content-header {
+            align-items: flex-start;
+            flex-direction: column;
+        }
+
+        .filters {
+            width: 100%;
+            flex-wrap: wrap;
+        }
+
+        .filters input,
+        .filters select {
+            width: 100%;
+        }
+        
+    </style>
+</head>
+
+<body>
+    <div class="container">
+        <!-- SIDEBAR -->
+        <aside class="sidebar">
+            <div class="logo">Smart <span>Rental</span></div>
+            <h4>Main Menu</h4>
+            <a href="owner-dashboard.html"> Dashboard</a>
+            <a href="add-property.html">¦ Add Property</a>
+            <a href="manage-properties.html"> Manage Properties</a>
+            <a href="booking-requests.html" class="active"> Booking Requests</a>
+            <a href="chat.html"> Messages</a>
+            <h4>Account</h4>
+            <h4>Account</h4>
+            <a href="#"> Profile</a>
+            <a href="#">⚙ Settings</a>
+            <a href="index.html">↪ Logout</a>
+        </aside>
+        <!-- MAIN CONTENT -->
+        <main class="main">
+            <div class="topbar">
+                <h2>Booking Requests</h2>
+                <div class="profile">
+                    <div class="avatar">OW</div>
+                    <div>
+                        <strong>Property Owner</strong>
+                        <p style="font-size:12px;color:#64748b;">Owner Account</p>
+                    </div>
+                </div>
+            </div>
+            <!-- STATS -->
+            <section class="stats">
+                <div class="stat-card">
+                    <div class="stat-icon"> </div>
+                    <p>Total Requests</p>
+                    <h2 id="totalCount">5</h2>
+                </div>
+                <div class="stat-card">
+                    <div class="stat-icon">. </div>
+                    <p>Pending</p>
+                    <h2 id="pendingCount">3</h2>
+                </div>
+                <div class="stat-card">
+                    <div class="stat-icon"> </div>
+                    <p>Approved</p>
+                    <h2 id="approvedCount">1</h2>
+                    
+                </div>
+                <div class="stat-card">
+                    <div class="stat-icon"> </div>
+                    <p>Rejected</p>
+                    <h2 id="rejectedCount">1</h2>
+                </div>
+            </section>
+            <!-- REQUEST TABLE -->
+            <section class="content-card">
+                <div class="content-header">
+                    <h3>All Booking Requests</h3>
+                    <div class="filters">
+                        <input type="search" id="searchInput" placeholder="Search tenant or property...">
+                        <select id="statusFilter">
+                            <option value="All">All Status</option>
+                            <option value="Pending">Pending</option>
+                            <option value="Approved">Approved</option>
+                            <option value="Rejected">Rejected</option>
+                        </select>
+                    </div>
+                </div>
+                <div class="table-wrapper">
+                    <table>
+                        <thead>
+                            <tr>
+                                <th>Tenant</th>
+                                <th>Property</th>
+                                <th>Move-in Date</th>
+                                <th>Rent</th>
+                                <th>Status</th>
+                                <th>Actions</th>
+                            </tr>
+                        </thead>
+                        <tbody id="requestTable"></tbody>
+                    </table>
+                </div>
+            </section>
+        </main>
+    </div>
+    <!-- DETAILS MODAL -->
+    <div class="modal" id="detailsModal">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h3>Booking Details</h3>
+                <button class="close" onclick="closeModal()">×</button>
+            </div>
+            <div id="modalDetails"></div>
+            <div class="modal-buttons">
+                <button class="btn approve" id="modalApprove">Approve</button>
+                <button class="btn reject" id="modalReject">Reject</button>
+            </div>
+        </div>
+    </div>
+    <script>
+        // DEMO BOOKING REQUEST DATA
+        let requests = [
+            
+{
+                id: 1,
+                tenant: "John Michael",
+                initials: "JM",
+                property: "Modern Single Room",
+                location: "Morogoro",
+                date: "2026-11-15",
+                rent: "Tsh 120,000",
+                duration: "6 Months",
+                phone: "0712345678",
+                status: "Pending"
+            },
+            {
+                id: 2,
+                tenant: "Amina Hassan",
+                initials: "AH",
+                property: "Two Bedroom Apartment",
+                location: "Bigwa",
+                date: "2026-11-20",
+                rent: "Tsh 350,000",
+                duration: "12 Months",
+                phone: "0756789012",
+                status: "Pending"
+            },
+            {
+                id: 3,
+                tenant: "Peter Joseph",
+                initials: "PJ",
+                property: "Self Contained Room",
+                location: "Tubuyu",
+                date: "2026-11-25",
+                rent: "Tsh 180,000",
+                duration: "6 Months",
+                phone: "0765432109",
+                status: "Approved"
+            },
+            {
+                id: 4,
+                tenant: "Grace Daniel",
+                initials: "GD",
+                property: "Family House",
+                location: "Nanenane",
+                
+                date: "2026-12-01",
+                rent: "Tsh 500,000",
+                duration: "12 Months",
+                phone: "0787654321",
+                status: "Rejected"
+            },
+            {
+                id: 5,
+                tenant: "David Thomas",
+                initials: "DT",
+                property: "Furnished Single Room",
+                location: "Area six",
+                date: "2026-12-05",
+                rent: "Tsh 150,000",
+                duration: "3 Months",
+                phone: "0623456789",
+                status: "Pending"
+            }
+        ];
+        let selectedRequestId = null;
+        // DISPLAY REQUESTS
+        function displayRequests() {
+            const table = document.getElementById("requestTable");
+            const search = document
+                .getElementById("searchInput")
+                .value.toLowerCase();
+            const filter = document
+                .getElementById("statusFilter")
+                .value;
+            const filtered = requests.filter(request => {
+                const matchesSearch =
+                    request.tenant.toLowerCase().includes(search) ||
+                    request.property.toLowerCase().includes(search);
+                const matchesStatus =
+                    filter === "All" || request.status === filter;
+                return matchesSearch && matchesStatus;
+            });
+            table.innerHTML = "";
+            if (filtered.length === 0) {
+                table.innerHTML = `
+<tr>
+<td colspan="6" style="text-align:center;padding:30px;">
+No booking requests found.
+</td>
+</tr>
+`;
+            } else {
+                filtered.forEach(request => {
+                    const row = document.createElement("tr");
+                    row.innerHTML = `
+<td>
+<div class="tenant">
+<div class="tenant-avatar">
+${request.initials}
+</div>
+<strong>${request.tenant}</strong>
+</div>
+</td>
+<td>${request.property}</td>
+<td>${request.date}</td>
+<td>${request.rent}</td>
+<td>
+<td>
+<span class="status ${request.status.toLowerCase()}">
+${request.status}
+</span>
+</td>
+<td>
+<div class="actions">
+<button class="btn view"
+onclick="viewDetails(${request.id})">
+View
+</button>
+${request.status === "Pending"
+                            ? `
+<button class="btn approve"
+onclick="updateStatus(${request.id}, 'Approved')">
+✓
+</button>
+<button class="btn reject"
+onclick="updateStatus(${request.id}, 'Rejected')">
+✕
+</button>
+`
+                            : ""
+                        }
+</div>
+</td>
+`;
+                    table.appendChild(row);
+                });
+            }
+            updateStats();
+        }
+        // UPDATE STATISTICS
+        // UPDATE STATISTICS
+        function updateStats() {
+            document.getElementById("totalCount").textContent =
+                requests.length;
+            document.getElementById("pendingCount").textContent =
+                requests.filter(r => r.status === "Pending").length;
+            document.getElementById("approvedCount").textContent =
+                requests.filter(r => r.status === "Approved").length;
+            document.getElementById("rejectedCount").textContent =
+                requests.filter(r => r.status === "Rejected").length;
+        }
+        // APPROVE OR REJECT
+        function updateStatus(id, status) {
+            const request = requests.find(r => r.id === id);
+            if (!request) return;
+            request.status = status;
+            saveRequests();
+            displayRequests();
+            if (selectedRequestId === id) {
+                closeModal();
+            }
+        }
+        // VIEW DETAILS
+        function viewDetails(id) {
+            const request = requests.find(r => r.id === id);
+            if (!request) return;
+            selectedRequestId = id;
+            document.getElementById("modalDetails").innerHTML = `
+<div class="detail"><strong>Tenant:</strong> ${request.tenant}</div>
+<div class="detail"><strong>Phone:</strong> ${request.phone}</div>
+<div class="detail"><strong>Property:</strong> ${request.property}</div>
+<div class="detail"><strong>Location:</strong> ${request.location}</div>
+<div class="detail"><strong>Move-in Date:</strong> ${request.date}</div>
+<div class="detail"><strong>Duration:</strong> ${request.duration}</div>
+<div class="detail"><strong>Rent:</strong> ${request.rent}</div>
+<div class="detail"><strong>Status:</strong> ${request.status}</div>
+`;
+            const approveButton = document.getElementById("modalApprove");
+            const rejectButton = document.getElementById("modalReject");
+            approveButton.style.display =
+                request.status === "Pending" ? "block" : "none";
+            rejectButton.style.display =
+                request.status === "Pending" ? "block" : "none";
+            approveButton.onclick = () =>
+                updateStatus(id, "Approved");
+            rejectButton.onclick = () =>
+                updateStatus(id, "Rejected");
+            document.getElementById("detailsModal").style.display = "flex";
+        }
+        // CLOSE MODAL
+        function closeModal() {
+            document.getElementById("detailsModal").style.display = "none";
+            selectedRequestId = null;
+        }
+        // SEARCH AND FILTER
+        document.getElementById("searchInput")
+        document.getElementById("searchInput")
+            .addEventListener("input", displayRequests);
+        document.getElementById("statusFilter")
+            .addEventListener("change", displayRequests);
+        // SAVE DEMO DATA
+        function saveRequests() {
+            localStorage.setItem(
+                "ownerBookingRequests",
+                JSON.stringify(requests)
+            );
+        }
+        // LOAD SAVED DATA
+        function loadRequests() {
+            const saved = localStorage.getItem("ownerBookingRequests");
+            if (saved) {
+                requests = JSON.parse(saved);
+            }
+            displayRequests();
+        }
+        // INITIALIZE
+        loadRequests();
+    </script>
+</body>
+
+</html>

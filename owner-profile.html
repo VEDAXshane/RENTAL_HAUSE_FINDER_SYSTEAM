@@ -1,0 +1,690 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Owner Profile - Smart Rental Finder</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: Arial, sans-serif;
+        }
+
+        body {
+            background: #f5f7fb;
+            color: #1e293b;
+        }
+
+        .container {
+            display: flex;
+            min-height: 100vh;
+        }
+
+        /* SIDEBAR */
+        .sidebar {
+            width: 245px;
+            background: #172554;
+            color: white;
+            padding: 25px 18px;
+            position: fixed;
+            height: 100vh;
+        }
+
+        .logo {
+            font-size: 21px;
+            font-weight: bold;
+            margin-bottom: 38px;
+        }
+
+        .logo span {
+            color: #60a5fa;
+        }
+
+        .sidebar h4 {
+            color: #94a3b8;
+            font-size: 12px;
+            margin: 25px 10px 12px;
+            text-transform: uppercase;
+        }
+
+        .sidebar a {
+            display: block;
+            text-decoration: none;
+            color: #cbd5e1;
+            padding: 13px 12px;
+            margin: 5px 0;
+            border-radius: 7px;
+            font-size: 14px;
+        }
+
+        .sidebar a:hover,
+        .sidebar a.active {
+            background: #2563eb;
+            color: white;
+        }
+
+        /* MAIN */
+        .main {
+            margin-left: 245px;
+            width: calc(100% - 245px);
+            padding: 30px;
+        }
+
+        .topbar {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 28px;
+        }
+
+        .topbar h2 {
+            font-size: 25px;
+        }
+
+        .user {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+
+        .avatar-small {
+            width: 40px;
+            height: 40px;
+            border-radius: 50%;
+            background: #dbeafe;
+            color: #1d4ed8;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-weight: bold;
+        }
+
+        /* PROFILE HEADER */
+        .profile-header {
+            background: linear-gradient(120deg, #1d4ed8, #4f46e5);
+            padding: 30px;
+            border-radius: 13px;
+            color: white;
+            display: flex;
+            align-items: center;
+            gap: 22px;
+            margin-bottom: 25px;
+        }
+
+        .profile-photo {
+            width: 95px;
+            height: 95px;
+            border-radius: 50%;
+            background: #dbeafe;
+            color: #1d4ed8;
+            display: flex;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 32px;
+            font-weight: bold;
+            border: 4px solid white;
+            overflow: hidden;
+        }
+
+        .profile-photo img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+        }
+
+        .profile-info h2 {
+            margin-bottom: 7px;
+        }
+
+        .profile-info p {
+            color: #dbeafe;
+            font-size: 14px;
+            margin: 4px 0;
+        }
+
+        .member-badge {
+            display: inline-block;
+            background: #ffffff25;
+            padding: 6px 11px;
+            border-radius: 20px;
+            font-size: 11px;
+            margin-top: 8px;
+        }
+
+        /* LAYOUT */
+        .profile-layout {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 22px;
+        }
+
+            .card {
+                background: white;
+                padding: 25px;
+                border-radius: 12px;
+                box-shadow: 0 3px 12px #00000008;
+            }
+
+            .card h3 {
+                font-size: 18px;
+                margin-bottom: 22px;
+            }
+
+            .form-group {
+                margin-bottom: 17px;
+            }
+
+            .form-group label {
+                display: block;
+                font-size: 13px;
+                font-weight: bold;
+                margin-bottom: 8px;
+                color: #475569;
+            }
+
+            .form-group input,
+            .form-group select,
+            .form-group textarea {
+                width: 100%;
+                padding: 12px;
+                border: 1px solid #dbe2ea;
+                border-radius: 7px;
+                outline: none;
+                font-size: 14px;
+                background: white;
+            }
+
+            .form-group input:focus,
+            .form-group select:focus,
+            .form-group textarea:focus {
+                border-color: #2563eb;
+            }
+
+            .form-group input:disabled {
+                background: #f1f5f9;
+                color: #64748b;
+            }
+
+            .form-group textarea {
+                resize: vertical;
+                min-height: 85px;
+            }
+
+            .two-columns {
+                display: grid;
+                grid-template-columns: 1fr 1fr;
+                gap: 15px;
+            }
+
+            /* BUTTONS */
+            .buttons {
+                display: flex;
+                justify-content: flex-end;
+                gap: 10px;
+                margin-top: 20px;
+            }
+
+            .btn {
+                border: none;
+                padding: 12px 19px;
+                border-radius: 7px;
+                cursor: pointer;
+                font-size: 13px;
+                font-weight: bold;
+            }
+
+            .edit-btn {
+                background: #2563eb;
+                color: white;
+            }
+
+            .cancel-btn {
+                background: #e2e8f0;
+                color: #334155;
+                color: #334155;
+            }
+
+            .save-btn {
+                background: #16a34a;
+                color: white;
+            }
+
+            .btn:hover {
+                opacity: .85;
+            }
+
+            /* ACCOUNT INFORMATION */
+            .info-row {
+                display: flex;
+                justify-content: space-between;
+                gap: 10px;
+                padding: 15px 0;
+                border-bottom: 1px solid #eef2f7;
+                font-size: 13px;
+            }
+
+            .info-row span:first-child {
+                color: #64748b;
+            }
+
+            .info-row span:last-child {
+                font-weight: bold;
+            }
+
+            .security-card {
+                margin-top: 22px;
+            }
+
+            .security-card p {
+                color: #64748b;
+                font-size: 13px;
+                line-height: 1.6;
+            }
+
+            .password-btn {
+                margin-top: 17px;
+                margin-top: 17px;
+                background: #eff6ff;
+                color: #1d4ed8;
+            }
+
+            /* PHOTO INPUT */
+            .photo-upload {
+                margin-top: 12px;
+                font-size: 12px;
+            }
+
+            /* MESSAGE */
+            .message {
+                display: none;
+                margin-top: 15px;
+                padding: 12px;
+                border-radius: 7px;
+                background: #dcfce7;
+                color: #166534;
+                font-size: 13px;
+            }
+
+            /* RESPONSIVE */
+            @media(max-width:950px) {
+                .profile-layout {
+                    grid-template-columns: 1fr;
+                }
+            }
+
+            @media(max-width:700px) {
+                .sidebar {
+                    width: 65px;
+                    padding: 20px 7px;
+                }
+
+                .logo {
+                    font-size: 11px;
+                    text-align: center;
+                }
+
+                .sidebar h4 {
+                    display: none;
+                    display: none;
+                }
+
+                .sidebar a {
+                    font-size: 0;
+                    text-align: center;
+                    padding: 15px 3px;
+                }
+
+                .sidebar a::first-letter {
+                    font-size: 17px;
+                }
+
+                .main {
+                    margin-left: 65px;
+                    width: calc(100% - 65px);
+                    padding: 15px;
+                }
+
+                .topbar h2 {
+                    font-size: 19px;
+                }
+
+                .profile-header {
+                    padding: 20px;
+                    align-items: flex-start;
+                    flex-direction: column;
+                }
+
+                .two-columns {
+                    grid-template-columns: 1fr;
+                    gap: 0;
+                }
+
+                .buttons {
+                    flex-wrap: wrap;
+                }
+            }
+    </style>
+</head>
+
+<body>
+
+    <body>
+        <div class="container">
+            <!-- SIDEBAR -->
+            <aside class="sidebar">
+                <div class="logo">Smart <span>Rental</span></div>
+                <h4>Main Menu</h4>
+                <a href="owner-dashboard.html"> Dashboard</a>
+                <a href="add-property.html">¦ Add Property</a>
+                <a href="manage-properties.html"> Manage Properties</a>
+                <a href="booking-requests.html"> Booking Requests</a>
+                <a href="chat.html"> Messages</a>
+                <h4>Account</h4>
+                <a href="owner-profile.html" class="active"> My Profile</a>
+                <a href="#">⚙ Settings</a>
+                <a href="index.html">↪ Logout</a>
+            </aside>
+            <!-- MAIN -->
+            <main class="main">
+                <div class="topbar">
+                    <h2>My Profile</h2>
+                    <div class="user">
+                        <div class="avatar-small">OW</div>
+                        <div>
+                            <strong>Property Owner</strong>
+                            <p style="font-size:12px;color:#64748b;">Owner Account</p>
+                        </div>
+                    </div>
+                </div>
+                <!-- PROFILE HEADER -->
+                <section class="profile-header">
+                    <section class="profile-header">
+                        <div class="profile-photo" id="profilePreview">OW</div>
+                        <div class="profile-info">
+                            <h2 id="headerName">Property Owner</h2>
+                            <p id="headerEmail">owner@example.com</p>
+                            <p> <span id="headerLocation">Morogoro, Tanzania</span></p>
+                            <span class="member-badge">✓ Verified Property Owner (Demo)</span>
+                        </div>
+                    </section>
+                    <div class="profile-layout">
+                        <!-- PERSONAL INFORMATION -->
+                        <section class="card">
+                            <h3>Personal Information</h3>
+                            <form id="profileForm">
+                                <div class="form-group">
+                                    <label>Full Name</label>
+                                    <input type="text" id="fullName" value="Property Owner" disabled required>
+                                </div>
+                                <div class="form-group">
+                                    <label>Email Address</label>
+                                    <input type="email" id="email" value="owner@example.com" disabled required>
+                                </div>
+                                <div class="two-columns">
+                                    <div class="form-group">
+                                        <label>Phone Number</label>
+                                        <input type="tel" id="phone" value="0712345678" disabled required>
+                                    </div>
+                                    <div class="form-group">
+                                        <label>Gender</label>
+                                        <select id="gender" disabled>
+                                            <option value="Male">Male</option>
+                                            <option value="Female">Female</option>
+                                            <option value="Other">Other</option>
+                                        </select>
+                                    </div>
+                                </div>
+                                <div class="form-group">
+                                    <label>Location</label>
+                                    <input type="text" id="location" value="Morogoro, Tanzania" disabled>
+                                </div>
+                                <div class="form-group">
+                                    <label>Address</label>
+                                    <textarea id="address" disabled>Morogoro, Tanzania</textarea>
+                                </div>
+                                <div class="form-group">
+                                    <label>Profile Photo</label>
+                                    <input type="file" id="photoInput" accept="image/*" disabled class="photo-upload">
+                                </div>
+                                <div class="buttons">
+                                    <button type="button" class="btn edit-btn" id="editButton">
+                                        Edit Profile
+                                    </button>
+                                    <button type="button" class="btn cancel-btn" id="cancelButton" style="display:none">
+                                        Cancel
+                                    </button>
+                                    <button type="submit" class="btn save-btn" <button type="submit"
+                                        class="btn save-btn" id="saveButton" style="display:none">
+                                        Save Changes
+                                    </button>
+                                </div>
+                                <div class="message" id="successMessage">
+                                    Profile updated successfully!
+                                </div>
+                            </form>
+                        </section>
+                        <!-- ACCOUNT INFORMATION -->
+                        <div>
+                            <section class="card">
+                                <h3>Account Information</h3>
+                                <div class="info-row">
+                                    <span>Account Type</span>
+                                    <span>Property Owner</span>
+                                </div>
+                                <div class="info-row">
+                                    <span>Account Status</span>
+                                    <span style="color:#16a34a;">Active</span>
+                                </div>
+                                <div class="info-row">
+                                    <span>Member Since</span>
+                                    <span>November 2026</span>
+                                </div>
+                                <div class="info-row">
+                                    <span>Account ID</span>
+                                    <span>OWN-001</span>
+                                </div>
+                            </section>
+                            <section class="card security-card">
+                                <h3>Security Settings</h3>
+                                <p>
+                                    Protect your account by keeping your password private
+                                    and updating it when necessary.
+                                </p>
+                                <button class="btn password-btn" onclick="openPasswordModal()">
+                                    Change Password
+                                </button>
+                            </section>
+                        </div>
+                    </div>
+            </main>
+        </div>
+        <!-- PASSWORD MODAL -->
+        <div class="modal" id="passwordModal" style="display:none;position:fixed;inset:0;background:#0008;
+justify-content:center;align-items:center;padding:20px;z-index:20;">
+            <div style="background:white;padding:25px;border-radius:12px;
+width:100%;max-width:400px;">
+                <div style="display:flex;justify-content:space-between;
+margin-bottom:20px;">
+                    <h3>Change Password</h3>
+                    <button onclick="closePasswordModal()"
+                        style="border:none;background:none;font-size:23px;cursor:pointer;">×</button>
+                </div>
+                <form id="passwordForm">
+                    <div class="form-group">
+                        <label>Current Password</label>
+                        <input type="password" id="currentPassword" required>
+                    </div>
+                    <div class="form-group">
+                        <label>New Password</label>
+                        <input type="password" id="newPassword" required minlength="6">
+                    </div>
+                    <div class="form-group">
+                        <label>Confirm New Password</label>
+                        <input type="password" id="confirmPassword" required minlength="6">
+                    </div>
+                    <button type="submit" class="btn edit-btn" style="width:100%;">Update Password</button>
+                    <p id="passwordMessage" style="font-size:13px;margin-top:12px;"></p>
+                </form>
+            </div>
+        </div>
+        <script>
+            // PROFILE ELEMENTS
+            const fields = [
+                "fullName",
+                "email",
+                "phone",
+                "gender",
+                "location",
+                "address",
+                "photoInput"
+            ];
+            let originalData = {};
+            let photoData = "";
+            // LOAD PROFILE
+            function loadProfile() {
+                const saved = localStorage.getItem("ownerProfile");
+                if (saved) {
+                    const data = JSON.parse(saved);
+                    document.getElementById("fullName").value =
+                        data.fullName || "Property Owner";
+                    document.getElementById("email").value =
+                        data.email || "owner@example.com";
+                    document.getElementById("phone").value =
+                        data.phone || "0712345678";
+                    document.getElementById("gender").value =
+                        data.gender || "Male";
+                    document.getElementById("location").value =
+                        data.location || "Morogoro, Tanzania";
+                    document.getElementById("address").value =
+                        data.address || "Morogoro, Tanzania";
+                    photoData = data.photo || "";
+                }
+                updateHeader();
+            }
+            // UPDATE PROFILE HEADER
+            function updateHeader() {
+                const name = document.getElementById("fullName").value;
+                const email = document.getElementById("email").value;
+                const location = document.getElementById("location").value;
+                document.getElementById("headerName").textContent = name;
+                document.getElementById("headerEmail").textContent = email;
+                document.getElementById("headerLocation").textContent = location;
+                const preview = document.getElementById("profilePreview");
+                if (photoData) {
+                    preview.innerHTML = `<img src="${photoData}" alt="Profile photo">`;
+                } else {
+                    preview.textContent = name
+                        .split(" ")
+                        .map(word => word[0])
+                        .join("")
+                        .substring(0, 2)
+                        .toUpperCase();
+                }
+            }
+            // ENABLE EDITING
+            document.getElementById("editButton").onclick = function () {
+                originalData = {};
+                fields.forEach(id => {
+                    const element = document.getElementById(id);
+                    originalData[id] = element.value;
+                    element.disabled = false;
+                });
+                document.getElementById("editButton").style.display = "none";
+                document.getElementById("cancelButton").style.display = "inline-block";
+                document.getElementById("saveButton").style.display = "inline-block";
+            };
+            // CANCEL EDITING
+            document.getElementById("cancelButton").onclick = function () {
+                fields.forEach(id => {
+                    const element = document.getElementById(id);
+                    if (id !== "photoInput") {
+                        element.value = originalData[id];
+                    }
+                    element.disabled = true;
+                });
+                updateHeader();
+                document.getElementById("editButton").style.display = "inline-block";
+                document.getElementById("cancelButton").style.display = "none";
+                document.getElementById("saveButton").style.display = "none";
+            };
+            // PROFILE PHOTO PREVIEW
+            document.getElementById("photoInput").addEventListener("change", function () {
+                const file = this.files[0];
+                if (!file) return;
+                if (!file.type.startsWith("image/")) {
+                    alert("Please select an image file.");
+                    return;
+                }
+                const reader = new FileReader();
+                reader.onload = function (event) {
+                    photoData = event.target.result;
+                    photoData = event.target.result;
+                    updateHeader();
+                };
+                reader.readAsDataURL(file);
+            });
+            // SAVE PROFILE
+            document.getElementById("profileForm").addEventListener("submit", function (event) {
+                event.preventDefault();
+                const data = {
+                    fullName: document.getElementById("fullName").value,
+                    email: document.getElementById("email").value,
+                    phone: document.getElementById("phone").value,
+                    gender: document.getElementById("gender").value,
+                    location: document.getElementById("location").value,
+                    address: document.getElementById("address").value,
+                    photo: photoData
+                };
+                localStorage.setItem("ownerProfile", JSON.stringify(data));
+                fields.forEach(id => {
+                    document.getElementById(id).disabled = true;
+                });
+                updateHeader();
+                document.getElementById("editButton").style.display = "inline-block";
+                document.getElementById("cancelButton").style.display = "none";
+                document.getElementById("saveButton").style.display = "none";
+                const message = document.getElementById("successMessage");
+                message.style.display = "block";
+                setTimeout(() => {
+                    message.style.display = "none";
+                }, 3000);
+            }, 3000);
+            // PASSWORD MODAL
+            function openPasswordModal() {
+                document.getElementById("passwordModal").style.display = "flex";
+            }
+            function closePasswordModal() {
+                document.getElementById("passwordModal").style.display = "none";
+            }
+            // DEMO PASSWORD CHANGE
+            document.getElementById("passwordForm").addEventListener("submit", function (event) {
+                event.preventDefault();
+                const current = document.getElementById("currentPassword").value;
+                const newPass = document.getElementById("newPassword").value;
+                const confirm = document.getElementById("confirmPassword").value;
+                const message = document.getElementById("passwordMessage");
+                if (newPass !== confirm) {
+                    message.style.color = "red";
+                    message.textContent = "New passwords do not match.";
+                    return;
+                }
+                if (newPass === current) {
+                    message.style.color = "red";
+                    message.textContent = "New password must be different.";
+                    return;
+                }
+                message.style.color = "green";
+                message.textContent =
+                    "Password validation successful (demo only).";
+                document.getElementById("passwordForm").reset();
+            });
+            // INITIALIZE
+            loadProfile();
+        </script>
+    </body>
+
+</html>

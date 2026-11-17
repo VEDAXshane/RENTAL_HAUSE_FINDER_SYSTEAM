@@ -1,0 +1,557 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>House Details - Smart Rental Finder</title>
+    <style>
+        /* GENERAL SETTINGS */
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: Arial, sans-serif;
+        }
+
+        body {
+            background: #edf2ff;
+            color: #14234e;
+        }
+
+        /* MAIN CONTAINER */
+        .container {
+            max-width: 1250px;
+            margin: 22px auto;
+            padding: 12px;
+        }
+
+        .details-card {
+            background: white;
+            padding: 14px;
+            border-radius: 13px;
+            box-shadow: 0 3px 12px rgba(0, 0, 0, 0.06);
+        }
+
+        /* TOP PROPERTY SECTION */
+        .property-top {
+            display: grid;
+            grid-template-columns: 1.15fr 1fr;
+            grid-template-columns: 1.15fr 1fr;
+            gap: 17px;
+            align-items: start;
+        }
+
+        /* PROPERTY IMAGE */
+        .image-wrapper {
+            position: relative;
+            height: 255px;
+            border-radius: 10px;
+            overflow: hidden;
+        }
+
+        .main-image {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            display: block;
+        }
+
+        .available-badge {
+            position: absolute;
+            top: 12px;
+            right: 12px;
+            background: #24c55a;
+            color: white;
+            font-size: 12px;
+            font-weight: bold;
+            padding: 7px 12px;
+            border-radius: 20px;
+        }
+
+        /* PROPERTY INFORMATION */
+        .property-info {
+            padding: 7px 3px;
+        }
+
+        .property-info h1 {
+            font-size: 23px;
+            color: #102451;
+            margin-bottom: 9px;
+        }
+        
+
+        .location {
+            color: #64748b;
+            font-size: 12px;
+            margin-bottom: 11px;
+        }
+
+        .location span {
+            color: #075bea;
+            margin-right: 5px;
+        }
+
+        .price {
+            color: #075bea;
+            font-size: 21px;
+            font-weight: bold;
+            margin-bottom: 8px;
+        }
+
+        .price small {
+            font-size: 12px;
+            font-weight: normal;
+        }
+
+        .rating {
+            font-size: 12px;
+            margin-bottom: 19px;
+        }
+
+        .rating .stars {
+            color: #f5ad00;
+            font-size: 15px;
+        }
+
+        .rating small {
+            color: #64748b;
+        }
+
+        /* PROPERTY FEATURES */
+        .features {
+            display: grid;
+            display: grid;
+            grid-template-columns: repeat(4, 1fr);
+            gap: 7px;
+            margin-bottom: 18px;
+        }
+
+        .feature {
+            text-align: center;
+            padding: 9px 3px;
+            border-radius: 7px;
+            background: #f7f9fd;
+        }
+
+        .feature span {
+            display: block;
+            font-size: 18px;
+            margin-bottom: 5px;
+        }
+
+        .feature strong {
+            display: block;
+            font-size: 12px;
+            color: #102451;
+        }
+
+        .feature small {
+            font-size: 10px;
+            color: #64748b;
+        }
+
+        /* ACTION BUTTONS */
+        .action-buttons {
+            display: flex;
+            gap: 9px;
+        }
+
+        .action-buttons button {
+            flex: 1;
+            padding: 11px 8px;
+            border-radius: 7px;
+            font-size: 12px;
+            font-weight: bold;
+            font-weight: bold;
+            cursor: pointer;
+            transition: 0.3s;
+        }
+
+        .book-btn {
+            background: #075bea;
+            border: 1px solid #075bea;
+            color: white;
+        }
+
+        .book-btn:hover {
+            background: #0043c4;
+        }
+
+        .chat-btn {
+            background: white;
+            border: 1px solid #075bea;
+            color: #075bea;
+        }
+
+        .chat-btn:hover {
+            background: #edf4ff;
+        }
+
+        /* TABS SECTION */
+        .tabs-section {
+            margin-top: 17px;
+        }
+
+        .tabs {
+            display: flex;
+            gap: 0;
+            border-bottom: 1px solid #e3eaf5;
+            overflow-x: auto;
+        }
+
+        .tab-btn {
+            padding: 12px 15px;
+            background: transparent;
+            border: none;
+            color: #64748b;
+            color: #64748b;
+            font-size: 12px;
+            font-weight: bold;
+            cursor: pointer;
+            white-space: nowrap;
+        }
+
+        .tab-btn.active {
+            color: #075bea;
+            border-bottom: 2px solid #075bea;
+        }
+
+        /* TAB CONTENT */
+        .tab-content {
+            padding: 16px 12px;
+            min-height: 95px;
+            background: #ffffff;
+        }
+
+        .tab-panel {
+            display: none;
+        }
+
+        .tab-panel.active {
+            display: block;
+        }
+
+        .tab-panel h3 {
+            font-size: 14px;
+            margin-bottom: 9px;
+        }
+
+        .tab-panel p {
+            color: #475569;
+            font-size: 12px;
+            line-height: 1.8;
+        }
+
+        /* PHOTOS */
+        .photo-gallery {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            grid-template-columns: repeat(3, 1fr);
+            gap: 10px;
+        }
+
+        .photo-gallery img {
+            width: 100%;
+            height: 110px;
+            object-fit: cover;
+            border-radius: 8px;
+        }
+
+        /* VIDEO */
+        .video-box {
+            position: relative;
+            max-width: 420px;
+        }
+
+        .video-box video {
+            width: 100%;
+            border-radius: 8px;
+            background: #111;
+        }
+
+        /* REVIEWS */
+        .review {
+            padding: 10px;
+            background: #f7f9fd;
+            border-radius: 8px;
+            margin-bottom: 9px;
+        }
+
+        .review h4 {
+            font-size: 12px;
+            margin-bottom: 5px;
+        }
+
+        .review .stars {
+            color: #f5ad00;
+            font-size: 12px;
+        }
+
+        
+            .review p {
+                font-size: 11px;
+            }
+
+            /* RESPONSIVE TABLET */
+            @media(max-width: 850px) {
+                .property-top {
+                    grid-template-columns: 1fr 1fr;
+                }
+
+                .property-info h1 {
+                    font-size: 19px;
+                }
+
+                .features {
+                    gap: 5px;
+                }
+            }
+
+            /* RESPONSIVE MOBILE */
+            @media(max-width: 600px) {
+                .container {
+                    margin: 5px auto;
+                    padding: 8px;
+                }
+            }
+                .details-card {
+                    padding: 11px;
+                }
+
+                .property-top {
+                    grid-template-columns: 1fr;
+                }
+
+                .image-wrapper {
+                    height: 220px;
+                }
+
+                .property-info h1 {
+                    .property-info h1 {
+                        font-size: 21px;
+                    }
+
+                    .features {
+                        grid-template-columns: repeat(4, 1fr);
+                    }
+
+                    .action-buttons {
+                        gap: 7px;
+                    }
+
+                    .action-buttons button {
+                        font-size: 11px;
+                    }
+
+                    .photo-gallery img {
+                        height: 85px;
+                    }
+                }
+
+                @media(max-width: 350px) {
+                    .features {
+                        grid-template-columns: repeat(2, 1fr);
+                    }
+                }
+    </style>
+</head>
+
+<body>
+    <div class="container">
+        <main class="details-card">
+            <!-- PROPERTY TOP SECTION -->
+            <section class="property-top">
+                <!-- HOUSE IMAGE -->
+                <div class="image-wrapper">
+                    <img class="main-image" id="mainImage"
+                        src="https://images.unsplash.com/photo-1600596542815-ffad4c1539a9?w=900"
+                        alt="Three Bedroom House">
+                    <span class="available-badge">
+                        Available
+                    </span>
+                </div>
+                <!-- PROPERTY INFORMATION -->
+                <div class="property-info">
+                    <h1 id="houseName">
+                        3 Bedroom House
+                    </h1>
+                    <p class="location">
+                        <span> </span>
+                        <span id="houseLocation">Mjini, Morogoro</span>
+                    </p>
+                    <div class="price">
+                        TZS <span id="housePrice">550,000</span>
+                        <small>/ month</small>
+                    </div>
+                    <div class="rating">
+                        <span class="stars">★★★★★</span>
+                        <strong id="houseRating">4.6</strong>
+                        <small>
+                            <small>
+                                (24 reviews)
+                            </small>
+                    </div>
+                    <!-- PROPERTY FEATURES -->
+                    <div class="features">
+                        <div class="feature">
+                            <span> </span>
+                            <strong>3</strong>
+                            <small>Bedrooms</small>
+                        </div>
+                        <div class="feature">
+                            <span> </span>
+                            <strong>2</strong>
+                            <small>Bathrooms</small>
+                        </div>
+                        <div class="feature">
+                            <span> </span>
+                            <strong>1</strong>
+                            <small>Kitchen</small>
+                        </div>
+                        <div class="feature">
+                            <span> </span>
+                            <strong>1</strong>
+                            <small>Parking</small>
+                        </div>
+                    </div>
+                    <!-- ACTION BUTTONS -->
+                    <div class="action-buttons">
+                        <button class="book-btn" onclick="bookProperty()">
+                            Book Now
+                        </button>
+                        <button class="chat-btn" onclick="chatWithOwner()">
+                            Chat with Owner
+                        </button>
+                    </div>
+                </div>
+            </section>
+            <!-- TABS SECTION -->
+            <section class="tabs-section">
+                <div class="tabs">
+                    <button class="tab-btn active" onclick="openTab(event, 'description')">
+                        Description
+                    </button>
+                    <button class="tab-btn" onclick="openTab(event, 'photos')">
+                        Photos
+                    </button>
+                    <button class="tab-btn" onclick="openTab(event, 'video')">
+                        Video
+                    </button>
+                    <button class="tab-btn" onclick="openTab(event, 'reviews')">
+                        Reviews
+                    </button>
+                </div>
+                <!-- DESCRIPTION -->
+                <div class="tab-content">
+                    <div class="tab-panel active" id="description">
+                        <h3>Property Description</h3>
+                        <p>
+                            Spacious house with modern design,
+                            located in a quiet and secure area of
+                            Morogoro. The house has three bedrooms,
+                            two bathrooms, a kitchen and parking space.
+                            It is suitable for families looking for
+                            a comfortable home.
+                        </p>
+                    </div>
+                    <!-- PHOTOS -->
+                    <div class="tab-panel" id="photos">
+                        <h3>Property Photos</h3>
+                        <div class="photo-gallery">
+                            <img src="ihttps://images.unsplash.com/photo-1600596542815-ffad4c1539a9?w=400"
+                                alt="House front">
+                            <img src="https://images.unsplash.com/photo-1600047509807-ba8f99d2cdde?w=400"
+                                alt="House exterior">
+                            <img src="https://images.unsplash.com/photo-1600566753086-00f18fb6b3ea?w=400"
+                                alt="House interior">
+                        </div>
+                    </div>
+                    <!-- VIDEO -->
+                    <div class="tab-panel" id="video">
+                        <div class="tab-panel" id="video">
+                            <h3>Property Video</h3>
+                            <div class="video-box">
+                                <video controls
+                                    poster="https://images.unsplash.com/photo-1600596542815-ffad4c1539a9?w=700">
+                                    <source src="house-video.mp4" type="video/mp4">
+                                    Your browser does not support video.
+                                </video>
+                            </div>
+                        </div>
+                        <!-- REVIEWS -->
+                        <div class="tab-panel" id="reviews">
+                            <h3>Customer Reviews</h3>
+                            <div class="review">
+                                <h4>John Peter</h4>
+                                <div class="stars">★★★★★</div>
+                                <p>
+                                    Beautiful house and good location.
+                                </p>
+                            </div>
+                            <div class="review">
+                                <div class="review">
+                                    <h4>Mary James</h4>
+                                    <div class="stars">★★★★☆</div>
+                                    <p>
+                                        Nice property with a peaceful environment.
+                                    </p>
+                                </div>
+                            </div>
+                        </div>
+            </section>
+        </main>
+    </div>
+    <!-- JAVASCRIPT -->
+    <script>
+        /* GET SELECTED PROPERTY FROM PAGE 6 */
+        const savedProperty =
+            localStorage.getItem("selectedProperty");
+        if (savedProperty) {
+            const property = JSON.parse(savedProperty);
+            document.getElementById("houseName").textContent =
+                property.name;
+            document.getElementById("houseLocation").textContent =
+                property.location;
+            
+                document.getElementById("housePrice").textContent =
+                Number(property.price).toLocaleString("en-US");
+            document.getElementById("houseRating").textContent =
+                property.rating;
+            document.querySelector(".rating small").textContent =
+                "(" + property.reviews + " reviews)";
+        }
+        /* TABS FUNCTION */
+        /* TABS FUNCTION */
+        /* TABS FUNCTION */
+        function openTab(event, tabName) {
+            const panels =
+                document.querySelectorAll(".tab-panel");
+            const buttons =
+                document.querySelectorAll(".tab-btn");
+            panels.forEach(panel => {
+                panel.classList.remove("active");
+            });
+            buttons.forEach(button => {
+                button.classList.remove("active");
+            });
+            document.getElementById(tabName)
+                .classList.add("active");
+            event.currentTarget.classList.add("active");
+        }
+        /* BOOK PROPERTY */
+        /* BOOK PROPERTY */
+        /* BOOK PROPERTY */
+        function bookProperty() {
+            window.location.href = "booking.html";
+        }
+        /* CHAT WITH OWNER */
+        /* CHAT WITH OWNER */
+        /* CHAT WITH OWNER */
+        function chatWithOwner() {
+            window.location.href = "chat.html";
+        }
+    </script>
+</body>
+
+</html>

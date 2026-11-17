@@ -1,0 +1,523 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>House Listings - Smart Rental Finder</title>
+    <style>
+        /* GENERAL SETTINGS */
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: Arial, sans-serif;
+        }
+
+        body {
+            background: #edf2ff;
+            color: #102451;
+        }
+
+        /* MAIN CONTAINER */
+        .container {
+            width: 100%;
+            max-width: 1250px;
+            margin: 20px auto;
+            padding: 12px;
+        }
+
+        /* LISTING SECTION */
+        .listing-section {
+            background: white;
+            padding: 15px;
+            border-radius: 13px;
+            box-shadow: 0 3px 12px rgba(0, 0, 0, 0.06);
+        }
+
+        /* HEADER */
+        .listing-header {
+            .listing-header {
+                display: flex;
+                justify-content: space-between;
+                align-items: center;
+                margin-bottom: 18px;
+                gap: 12px;
+            }
+
+            .listing-header h1 {
+                font-size: 21px;
+                color: #102451;
+            }
+
+            .sort-container {
+                display: flex;
+                align-items: center;
+                gap: 7px;
+            }
+
+            .sort-container label {
+                font-size: 11px;
+                font-weight: bold;
+            }
+
+            .sort-container select {
+                padding: 8px 10px;
+                border: 1px solid #d9e2f0;
+                border-radius: 7px;
+                background: #fff;
+                color: #14234e;
+                font-size: 11px;
+                outline: none;
+            }
+
+            /* PROPERTY GRID */
+            .property-grid {
+                display: grid;
+                grid-template-columns: repeat(3, minmax(0, 1fr));
+                gap: 15px;
+            }
+
+            /* PROPERTY CARD */
+            /* PROPERTY CARD */
+            .property-card {
+                background: #ffffff;
+                border: 1px solid #e6ecf6;
+                border-radius: 11px;
+                overflow: hidden;
+                box-shadow: 0 3px 10px rgba(0, 0, 0, 0.06);
+                transition: 0.3s;
+                min-width: 0;
+            }
+
+            .property-card:hover {
+                transform: translateY(-4px);
+                box-shadow: 0 6px 18px rgba(0, 0, 0, 0.12);
+            }
+
+            /* PROPERTY IMAGE */
+            .image-container {
+                height: 155px;
+                position: relative;
+                overflow: hidden;
+            }
+
+            .image-container img {
+                width: 100%;
+                height: 100%;
+                object-fit: cover;
+                display: block;
+                transition: 0.4s;
+            }
+
+            .property-card:hover .image-container img {
+                transform: scale(1.04);
+            }
+
+            /* FAVORITE BUTTON */
+            .favorite-btn {
+                position: absolute;
+                top: 9px;
+                right: 9px;
+                width: 31px;
+                height: 31px;
+                height: 31px;
+                background: rgba(255, 255, 255, 0.95);
+                border: none;
+                border-radius: 50%;
+                font-size: 19px;
+                color: #102451;
+                cursor: pointer;
+                display: grid;
+                place-items: center;
+            }
+
+            .favorite-btn.active {
+                color: #ef244d;
+            }
+
+            /* PROPERTY INFORMATION */
+            .property-info {
+                padding: 12px;
+            }
+
+            .property-info h2 {
+                font-size: 14px;
+                margin-bottom: 7px;
+                color: #14234e;
+            }
+
+            .location {
+                font-size: 11px;
+                color: #64748b;
+                margin-bottom: 10px;
+            }
+
+            .location span {
+                color: #075bea;
+                margin-right: 4px;
+            }
+
+            /* PRICE */
+            .price {
+                font-size: 13px;
+                color: #075bea;
+                font-weight: bold;
+                font-weight: bold;
+                margin-bottom: 11px;
+            }
+
+            .price small {
+                font-size: 10px;
+                font-weight: normal;
+            }
+
+            /* CARD FOOTER */
+            .card-footer {
+                display: flex;
+                justify-content: space-between;
+                align-items: center;
+                gap: 5px;
+            }
+
+            .rating {
+                color: #e9a400;
+                font-size: 11px;
+                font-weight: bold;
+                white-space: nowrap;
+            }
+
+            .rating small {
+                color: #64748b;
+                font-size: 9px;
+                font-weight: normal;
+            }
+
+            .details-btn {
+                background: #075bea;
+                color: white;
+                border: none;
+                padding: 8px 10px;
+                border-radius: 6px;
+                font-size: 10px;
+                font-weight: bold;
+                cursor: pointer;
+                white-space: nowrap;
+                transition: 0.3s;
+            }
+        }
+
+        .details-btn:hover {
+            background: #003db6;
+        }
+
+        /* NO RESULTS */
+        .no-results {
+            display: none;
+            text-align: center;
+            padding: 35px 10px;
+            color: #64748b;
+            font-size: 14px;
+        }
+
+        /* RESPONSIVE TABLET */
+        @media(max-width: 850px) {
+            .property-grid {
+                grid-template-columns: repeat(2, minmax(0, 1fr));
+            }
+
+            .listing-header h1 {
+                font-size: 18px;
+            }
+        }
+
+        /* RESPONSIVE MOBILE */
+        @media(max-width: 550px) {
+            .container {
+                margin: 5px auto;
+                padding: 8px;
+            }
+
+            .listing-section {
+                padding: 11px;
+            }
+
+            .listing-header {
+                align-items: flex-start;
+                align-items: flex-start;
+                flex-direction: column;
+            }
+
+            .listing-header h1 {
+                font-size: 18px;
+            }
+
+            .property-grid {
+                grid-template-columns: 1fr;
+            }
+
+            .image-container {
+                height: 200px;
+            }
+
+            .property-info {
+                padding: 14px;
+            }
+        }
+    </style>
+</head>
+
+<body>
+    <div class="container">
+        <section class="listing-section">
+            <!-- PAGE HEADER -->
+            <div class="listing-header">
+                <h1>Available Homes in Morogoro</h1>
+                <div class="sort-container">
+                    <label for="sortBy">Sort by:</label>
+                    <select id="sortBy">
+                        <option value="newest">
+                            Newest First
+                        </option>
+                        <option value="price-low">
+                            Price: Low to High
+                        </option>
+                        <option value="price-high">
+                            Price: High to Low
+                        </option>
+                        <option value="rating">
+                            Highest Rating
+                        </option>
+                    </select>
+                </div>
+            </div>
+            <!-- PROPERTY CARDS -->
+            <div class="property-grid" id="propertyGrid">
+                <!-- PROPERTY 1 -->
+                <div class="property-card" data-id="house1" data-price="550000" data-rating="4.6" data-date="3">
+                    <div class="image-container">
+                        <img src="https://images.unsplash.com/photo-1600596542815-ffad4c1539a9?w=700"
+                            alt="Three Bedroom House">
+                        <button class="favorite-btn" onclick="toggleFavorite(this, 'house1')">
+                            ♡
+                        </button>
+                    </div>
+                    <div class="property-info">
+                        <h2>3 Bedroom House</h2>
+                        <p class="location">
+                            <span> </span> Morogoro
+                        </p>
+                        <p class="price">
+                            TZS 550,000
+                            <small>/ month</small>
+                        </p>
+                        <div class="card-footer">
+                            <div class="rating">
+                                ★ 4.6
+                                <small>(24)</small>
+                            </div>
+                            <button class="details-btn" onclick="viewDetails('house1')">
+                                View Details
+                            </button>
+                        </div>
+                    </div>
+                </div>
+                <!-- PROPERTY 2 -->
+                <div class="property-card" data-id="house2" data-price="350000" data-rating="4.4" data-date="2">
+                    <div class="image-container">
+                        <img src="https://images.unsplash.com/photo-1600047509807-ba8f99d2cdde?w=700"
+                            alt="Two Bedroom House">
+                        <button class="favorite-btn" onclick="toggleFavorite(this, 'house2')">
+                            ♡
+                        </button>
+                    </div>
+                    <div class="property-info">
+                        <h2>2 Bedroom House</h2>
+                        <p class="location">
+                            <span> </span> Mazimbu
+                        </p>
+                        <p class="price">
+                            TZS 350,000
+                            <small>/ month</small>
+                        </p>
+                        <div class="card-footer">
+                            <div class="rating">
+                                ★ 4.4
+                                <small>(18)</small>
+                            </div>
+                        </div>
+                        <button class="details-btn" onclick="viewDetails('house2')">
+                            View Details
+                        </button>
+                    </div>
+                </div>
+            </div>
+            <!-- PROPERTY 3 -->
+            <div class="property-card" data-id="house3" data-price="180000" data-rating="4.3" data-date="1">
+                <div class="image-container">
+                    <img src="https://images.unsplash.com/photo-1600566753086-00f18fb6b3ea?w=700"
+                        alt="One Bedroom Room">
+                    <button class="favorite-btn" onclick="toggleFavorite(this, 'house3')">
+                        ♡
+                    </button>
+                </div>
+                <div class="property-info">
+                    <h2>1 Bedroom Room</h2>
+                    <p class="location">
+                    <p class="location">
+                        <span> </span> Kihonda Area
+                    </p>
+                    <p class="price">
+                        TZS 180,000
+                        <small>/ month</small>
+                    </p>
+                    <div class="card-footer">
+                        <div class="rating">
+                            ★ 4.3
+                            <small>(12)</small>
+                        </div>
+                        <button class="details-btn" onclick="viewDetails('house3')">
+                            View Details
+                        </button>
+                    </div>
+                </div>
+            </div>
+    </div>
+    <!-- NO RESULTS -->
+    <div class="no-results" id="noResults">
+        No properties found.
+    </div>
+    </section>
+    </div>
+    <script>
+        /* PROPERTY DATA */
+        const properties = {
+            house1: {
+                name: "3 Bedroom House",
+                location: "Morogoro",
+                price: 550000,
+                rating: 4.6,
+                reviews: 24
+            },
+            house2: {
+                name: "2 Bedroom House",
+                location: "Mazimbu",
+                price: 350000,
+                rating: 4.4,
+                reviews: 18
+            },
+            house3: {
+                name: "1 Bedroom Room",
+                location: "Kihonda Area",
+                price: 180000,
+                rating: 4.3,
+                reviews: 12
+            }
+        };
+        /* LOAD FAVORITES */
+        let favorites = JSON.parse(
+            localStorage.getItem("favorites") || "[]"
+        );
+        /* DISPLAY FAVORITE STATUS */
+        document.querySelectorAll(".property-card").forEach(card => {
+            const id = card.dataset.id;
+            const button = card.querySelector(".favorite-btn");
+            if (favorites.includes(id)) {
+                button.classList.add("active");
+                button.textContent = "` ";
+            }
+        });
+        /* ADD OR REMOVE FAVORITES */
+        function toggleFavorite(button, id) {
+            if (favorites.includes(id)) {
+                favorites = favorites.filter(item => item !== id);
+                button.classList.remove("active");
+                button.textContent = "♡";
+            } else {
+                favorites.push(id);
+                button.classList.add("active");
+                button.textContent = "` ";
+            }
+            localStorage.setItem(
+                "favorites",
+                JSON.stringify(favorites)
+            );
+
+        }
+        /* VIEW PROPERTY DETAILS */
+        function viewDetails(id) {
+            const selectedProperty = properties[id];
+            localStorage.setItem(
+                "selectedProperty",
+                JSON.stringify(selectedProperty)
+            );
+            window.location.href = "house-details.html";
+        }
+        /* SORT PROPERTIES */
+        const sortBy = document.getElementById("sortBy");
+        sortBy.addEventListener("change", function () {
+            const grid = document.getElementById("propertyGrid");
+            const cards = Array.from(
+                grid.querySelectorAll(".property-card")
+            );
+            const sortType = this.value;
+            cards.sort((a, b) => {
+                if (sortType === "price-low") {
+                    return Number(a.dataset.price) -
+                        Number(b.dataset.price);
+                }
+                if (sortType === "price-high") {
+                    return Number(b.dataset.price) -
+                        Number(a.dataset.price);
+                }
+                if (sortType === "rating") {
+                    return Number(b.dataset.rating) -
+                        Number(a.dataset.rating);
+                }
+                return Number(b.dataset.date) -
+                    Number(a.dataset.date);
+            });
+            cards.forEach(card => grid.appendChild(card));
+        });
+        /* READ SEARCH FILTERS FROM PAGE 5 */
+        const savedSearch = localStorage.getItem("rentalSearch");
+        if (savedSearch) {
+            const filters = JSON.parse(savedSearch);
+            const cards = document.querySelectorAll(".property-card");
+            let visibleCount = 0;
+            cards.forEach(card => {
+               
+                const id = card.dataset.id;
+                const property = properties[id];
+                let show = true;
+                // LOCATION FILTER
+                if (
+                    filters.location &&
+                    filters.location !== "All Areas" &&
+                    property.location !== filters.location
+                ) {
+                    show = false;
+                }
+                // PRICE FILTER
+                if (filters.price) {
+                    const [min, max] = filters.price
+                        .split("-")
+                        .map(Number);
+                    if (
+                        property.price < min ||
+                        property.price > max
+                    ) {
+                        show = false;
+                    }
+                }
+                card.style.display = show ? "" : "none";
+                if (show) visibleCount++;
+            });
+            document.getElementById("noResults").style.display =
+                visibleCount === 0 ? "block" : "none";
+        }
+    </script>
+    </script>
+</body>
+
+</html>

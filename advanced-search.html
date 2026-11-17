@@ -1,0 +1,504 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Advanced Search - Smart Rental Finder</title>
+    <style>
+        /* GENERAL */
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: Arial, sans-serif;
+        }
+
+        body {
+            background: #edf2ff;
+            color: #14234e;
+        }
+
+        /* MAIN CONTAINER */
+        .page-container {
+            max-width: 1250px;
+            margin: 20px auto;
+            padding: 0 12px;
+        }
+
+        .search-layout {
+            display: grid;
+            grid-template-columns: 340px 1fr;
+            gap: 12px;
+            align-items: stretch;
+        }
+
+        /* SEARCH PANEL */
+        .search-panel {
+            background: white;
+            background: white;
+            border-radius: 14px;
+            padding: 22px;
+            box-shadow: 0 4px 14px rgba(0, 0, 0, 0.07);
+        }
+
+        .search-panel h2 {
+            font-size: 21px;
+            margin-bottom: 23px;
+            color: #102451;
+        }
+
+        /* FORM GROUP */
+        .form-group {
+            margin-bottom: 16px;
+        }
+
+        .form-group label {
+            display: block;
+            font-size: 12px;
+            font-weight: bold;
+            margin-bottom: 8px;
+            color: #243454;
+        }
+
+        .form-group select {
+            width: 100%;
+            height: 40px;
+            border: 1px solid #dce4f1;
+            background: #fbfdff;
+            border-radius: 8px;
+            padding: 0 10px;
+            outline: none;
+            color: #243454;
+            font-size: 12px;
+            cursor: pointer;
+        }
+
+        .form-group select:focus {
+            border-color: #075bea;
+        }
+
+        /* CHECKBOXES */
+        .checkbox-group {
+            display: flex;
+            gap: 13px;
+            flex-wrap: wrap;
+            margin-top: 20px;
+            margin-bottom: 20px;
+        }
+
+        .checkbox-group label {
+            display: flex;
+            align-items: center;
+            gap: 5px;
+            font-size: 11px;
+            color: #34415c;
+            cursor: pointer;
+        }
+
+        .checkbox-group input {
+            accent-color: #075bea;
+        }
+
+        /* SEARCH BUTTON */
+        .search-button {
+            width: 100%;
+            height: 42px;
+            background: linear-gradient(90deg,
+                    #075bea,
+                    #0645cf);
+            color: white;
+            border: none;
+            border-radius: 8px;
+            font-size: 13px;
+            font-weight: bold;
+            cursor: pointer;
+            transition: 0.3s;
+        }
+
+        .search-button:hover {
+            .search-button:hover {
+                background: #003bb5;
+            }
+
+            /* RIGHT VISUAL AREA */
+            .visual-area {
+                display: grid;
+                grid-template-rows: 1fr 1fr;
+                gap: 12px;
+                min-width: 0;
+            }
+
+            /* HOUSE IMAGE */
+            .house-card {
+                background: white;
+                border-radius: 14px;
+                padding: 10px;
+                box-shadow: 0 4px 14px rgba(0, 0, 0, 0.07);
+                overflow: hidden;
+                min-height: 190px;
+            }
+
+            .house-card img {
+                width: 100%;
+                height: 100%;
+                min-height: 190px;
+                max-height: 230px;
+                object-fit: cover;
+                border-radius: 10px;
+                display: block;
+            }
+
+            /* MAP SECTION */
+            .map-card {
+                background: white;
+                padding: 10px;
+                border-radius: 14px;
+                box-shadow: 0 4px 14px rgba(0, 0, 0, 0.07);
+                display: grid;
+                grid-template-columns: 1fr;
+                overflow: hidden;
+                min-height: 190px;
+                min-height: 190px;
+            }
+
+            .map-area {
+                position: relative;
+                min-height: 190px;
+                overflow: hidden;
+                border-radius: 10px;
+                background-color: #e9eddd;
+                background-image:
+                    linear-gradient(35deg, transparent 45%, #fff 46%, #fff 49%, transparent 50%),
+                    linear-gradient(110deg, transparent 40%, #fff 41%, #fff 44%, transparent 45%),
+                    linear-gradient(80deg, transparent 70%, #c6d8b7 71%, #c6d8b7 75%, transparent 76%),
+                    linear-gradient(150deg, transparent 20%, #d4e0c4 21%, #d4e0c4 27%, transparent 28%);
+                background-size: 130px 100px, 170px 140px, 200px 160px, 180px 150px;
+            }
+
+            /* MAP ROADS */
+            .road {
+                position: absolute;
+                height: 6px;
+                width: 120%;
+                background: white;
+                border: 1px solid #d4d7cd;
+            }
+
+            .road.one {
+                top: 35%;
+                left: -10%;
+                transform: rotate(-18deg);
+            }
+
+            .road.two {
+                top: 70%;
+                left: -5%;
+                transform: rotate(15deg);
+            }
+
+            .road.three {
+                top: 50%;
+                left: -10%;
+                left: -10%;
+                transform: rotate(75deg);
+                width: 100%;
+            }
+
+            .map-label {
+                position: absolute;
+                color: #56624d;
+                font-size: 11px;
+                font-weight: bold;
+            }
+
+            .label-one {
+                top: 20%;
+                left: 12%;
+            }
+
+            .label-two {
+                bottom: 17%;
+                right: 12%;
+            }
+
+            .label-three {
+                top: 65%;
+                left: 10%;
+            }
+
+            /* MAP PIN */
+            .map-pin {
+                position: absolute;
+                top: 42%;
+                left: 50%;
+                transform: translate(-50%, -50%);
+                font-size: 33px;
+                color: #e52d3c;
+                z-index: 2;
+                filter: drop-shadow(0 3px 3px rgba(0, 0, 0, 0.2));
+            }
+
+            .map-location {
+                position: absolute;
+                top: 60%;
+                top: 60%;
+                left: 50%;
+                transform: translateX(-50%);
+                background: white;
+                border-radius: 6px;
+                padding: 7px 12px;
+                color: #102451;
+                font-weight: bold;
+                font-size: 12px;
+                box-shadow: 0 3px 10px rgba(0, 0, 0, 0.1);
+            }
+
+            /* RESULT MESSAGE */
+            .result-message {
+                margin-top: 15px;
+                padding: 12px;
+                border-radius: 8px;
+                background: #e5efff;
+                color: #0754d9;
+                font-size: 12px;
+                display: none;
+            }
+
+            /* TABLET */
+            @media(max-width: 850px) {
+                .search-layout {
+                    grid-template-columns: 290px 1fr;
+                }
+
+                .search-panel {
+                    padding: 16px;
+                }
+            }
+
+            /* MOBILE */
+            @media(max-width: 650px) {
+                .page-container {
+                    margin: 10px auto;
+                }
+            }
+
+            .search-layout {
+                grid-template-columns: 1fr;
+            }
+
+            .visual-area {
+                grid-template-rows: 190px 190px;
+            }
+
+            .search-panel h2 {
+                font-size: 19px;
+            }
+
+            .house-card img {
+                min-height: 170px;
+            }
+        }
+    </style>
+</head>
+
+<body>
+    <div class="page-container">
+        <div class="search-layout">
+            <!-- LEFT SEARCH FORM -->
+            <section class="search-panel">
+                <h2>Advanced Search</h2>
+                <form id="searchForm">
+                    <!-- LOCATION -->
+                    <div class="form-group">
+                        <label>Location</label>
+                        <select id="location">
+                            <select id="location">
+                                <option value="Morogoro Town">
+                                    Morogoro Town
+                                </option>
+                                <option value="Mazimbu">
+                                    Mazimbu
+                                </option>
+                                <option value="Kihonda">
+                                    Kihonda
+                                </option>
+                                <option value="Kingolwira">
+                                    Kingolwira
+                                </option>
+                                <option value="Sabasaba">
+                                    Sabasaba
+                                </option>
+                                <option value="All Areas">
+                                    All Areas
+                                </option>
+                            </select>
+                    </div>
+                    <!-- PRICE RANGE -->
+                    <div class="form-group">
+                        <label>Price Range (TZS)</label>
+                        <select id="price">
+                            <option value="100000-800000">
+                                100,000 – 800,000
+                            </option>
+                            <option value="100000-300000">
+                                100,000 – 300,000
+                            </option>
+                            <option value="300000-500000">
+                                300,000 – 500,000
+                            </option>
+                            <option value="500000-800000">
+                                500,000 – 800,000
+                            </option>
+                            <option value="800000-1500000">
+                                800,000 – 1,500,000
+                            </option>
+                        </select>
+                    </div>
+                    <!-- PROPERTY TYPE -->
+                    <div class="form-group">
+                        <label>Property Type</label>
+                        <select id="propertyType">
+                            <option value="All Types">
+                                All Types
+                            </option>
+                            <option value="House">
+                                House
+                            </option>
+                            <option value="Apartment">
+                                Apartment
+                            </option>
+                            <option value="Single Room">
+                            <option value="Single Room">
+                                Single Room
+                            </option>
+                            <option value="Double Room">
+                                Double Room
+                            </option>
+                            <option value="Self Contained">
+                                Self Contained
+                            </option>
+                        </select>
+                    </div>
+                    <!-- BEDROOMS -->
+                    <div class="form-group">
+                        <label>Bedrooms</label>
+                        <select id="bedrooms">
+                            <option value="Any">
+                                Any
+                            </option>
+                            <option value="1">
+                                1 Bedroom
+                            </option>
+                            <option value="2">
+                                2 Bedrooms
+                            </option>
+                            <option value="3">
+                                3 Bedrooms
+                            </option>
+                            <option value="4">
+                                4+ Bedrooms
+                                4+ Bedrooms
+                            </option>
+                        </select>
+                    </div>
+                    <!-- CHECKBOXES -->
+                    <div class="checkbox-group">
+                        <label>
+                            <input type="checkbox" id="photos">
+                            With Photos
+                        </label>
+                        <label>
+                            <input type="checkbox" id="video">
+                            With Video
+                        </label>
+                    </div>
+                    <!-- SEARCH BUTTON -->
+                    <button type="submit" class="search-button">
+                        Search Homes
+                    </button>
+                    <div class="result-message" id="resultMessage">
+                    </div>
+                </form>
+            </section>
+            <!-- RIGHT VISUAL AREA -->
+            <section class="visual-area">
+                <!-- HOUSE IMAGE -->
+                <div class="house-card">
+                    <div class="house-card">
+                        <img src="https://images.unsplash.com/photo-1600596542815-ffad4c1539a9?w=900"
+                            alt="Available rental house in Morogoro">
+                    </div>
+                    <!-- MAP -->
+                    <div class="map-card">
+                        <div class="map-area">
+                            <div class="road one"></div>
+                            <div class="road two"></div>
+                            <div class="road three"></div>
+                            <span class="map-label label-one">
+                                Morogoro
+                            </span>
+                            <span class="map-label label-two">
+                                Residential Area
+                            </span>
+                            <span class="map-label label-three">
+                                Main Road
+                            </span>
+                            <div class="map-pin"> </div>
+                            <div class="map-location">
+                                Morogoro
+                            </div>
+                        </div>
+                    </div>
+            </section>
+            </section>
+        </div>
+    </div>
+    <!-- JAVASCRIPT -->
+    <script>
+        document.getElementById("searchForm")
+            .addEventListener("submit", function (event) {
+                event.preventDefault();
+                // GET FORM VALUES
+                const location =
+                    document.getElementById("location").value;
+                const price =
+                    document.getElementById("price").value;
+                const propertyType =
+                    document.getElementById("propertyType").value;
+                const bedrooms =
+                    document.getElementById("bedrooms").value;
+                const photos =
+                    document.getElementById("photos").checked;
+                const video =
+                    document.getElementById("video").checked;
+                // SAVE SEARCH INFORMATION
+                const searchData = {
+                    location: location,
+                    price: price,
+                    propertyType: propertyType,
+                    bedrooms: bedrooms,
+                    bedrooms: bedrooms,
+                    photos: photos,
+                    video: video
+                };
+                localStorage.setItem(
+                    "rentalSearch",
+                    JSON.stringify(searchData)
+                );
+                // SHOW MESSAGE
+                const result =
+                    document.getElementById("resultMessage");
+                result.style.display = "block";
+                result.textContent =
+                    "Search filters saved! Location: " +
+                    location + ". Opening available properties...";
+                // GO TO LISTINGS PAGE
+                setTimeout(function () {
+                    window.location.href = "house-listings.html";
+                }, 1200);
+            });
+    </script>
+</body>
+
+</html>

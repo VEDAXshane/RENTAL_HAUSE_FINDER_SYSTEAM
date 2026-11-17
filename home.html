@@ -1,0 +1,445 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Smart Rental Finder - Home</title>
+    <style>
+        /* GENERAL STYLING */
+        *{
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: Arial, sans-serif;
+        }
+
+        body {
+            background: #f1f5ff;
+            color: #172554;
+        }
+
+        a {
+            text-decoration: none;
+        }
+
+        button {
+            cursor: pointer;
+        }
+
+        /* NAVBAR */
+        .navbar {
+            width: 100%;
+            min-height: 70px;
+            background: white;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 12px 5%;
+            box-shadow: 0 2px 10px rgba(0, 0, 0, 0.08);
+            position: relative;
+            z-index: 10;
+            z-index: 10;
+        }
+
+        .logo {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            color: #0754d9;
+            font-size: 19px;
+            font-weight: bold;
+        }
+
+        .logo-icon {
+            font-size: 32px;
+        }
+
+        .logo small {
+            display: block;
+            font-size: 11px;
+            color: #334155;
+        }
+
+        .nav-links {
+            display: flex;
+            align-items: center;
+            gap: 28px;
+        }
+        .nav-links a {
+            color: #172554;
+            font-size: 13px;
+            font-weight: 600;
+            transition: 0.3s;
+        }
+
+        .nav-links a:hover {
+            color: #0754d9;
+        }
+
+        .nav-buttons {
+            display: flex;
+            gap: 10px;
+            gap: 10px;
+        }
+
+        .nav-buttons button {
+            padding: 10px 18px;
+            border-radius: 20px;
+            border: 1px solid #0754d9;
+            font-weight: bold;
+            font-size: 12px;
+        }
+
+        .login-btn {
+            background: white;
+            color: #0754d9;
+        }
+
+        .register-btn {
+            background: #0754d9;
+            color: white;
+        }
+
+        .menu-btn {
+            display: none;
+            background: none;
+            border: none;
+            font-size: 27px;
+            color: #0754d9;
+        }
+
+        /* HERO SECTION */
+        .hero {
+            min-height: 440px;
+            padding: 65px 5%;
+          
+            background:
+                linear-gradient(90deg,
+                    rgba(4, 25, 70, 0.85),
+                    rgba(4, 25, 70, 0.15)),
+                url("https://images.unsplash.com/photo-1519501025264-65ba15a82390") center/cover no-repeat;
+            display: flex;
+            align-items: center;
+        }
+
+        .hero-content {
+            max-width: 650px;
+            color: white;
+        }
+
+        .hero-content h1 {
+            font-size: clamp(32px, 5vw, 48px);
+            line-height: 1.2;
+            margin-bottom: 15px;
+        }
+
+        .hero-content h1 span {
+            color: #ffdc35;
+        }
+
+        .hero-content p {
+            font-size: 17px;
+            margin-bottom: 25px;
+        }
+
+        /* SEARCH BAR */
+        .search-box {
+            display: flex;
+            background: white;
+            padding: 6px;
+            border-radius: 35px;
+            max-width: 550px;
+            width: 100%;
+        }
+
+        .search-box input {
+            flex: 1;
+            min-width: 0;
+            padding: 13px 18px;
+            border: none;
+            outline: none;
+            border-radius: 30px;
+            border-radius: 30px;
+            font-size: 13px;
+        }
+
+        .search-box button {
+            background: #0754e9;
+            color: white;
+            border: none;
+            border-radius: 30px;
+            padding: 12px 28px;
+            font-weight: bold;
+        }
+
+        .search-box button:hover {
+            background: #003bb0;
+        }
+
+        /* FEATURES */
+        .features {
+            padding: 25px 5%;
+            display: grid;
+            grid-template-columns: repeat(4, 1fr);
+            gap: 15px;
+            margin-top: -10px;
+            position: relative;
+        }
+
+        .feature-card {
+            background: white;
+            padding: 22px 12px;
+            text-align: center;
+            border-radius: 14px;
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.08);
+            transition: 0.3s;
+        }
+
+        .feature-card:hover {
+            transform: translateY(-5px);
+        }
+
+        .feature-card .icon {
+            font-size: 28px;
+            font-size: 28px;
+            margin-bottom: 10px;
+        }
+
+        .feature-card h3 {
+            font-size: 14px;
+            margin-bottom: 5px;
+        }
+
+        .feature-card p {
+            color: #64748b;
+            font-size: 12px;
+        }
+
+        /* LOCATION */
+        .location {
+            padding: 5px 5% 20px;
+            font-weight: bold;
+            font-size: 14px;
+            color: #172554;
+        }
+
+        .location span {
+            color: #0754d9;
+            font-size: 18px;
+        }
+
+        /* FOOTER */
+        footer {
+            background: #102b61;
+            color: white;
+            text-align: center;
+            padding: 22px;
+            font-size: 13px;
+            margin-top: 20px;
+        }
+
+        /* MOBILE RESPONSIVENESS */
+        @media (max-width: 768px) {
+            .navbar {
+                padding: 12px 4%;
+                padding: 12px 4%;
+            }
+
+            .menu-btn {
+                display: block;
+            }
+
+            .nav-links {
+                display: none;
+                position: absolute;
+                top: 70px;
+                left: 0;
+                width: 100%;
+                background: white;
+                flex-direction: column;
+                padding: 20px;
+                gap: 20px;
+                box-shadow: 0 5px 10px rgba(0, 0, 0, 0.1);
+            }
+
+            .nav-links.active {
+                display: flex;
+            }
+
+            .nav-buttons {
+                display: none;
+            }
+
+            .hero {
+                min-height: 400px;
+                padding: 50px 5%;
+                background-position: center;
+            }
+
+            .hero-content h1 {
+                font-size: 34px;
+            }
+
+            .hero-content p {
+                font-size: 14px;
+            }
+
+            .features {
+                grid-template-columns: repeat(2, 1fr);
+                gap: 12px;
+            }
+
+            .feature-card {
+                padding: 18px 8px;
+            }
+        }
+
+        @media (max-width: 400px) {
+            .logo {
+                font-size: 15px;
+            }
+
+            .hero-content h1 {
+                font-size: 29px;
+            }
+
+            .search-box input {
+                padding: 10px;
+                font-size: 11px;
+            }
+
+            .search-box button {
+                padding: 10px 15px;
+                font-size: 12px;
+            }
+
+            .features {
+                gap: 8px;
+            }
+        }
+    </style>
+</head>
+
+<body background="image016.jpg" ></body>
+    <!-- NAVIGATION BAR -->
+    <!-- NAVIGATION BAR -->
+    <header class="navbar">
+        <div class="logo">
+            <div class="logo-icon"> </div>
+            <div>
+                Smart Rental
+                <small>Finder</small>
+            </div>
+        </div>
+        <nav class="nav-links" id="navLinks">
+            <a href="home.html">Home</a>
+            <a href="home.html">Properties</a>
+            <a href="#about-us">About</a>
+            <a href="#help.html">Help</a>
+        </nav>
+        <div class="nav-buttons">
+            <button class="login-btn" onclick="goToLogin()">Login</button>
+            <button class="register-btn" onclick="goToRegister()">Register</button>
+        </div>
+        <button class="menu-btn" onclick="toggleMenu()">
+            ☰
+        </button>
+    </header>
+    <!-- HERO SECTION -->
+    <section class="hero">
+        <div class="hero-content">
+            <h1>
+                Find Your Perfect
+                Home in <span>Morogoro</span>
+            </h1>
+            </h1>
+            <p>
+                Search, Compare and Book with Confidence
+            </p>
+            <!-- SEARCH -->
+            <div class="search-box">
+                <input type="text" id="searchInput" placeholder="Search by area, price or keyword...">
+                <button onclick="searchProperties()">
+                    Search
+                </button>
+            </div>
+        </div>
+    </section>
+    <!-- FEATURES SECTION -->
+    <section class="features">
+        <div class="feature-card">
+            <div class="icon"> </div>
+            <h3>Verified Owners</h3>
+            <p>Trusted property owners</p>
+        </div>
+        <div class="feature-card">
+            <div class="icon"> </div>
+            <h3>Google Map</h3>
+            <p>Find properties easily</p>
+        </div>
+        <div class="feature-card">
+            <div class="feature-card">
+                <div class="icon"> </div>
+                <h3>Secure Booking</h3>
+                <p>Safe booking process</p>
+            </div>
+            <div class="feature-card">
+                <div class="icon">³ </div>
+                <h3>24/7 Support</h3>
+                <p>We are here to help</p>
+            </div>
+    </section>
+    <!-- LOCATION -->
+    <div class="location">
+        <span> </span> Morogoro Town
+    </div>
+    <!-- FOOTER -->
+    <footer id="about">
+        <p>
+            © 2026 Smart Rental Finder.
+            All Rights Reserved.
+        </p>
+        <p id="help">
+            Helping you find your perfect home in Morogoro.
+        </p>
+    </footer>
+    <!-- JAVASCRIPT -->
+    <script>
+        // MOBILE MENU
+        function toggleMenu() {
+            const menu = document.getElementById("navLinks");
+            menu.classList.toggle("active");
+            menu.classList.toggle("active");
+        }
+        // LOGIN NAVIGATION
+        function goToLogin() {
+            window.location.href = "login.html";
+        }
+        // REGISTER NAVIGATION
+        function goToRegister() {
+            window.location.href = "register.html";
+        }
+        // PROPERTY SEARCH
+        function searchProperties() {
+            const keyword = document
+                .getElementById("searchInput")
+                .value.trim();
+            if (keyword === "") {
+                alert("Please enter an area, price or property keyword.");
+            } else {
+                localStorage.setItem("propertySearch", keyword);
+                window.location.href = "listings.html";
+            }
+        }
+        // SEARCH USING ENTER KEY
+        document.getElementById("searchInput")
+            .addEventListener("keypress", function (event) {
+                if (event.key === "Enter") {
+                    searchProperties();
+                }
+            });
+    </script>
+</body>
+
+</html>

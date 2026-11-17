@@ -1,0 +1,681 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Help & Support - Smart Rental Finder</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: Arial, sans-serif;
+        }
+
+        body {
+            background: #f3f6fc;
+            color: #172554;
+        }
+
+        .container {
+            display: flex;
+            min-height: 100vh;
+        }
+
+        /* SIDEBAR */
+        .sidebar {
+            width: 230px;
+            background: #102d69;
+            color: white;
+            padding: 25px 15px;
+        }
+
+        .logo {
+            text-align: center;
+            font-size: 20px;
+            font-weight: bold;
+            margin-bottom: 35px;
+        }
+
+      
+            .logo span {
+                color: #60a5fa;
+            }
+
+            .sidebar a {
+                display: block;
+                text-decoration: none;
+                color: #dbeafe;
+                padding: 14px;
+                margin: 7px 0;
+                border-radius: 8px;
+                font-size: 14px;
+            }
+                
+            
+            .sidebar a.active {
+                background: #1764e8;
+                color: white;
+            }
+
+            /* MAIN */
+            .main {
+                flex: 1;
+                padding: 30px;
+                min-width: 0;
+            }
+
+            .topbar {
+                display: flex;
+                justify-content: space-between;
+                align-items: center;
+                margin-bottom: 30px;
+                gap: 15px;
+            }
+
+            .topbar h2 {
+                font-size: 25px;
+            }
+
+            .profile {
+                display: flex;
+                align-items: center;
+                align-items: center;
+                gap: 12px;
+            }
+
+            .avatar {
+                width: 40px;
+                height: 40px;
+                border-radius: 50%;
+                background: #dbeafe;
+                display: flex;
+                align-items: center;
+                justify-content: center;
+                font-size: 20px;
+            }
+
+            /* HERO */
+            .hero {
+                background: linear-gradient(120deg, #0755d9, #4389f5);
+                padding: 35px 20px;
+                border-radius: 15px;
+                text-align: center;
+                color: white;
+                margin-bottom: 25px;
+            }
+
+            .hero h1 {
+                margin-bottom: 12px;
+             font-size: 22px;
+            }
+
+            .hero p {
+                margin-bottom: 20px;
+                font-size: 14px;
+            }
+
+            .search-box {
+                max-width: 550px;
+                margin: auto;
+                display: flex;
+                background: white;
+                padding: 5px;
+                border-radius: 10px;
+            }
+        
+
+        .search-box input {
+            flex: 1;
+            min-width: 0;
+            border: none;
+            outline: none;
+            padding: 12px;
+            font-size: 14px;
+        }
+
+        .search-box button {
+            background: #0755e8;
+            color: white;
+            border: none;
+            padding: 12px 22px;
+            border-radius: 8px;
+            cursor: pointer;
+        }
+
+        /* SUPPORT CARDS */
+        .support-cards {
+            display: grid;
+            grid-template-columns: repeat(4, 1fr);
+            gap: 15px;
+            margin-bottom: 30px;
+        }
+
+        .support-card {
+            background: white;
+            padding: 22px 12px;
+            text-align: center;
+            border-radius: 12px;
+            box-shadow: 0 3px 12px #dce4f2;
+        }
+
+        .support-card .icon {
+            font-size: 28px;
+            margin-bottom: 12px;
+        }
+
+        
+.support-card h3 {
+    font-size: 15px;
+    margin-bottom: 7px;
+}
+
+.support-card p {
+    font-size: 12px;
+    color: #64748b;
+}
+
+            /* CONTENT */
+            .content {
+                display: grid;
+                grid-template-columns: 1.2fr 0.8fr;
+                gap: 22px;
+            }
+
+            .panel  {
+                background: white;
+                padding: 22px;
+                border-radius: 13px;
+                box-shadow: 0 3px 12px #e0e7f2;
+            }
+
+            .panel h2 {
+                font-size: 19px;
+                margin-bottom: 20px;
+            }
+
+            /* FAQ */
+            .faq-item {
+                border-bottom: 1px solid #e5eaf2;
+                padding: 15px 0;
+            }
+
+            .faq-question {
+                display: flex;
+                justify-content: space-between;
+                align-items: center;
+                cursor: pointer;
+                font-size: 14px;
+                font-weight: bold;
+                font-weight: bold;
+                gap: 10px;
+            }
+
+            .faq-question span {
+                color: #0755e8;
+                font-size: 20px;
+            }
+
+            .faq-answer {
+                display: none;
+                color: #64748b;
+                font-size: 13px;
+                line-height: 1.7;
+                padding-top: 12px;
+            }
+
+            .faq-item.open .faq-answer {
+                display: block;
+            }
+
+            .faq-item.open .faq-question span {
+                transform: rotate(45deg);
+            }
+
+            /* CONTACT FORM */
+            .form-group {
+                margin-bottom: 15px;
+            }
+
+            .form-group label {
+                display: block;
+                font-size: 13px;
+                font-weight: bold;
+                margin-bottom: 8px;
+            }
+
+           
+            
+            .form-group textarea {
+                width: 100%;
+                padding: 12px;
+                padding: 12px;
+                border: 1px solid #dce3ef;
+                border-radius: 8px;
+                outline: none;
+                font-size: 13px;
+            }
+
+           
+            .form-group textarea:focus {
+                border-color: #1764e8;
+            }
+
+            .form-group textarea {
+                resize: vertical;
+                min-height: 100px;
+            }
+
+            .submit-btn {
+                width: 100%;
+                padding: 13px;
+                background: #0755e8;
+                color: white;
+                border: none;
+                border-radius: 8px;
+                font-size: 14px;
+                font-weight: bold;
+                cursor: pointer;
+            }
+
+            .submit-btn:hover {
+                background: #0645bd;
+            }
+
+            /* CONTACT INFO */
+            .contact-info {
+                display: grid;
+                grid-template-columns: repeat(3, 1fr);
+                gap: 15px;
+                margin-top: 25px;
+            }
+
+            .info-card {
+                background: white;
+                padding: 18px;
+                border-radius: 10px;
+                text-align: center;
+                box-shadow: 0 3px 10px #e0e7f2;
+            }
+
+            .info-card h4 {
+                font-size: 13px;
+                margin: 10px 0 6px;
+            }
+
+            .info-card p {
+                color: #64748b;
+                font-size: 12px;
+            }
+
+            /* FOOTER */
+            footer {
+                text-align: center;
+                margin-top: 30px;
+                padding: 20px;
+                color: #64748b;
+                font-size: 12px;
+            }
+
+            @media(max-width:1000px) {
+                .sidebar {
+                    width: 190px;
+                }
+
+                .support-cards {
+                    grid-template-columns: repeat(2, 1fr);
+                }
+            }
+
+            @media(max-width:750px) {
+                .container {
+                    display: block;
+                }
+            }
+
+            .sidebar {
+                width: 100%;
+                display: flex;
+                flex-wrap: wrap;
+                align-items: center;
+                padding: 12px;
+            }
+
+            .logo {
+                width: 100%;
+                margin-bottom: 10px;
+            }
+
+            .sidebar a {
+                padding: 10px;
+                margin: 3px;
+                font-size: 12px;
+            }
+
+            .main {
+                padding: 15px;
+            }
+
+            .content {
+                grid-template-columns: 1fr;
+            }
+
+            .contact-info {
+                grid-template-columns: 1fr;
+            }
+
+            .topbar h2 {
+                font-size: 19px;
+            }
+        
+
+        @media(max-width:450px) {
+            .support-cards {
+                grid-template-columns: 1fr 1fr;
+            }
+        }
+
+        
+        
+    </style>
+</head>
+
+<body>
+    <div class="container">
+         <!-- SIDEBAR -->
+        <aside class="sidebar">
+            <div class="logo">
+                Smart Rental<br>
+                <span>Finder</span>
+            </div>
+            <a href="renter-dashboard.html">▣ Dashboard</a>
+            <a href="advanced-search.html">⌕ Search Homes</a>
+            <a href="my-bookings.html">▤ My Bookings</a>
+            <a href="chat.html">▣ Messages</a>
+            <a href="notifications.html">♧ Notifications</a>
+            <a href="profile.html">♙ My Profile</a>
+            <a href="help-support.html" class="active">? Help & Support</a>
+            <a href="login.html">↪ Logout</a>
+        </aside>
+        <!-- MAIN CONTENT -->
+        <main class="main">
+            <div class="topbar">
+                <div>
+                    <h2>Help & Support</h2>
+                    <p style="color:#64748b;font-size:13px;margin-top:6px;">
+                        We are here to help you.
+                    </p>
+                </div>
+            </div>
+            <div class="profile">
+                <span> </span>
+                <div class="avatar"> </div>
+            </div>
+    </div>
+    <!-- HERO SECTION -->
+    <section class="hero">
+        <h1>How Can We Help You?</h1>
+        <p>
+            Find answers to your questions or contact our support team.
+        </p>
+        <div class="search-box">
+            <input type="text" id="faqSearch" placeholder="Search your question...">
+            <button onclick="searchFAQ()">Search</button>
+        </div>
+    </section>
+    <!-- SUPPORT CATEGORIES -->
+    <section class="support-cards">
+        <div class="support-card">
+            <div class="icon"> </div>
+            <h3>Property Help</h3>
+            <p>Finding and viewing houses</p>
+        </div>
+        <div class="support-card">
+            <div class="icon"> </div>
+            <h3>Booking Help</h3>
+            <p>Manage your reservations</p>
+        </div>
+        <div class="support-card">
+            <div class="icon"> </div>
+            <h3>Account Help</h3>
+            <p>Login and profile support</p>
+        </div>
+        <div class="support-card">
+            <div class="icon"> </div>
+            <h3>Technical Help</h3>
+            <p>Report technical problems</p>
+        </div>
+    </section>
+    <!-- FAQ AND CONTACT FORM -->
+   
+<section class="content">
+
+    <!-- FAQ -->
+    <div class="panel">
+        <h2>Frequently Asked Questions</h2>
+
+        <div class="faq-item">
+            <div class="faq-question">
+                How do I create an account?
+                <span>+</span>
+            </div>
+            <div class="faq-answer">
+                Click the Register button, enter your full name,
+                email, phone number and password, then submit
+                your registration form.
+            </div>
+        </div>
+
+        <div class="faq-item">
+            <div class="faq-question">
+                How can I search for a house?
+                <span>+</span>
+            </div>
+            <div class="faq-answer">
+                Open the Search Homes page and enter your
+                preferred location, price range and property type.
+                Click Search Homes to view available properties.
+            </div>
+        </div>
+
+        <div class="faq-item">
+            <div class="faq-question">
+                How do I book a property?
+                <span>+</span>
+            </div>
+            <div class="faq-answer">
+                Select a property, open its details, choose your
+                preferred visit date and click Confirm Booking.
+            </div>
+        </div>
+
+        <div class="faq-item">
+            <div class="faq-question">
+                How can I contact a property owner?
+                <span>+</span>
+            </div>
+            <div class="faq-answer">
+                Open the property details page and click
+                Chat with Owner to start a conversation.
+            </div>
+        </div>
+
+        <div class="faq-item">
+            <div class="faq-question">
+                How do I report a suspicious property?
+                <span>+</span>
+            </div>
+            <div class="faq-answer">
+                Open the Report Fraud page, select the issue,
+                describe the problem and submit your report.
+            </div>
+        </div>
+
+        <div class="faq-item">
+            <div class="faq-question">
+                What if I forget my password?
+                <span>+</span>
+            </div>
+            <div class="faq-answer">
+                Use the Forgot Password option on the Login
+                page to start the password recovery process.
+            </div>
+        </div>
+
+        <p id="noResult"
+           style="display:none;color:#dc2626;font-size:13px;margin-top:15px;">
+            No matching questions found.
+        </p>
+    </div>
+
+    <!-- CONTACT ADMIN -->
+    <div class="panel">
+        <h2>Contact Administrator</h2>
+
+        <form id="supportForm">
+
+            <div class="form-group">
+                <label for="name">Full Name</label>
+                <input type="text" id="name"
+                       placeholder="Enter your full name" required>
+            </div>
+
+            <div class="form-group">
+                <label for="email">Email Address</label>
+                <input type="email" id="email"
+                       placeholder="Enter your email" required>
+            </div>
+
+            <div class="form-group">
+                <label for="category">Support Category</label>
+                <select id="category" required>
+                    <option value="">Select Category</option>
+                    <option>Booking Problem</option>
+                    <option>Property Problem</option>
+                    <option>Account Problem</option>
+                    <option>Technical Problem</option>
+                    <option>Other</option>
+                </select>
+            </div>
+
+            <div class="form-group">
+                <label for="subject">Subject</label>
+                <input type="text" id="subject"
+                       placeholder="Enter subject" required>
+            </div>
+
+            <div class="form-group">
+                <label for="message">Describe Your Problem</label>
+                <textarea id="message"
+                          placeholder="Write your message here..."
+                          required></textarea>
+            </div>
+
+            <button type="submit" class="submit-btn">
+                Submit Support Request
+            </button>
+
+        </form>
+
+        <p id="successMessage"
+           style="display:none;color:green;margin-top:15px;font-size:13px;">
+            Your support request has been received!
+        </p>
+    </div>
+
+</section>
+
+<!-- CONTACT INFORMATION -->
+<section class="contact-info">
+
+    <div class="info-card">
+        <div style="font-size:25px;"></div>
+        <h4>Email Support</h4>
+        <p>support@smartrental.com</p>
+    </div>
+
+    <div class="info-card">
+        <div style="font-size:25px;"></div>
+        <h4>Phone Support</h4>
+        <p>+255 700 000 000</p>
+    </div>
+
+    <div class="info-card">
+        <div style="font-size:25px;"></div>
+        <h4>Our Location</h4>
+        <p>Morogoro Town, Tanzania</p>
+    </div>
+
+</section>
+<div>
+    <footer>
+        © 2026 Smart Rental Finder. All Rights Reserved.
+    </footer>
+    
+    </div>
+   </main>
+</body>
+
+</html>
+ <script>
+        // FAQ ACCORDION
+        const faqItems = document.querySelectorAll(".faq-item");
+        faqItems.forEach(item => {
+            item.querySelector(".faq-question")
+                .addEventListener("click", () => {
+                    item.classList.toggle("open");
+                });
+        });
+        // SEARCH FAQ
+        function searchFAQ() {
+            let search = document
+           
+                .getElementById("faqSearch")
+                .value.toLowerCase();
+            let found = 0;
+            faqItems.forEach(item => {
+                let text = item.innerText.toLowerCase();
+                if (text.includes(search)) {
+                    item.style.display = "block";
+                    found++;
+                } else {
+                    item.style.display = "none";
+                }
+            });
+            document.getElementById("noResult").style.display =
+                found === 0 ? "block" : "none";
+        }
+        // CONTACT SUPPORT FORM
+       document.getElementById("supportForm")
+    .addEventListener("submit", function (e) {
+
+        e.preventDefault();
+
+        let name = document.getElementById("name").value;
+        let email = document.getElementById("email").value;
+        let category = document.getElementById("category").value;
+        let subject = document.getElementById("subject").value;
+        let message = document.getElementById("message").value;
+
+        if (!name || !email || !category || !subject || !message) {
+            alert("Please fill in all fields!");
+            return;
+        }
+
+        let request = {
+            name,
+            email,
+            category,
+            subject,
+            message,
+            date: new Date().toLocaleString()
+        };
+
+        console.log("Support Request:", request);
+
+        document.getElementById("successMessage").style.display = "block";
+
+        this.reset();
+    });
+    // </script> 
