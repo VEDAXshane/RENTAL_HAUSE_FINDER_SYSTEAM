@@ -428,10 +428,10 @@
                 .getElementById("searchInput")
                 .value.trim();
             if (keyword === "") {
-                alert("Please enter an area, price or property keyword.");
+                alert("Please login first.");
             } else {
                 localStorage.setItem("propertySearch", keyword);
-                window.location.href = "listings.html";
+                window.location.href = "home.html";
             }
         }
         // SEARCH USING ENTER KEY

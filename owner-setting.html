@@ -367,18 +367,16 @@
     <div class="container">
         <!-- SIDEBAR -->
         <aside class="sidebar">
-            <div class="logo">Smart <span>Rental</span></div>
-            <div class="logo">Smart <span>Rental</span></div>
-            <h4>Main Menu</h4>
+            <div class="logo">Smart <span>Rental House Finder</span></div>
+
             <a href="owner-dashboard.html"> Dashboard</a>
             <a href="add-property.html">¦ Add Property</a>
             <a href="manage-properties.html"> Manage Properties</a>
             <a href="booking-requests.html"> Booking Requests</a>
             <a href="chat.html"> Messages</a>
-            <h4>Account</h4>
             <a href="owner-profile.html"> My Profile</a>
             <a href="owner-settings.html" class="active">⚙ Settings</a>
-            <a href="index.html">↪ Logout</a>
+            <a href="home.html">↪ Logout</a>
         </aside>
         <!-- MAIN CONTENT -->
         <main class="main">
@@ -549,7 +547,7 @@
                 <div class="security-item">
                     <strong>Sign Out</strong>
                     <p>Leave your current owner account.</p>
-                    <a href="index.html" class="action-link">
+                    <a href="home.html" class="action-link">
                         Logout →
                     </a>
                 </div>
@@ -567,9 +565,17 @@
             <div class="message" id="successMessage">
                 ✓ Your settings have been saved successfully!
             </div>
+        </div>
+            </div>
     </form>
     </main>
-    </div>
+
+
+
+
+
+
+
     <script>
         // DEFAULT SETTINGS
         const defaults = {
@@ -621,16 +627,17 @@
         }
         // SAVE BUTTON
         document.getElementById("settingsForm")
-            .addEventListener("submit") , function (event) {Value
-.addEventListener("submit", function (event) {
-                event.preventDefault();
-                saveSettings();
-                const message = document.getElementById("successMessage");
-                message.style.display = "block";
-                setTimeout(() => {
-                    message.style.display = "none";
-                }, 3000);
-            });
+            .addEventListener("submit"), function (event) {
+                Value
+                    .addEventListener("submit", function (event) {
+                        event.preventDefault();
+                        saveSettings();
+                        const message = document.getElementById("successMessage");
+                        message.style.display = "block";
+                        setTimeout(() => {
+                            message.style.display = "none";
+                        }, 3000);
+                    });
                 // RESET DEFAULTS
                 document.getElementById("resetButton")
                     .addEventListener("click", function () {
@@ -651,11 +658,11 @@
                     }
                 }
             }
-// APPLY THEME WHEN CHANGED
-document.getElementById("theme")
-                    .addEventListener("change", function () {
-                        applyTheme(this.value);
-                    });
+        // APPLY THEME WHEN CHANGED
+        document.getElementById("theme")
+            .addEventListener("change", function () {
+                applyTheme(this.value);
+            });
         // INITIALIZE
         loadSettings();
     </script>

@@ -5,6 +5,7 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Chat System - Smart Rental Finder</title>
+
     <style>
         * {
             margin: 0;
@@ -14,7 +15,7 @@
         }
 
         body {
-            background: #edf2ff;
+            background:rgb(19, 171, 5);
             min-height: 100vh;
             padding: 20px;
             color: #14244b;
@@ -34,10 +35,10 @@
         /* SIDEBAR */
         .sidebar {
             width: 300px;
+            flex-shrink: 0;
             background: #f8faff;
             border-right: 1px solid #e3e9f5;
             display: flex;
-            flex-direction: column;
             flex-direction: column;
         }
 
@@ -67,6 +68,7 @@
         }
 
         .chat-list {
+            flex: 1;
             overflow-y: auto;
         }
 
@@ -90,10 +92,12 @@
             height: 43px;
             border-radius: 50%;
             object-fit: cover;
+            flex-shrink: 0;
         }
 
         .user-info {
             flex: 1;
+            min-width: 0;
         }
 
         .user-info h4 {
@@ -104,6 +108,9 @@
         .user-info p {
             font-size: 11px;
             color: #77839a;
+            overflow: hidden;
+            white-space: nowrap;
+            text-overflow: ellipsis;
         }
 
         .status {
@@ -120,89 +127,89 @@
         }
 
         .chat-header {
-            .chat-header {
-                height: 85px;
-                padding: 15px 22px;
-                display: flex;
-                align-items: center;
-                gap: 12px;
-                border-bottom: 1px solid #e8edf5;
-            }
+            height: 85px;
+            padding: 15px 22px;
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            border-bottom: 1px solid #e8edf5;
+        }
 
-            .chat-header h3 {
-                font-size: 15px;
-                margin-bottom: 5px;
-            }
+        .chat-header h3 {
+            font-size: 15px;
+            margin-bottom: 5px;
+        }
 
-            .chat-header p {
-                font-size: 11px;
-                color: #16a34a;
-            }
+        .chat-header p {
+            font-size: 11px;
+            color: #16a34a;
+        }
 
-            .header-actions {
-                margin-left: auto;
-                color: #0755d9;
-                font-size: 20px;
-                cursor: pointer;
-            }
+        .header-actions {
+            margin-left: auto;
+            color: #0755d9;
+            font-size: 20px;
+            cursor: pointer;
+        }
 
-            .messages {
-                flex: 1;
-                padding: 25px;
-                overflow-y: auto;
-                background: #ffffff;
-                display: flex;
-                flex-direction: column;
-                gap: 18px;
-            }
+        /* MESSAGES */
+        .messages {
+            flex: 1;
+            padding: 25px;
+            overflow-y: auto;
+            background: #ffffff;
+            display: flex;
+            flex-direction: column;
+            gap: 18px;
+        }
 
-            .date-label {
-                text-align: center;
-                font-size: 11px;
-                color: #8993a8;
-            }
+        .date-label {
+            text-align: center;
+            font-size: 11px;
+            color: #8993a8;
+        }
 
-            .message {
-                max-width: 75%;
-                display: flex;
-                flex-direction: column;
-                gap: 5px;
-            }
+        .message {
+            max-width: 75%;
+            display: flex;
+            flex-direction: column;
+            gap: 5px;
+        }
 
-            .message.received {
-                align-self: flex-start;
-            }
+        .message.received {
+            align-self: flex-start;
+        }
 
-            .message.sent {
-                align-self: flex-end;
-            }
+        .message.sent {
+            align-self: flex-end;
+        }
 
-            .bubble {
-                padding: 13px 16px;
-                border-radius: 12px;
-                font-size: 13px;
-                line-height: 1.5;
-            }
+        .bubble {
+            padding: 13px 16px;
+            border-radius: 12px;
+            font-size: 13px;
+            line-height: 1.5;
+            overflow-wrap: anywhere;
+        }
 
-            .received .bubble {
-                background: #f0f3f9;
-                border-bottom-left-radius: 3px;
-            }
+        .received .bubble {
+            background: #f0f3f9;
+            border-bottom-left-radius: 3px;
+        }
 
-            .sent .bubble {
-                background: #0755e8;
-                color: white;
-                border-bottom-right-radius: 3px;
-            }
+        .sent .bubble {
+            background: #0755e8;
+            color: white;
+            border-bottom-right-radius: 3px;
+        }
 
-            .time {
-                font-size: 10px;
-                color: #9aa3b4;
-            }
+        .time {
+            font-size: 10px;
+            color: #9aa3b4;
+        }
 
-            .sent .time {
-                text-align: right;
-            }
+        .sent .time {
+            text-align: right;
         }
 
         /* MESSAGE INPUT */
@@ -220,6 +227,10 @@
             border: 1px solid #dce4f2;
             border-radius: 8px;
             outline: none;
+        }
+
+        .message-input input:focus {
+            border-color: #0755e8;
         }
 
         .message-input button {
@@ -244,6 +255,7 @@
 
             .container {
                 height: 100vh;
+                height: 100dvh;
                 border-radius: 0;
             }
 
@@ -277,12 +289,15 @@
                 height: 42px;
             }
 
+            .chat-header {
+                padding: 12px;
+            }
+
             .messages {
                 padding: 15px 10px;
             }
 
             .message {
-                max-width: 90%;
                 max-width: 90%;
             }
 
@@ -298,86 +313,96 @@
 </head>
 
 <body>
+
     <div class="container">
+
         <!-- LEFT SIDEBAR -->
         <div class="sidebar">
+
             <div class="sidebar-header">
-                <div class="logo"> Smart Rental</div>
+                <div class="logo">Smart Rental</div>
+
                 <h3>Messages</h3>
+
                 <input type="text" class="search" id="searchChat" placeholder="Search conversations...">
             </div>
+
             <div class="chat-list" id="chatList">
-                <div class="chat-user active" onclick="selectChat('owner')">
-                    <img class="avatar" src="https://i.pravatar.cc/100?img=12">
+
+                <div class="chat-user active" data-user="owner" onclick="selectChat('owner')">
+
+                    <img class="avatar" src="https://i.pravatar.cc/100?img=12" alt="Property Owner">
+
                     <div class="user-info">
                         <h4>Property Owner</h4>
                         <p>Yes, you can visit today.</p>
                         <span class="status">● Online</span>
                     </div>
                 </div>
-                <div class="chat-user" onclick="selectChat('admin')">
-                    <img class="avatar" src="https://i.pravatar.cc/100?img=47">
+
+                <div class="chat-user" data-user="admin" onclick="selectChat('admin')">
+
+                    <img class="avatar" src="https://i.pravatar.cc/100?img=47" alt="Admin Support">
+
                     <div class="user-info">
                         <h4>Admin Support</h4>
                         <p>How can we help you?</p>
                         <span class="status">● Online</span>
                     </div>
                 </div>
-                <div class="chat-user" onclick="selectChat('user')">
-                    <img class="avatar" src="https://i.pravatar.cc/100?img=33">
+
+                <div class="chat-user" data-user="user" onclick="selectChat('user')">
+
+                    <img class="avatar" src="https://i.pravatar.cc/100?img=33" alt="Other User">
+
                     <div class="user-info">
                         <h4>Other User</h4>
                         <p>Hello!</p>
                         <span class="status">○ Offline</span>
                     </div>
                 </div>
+
             </div>
         </div>
+
         <!-- RIGHT CHAT AREA -->
         <div class="chat-area">
+
             <div class="chat-header">
-                <img class="avatar" id="currentAvatar" src="https://i.pravatar.cc/100?img=12">
+
+                <img class="avatar" id="currentAvatar" src="https://i.pravatar.cc/100?img=12" alt="Current user">
+
                 <div>
                     <h3 id="currentName">Property Owner</h3>
                     <p id="currentStatus">● Online</p>
                 </div>
+
                 <div class="header-actions" title="More options">
                     ⋮
                 </div>
+
             </div>
+
             <!-- MESSAGES -->
             <div class="messages" id="messages">
-                <div class="date-label">Today</div>
-                <div class="message received">
-                    <div class="bubble">
-                        Hello, is this house still available?
-                    </div>
-                    <span class="time">10:04 AM</span>
-                </div>
-                <div class="message sent">
-                    <div class="bubble">
-                        Yes, it is. You can visit today.
-                        Yes, it is. You can visit today.
-                    </div>
-                    <span class="time">10:05 AM</span>
-                </div>
-                <div class="message received">
-                    <div class="bubble">
-                        Great! What time is convenient?
-                    </div>
-                    <span class="time">10:06 AM</span>
-                </div>
             </div>
+
             <!-- MESSAGE INPUT -->
             <form class="message-input" id="chatForm">
-                <input type="text" id="messageInput" placeholder="Type a message..." autocomplete="off">
+
+                <input type="text" id="messageInput" placeholder="Type a message..." autocomplete="off" required>
+
                 <button type="submit">
                     ➤ Send
                 </button>
+
             </form>
+
         </div>
     </div>
+
     <script>
+
         // CHAT USERS
 
         const users = {
@@ -386,11 +411,13 @@
                 avatar: "https://i.pravatar.cc/100?img=12",
                 status: "● Online"
             },
+
             admin: {
                 name: "Admin Support",
                 avatar: "https://i.pravatar.cc/100?img=47",
                 status: "● Online"
             },
+
             user: {
                 name: "Other User",
                 avatar: "https://i.pravatar.cc/100?img=33",
@@ -398,105 +425,230 @@
             }
         };
 
-        // STORE MESSAGES
-        let currentChat = "owner";
-        let allMessages = JSON.parse(
-            localStorage.getItem("rentalChats")
-        ) || {
+
+        // DEFAULT MESSAGES
+
+        const defaultMessages = {
             owner: [
-                { text: "Hello, is this house still available?", type: "received", time: "10:04 AM" },
-                { text: "Yes, it is. You can visit today.", type: "sent", time: "10:05 AM" },
-                { text: "Great! What time is convenient?", type: "received", time: "10:06 AM" }
-            ],
-admin: [
-    {
-        text: "Welcome to Smart Rental Finder. How can we help you?",
-        type: "received",
-        time: "09:00 AM"
-    }
-],
-          
-                user: [
-                    { text: "Hello!", type: "received", time: "08:30 AM" }
-                ]
-};
-        // DISPLAY MESSAGES
-        function displayMessages() {
-            const messages = document.getElementById("messages");
-            messages.innerHTML =
-                '<div class="date-label">Today</div>';
-            allMessages[currentChat].forEach(msg => {
-                const div = document.createElement("div");
-                div.className = "message " + msg.type;
-                const bubble = document.createElement("div");
-                bubble.className = "bubble";
-                bubble.textContent = msg.text;
-                const time = document.createElement("span");
-                time.className = "time";
-                time.textContent = msg.time;
-                div.appendChild(bubble);
-                div.appendChild(time);
-                messages.appendChild(div);
-            });
-            messages.scrollTop = messages.scrollHeight;
-        }
-        // SELECT CHAT
-        function selectChat(userId) {
-            currentChat = userId;
-            const user = users[userId];
-            document.getElementById("currentName").textContent =
-                user.name;
-            document.getElementById("currentAvatar").src =
-                user.avatar;
-            document.getElementById("currentStatus").textContent =
-                user.status;
-            document.querySelectorAll(".chat-user").forEach(item => {
-                item.classList.remove("active");
-            });
-            event.currentTarget.classList.add("active");
-            displayMessages();
-        }
-        // SEND MESSAGE
-        document.getElementById("chatForm")
-            .addEventListener("submit", function (e) {
-                e.preventDefault();
-                const input = document.getElementById("messageInput");
-                const text = input.value.trim();
-                if (text === "") {
-                    return;
-                    return;
-                }
-                const now = new Date();
-                const time = now.toLocaleTimeString([], {
-                    hour: "2-digit",
-                    minute: "2-digit"
-                });
-                allMessages[currentChat].push({
-                    text: text,
+                {
+                    text: "Hello, is this house still available?",
+                    type: "received",
+                    time: "10:04 AM"
+                },
+                {
+                    text: "Yes, it is. You can visit today.",
                     type: "sent",
-                    time: time
-                });
+                    time: "10:05 AM"
+                },
+                {
+                    text: "Great! What time is convenient?",
+                    type: "received",
+                    time: "10:06 AM"
+                }
+            ],
+
+            admin: [
+                {
+                    text: "Welcome to Smart Rental Finder. How can we help you?",
+                    type: "received",
+                    time: "09:00 AM"
+                }
+            ],
+
+            user: [
+                {
+                    text: "Hello!",
+                    type: "received",
+                    time: "08:30 AM"
+                }
+            ]
+        };
+
+
+        // LOAD MESSAGES FROM LOCAL STORAGE
+
+        let allMessages = {};
+
+        try {
+            const savedMessages = localStorage.getItem("rentalChats");
+
+            allMessages = savedMessages
+                ? JSON.parse(savedMessages)
+                : {};
+        } catch (error) {
+            console.error("Unable to load chats:", error);
+        }
+
+        Object.keys(defaultMessages).forEach(userId => {
+            if (!Array.isArray(allMessages[userId])) {
+                allMessages[userId] = defaultMessages[userId].map(
+                    message => ({ ...message })
+                );
+            }
+        });
+
+
+        let currentChat = "owner";
+
+
+        // SAVE MESSAGES
+
+        function saveMessages() {
+            try {
                 localStorage.setItem(
                     "rentalChats",
                     JSON.stringify(allMessages)
                 );
-                input.value = "";
-                displayMessages();
+            } catch (error) {
+                console.error("Unable to save messages:", error);
+                alert("Unable to save messages in this browser.");
+            }
+        }
+
+
+        // DISPLAY MESSAGES
+
+        function displayMessages() {
+
+            const messages = document.getElementById("messages");
+
+            messages.innerHTML = "";
+
+            const dateLabel = document.createElement("div");
+
+            dateLabel.className = "date-label";
+            dateLabel.textContent = "Today";
+
+            messages.appendChild(dateLabel);
+
+            allMessages[currentChat].forEach(msg => {
+
+                const div = document.createElement("div");
+
+                div.className = "message " + msg.type;
+
+                const bubble = document.createElement("div");
+
+                bubble.className = "bubble";
+
+                bubble.textContent = msg.text;
+
+                const time = document.createElement("span");
+
+                time.className = "time";
+
+                time.textContent = msg.time;
+
+                div.appendChild(bubble);
+
+                div.appendChild(time);
+
+                messages.appendChild(div);
+
             });
+
+            messages.scrollTop = messages.scrollHeight;
+        }
+
+
+        // SELECT CHAT
+
+        function selectChat(userId) {
+
+            if (!users[userId]) return;
+
+            currentChat = userId;
+
+            const user = users[userId];
+
+            document.getElementById("currentName").textContent =
+                user.name;
+
+            document.getElementById("currentAvatar").src =
+                user.avatar;
+
+            document.getElementById("currentStatus").textContent =
+                user.status;
+
+            document.querySelectorAll(".chat-user").forEach(item => {
+
+                item.classList.remove("active");
+
+                if (item.dataset.user === userId) {
+                    item.classList.add("active");
+                }
+
+            });
+
+            displayMessages();
+        }
+
+
+        // SEND MESSAGE
+
+        document.getElementById("chatForm")
+            .addEventListener("submit", function (e) {
+
+                e.preventDefault();
+
+                const input = document.getElementById("messageInput");
+
+                const text = input.value.trim();
+
+                if (!text) return;
+
+                const now = new Date();
+
+                const time = now.toLocaleTimeString([], {
+                    hour: "2-digit",
+                    minute: "2-digit"
+                });
+
+                allMessages[currentChat].push({
+
+                    text: text,
+
+                    type: "sent",
+
+                    time: time
+
+                });
+
+                saveMessages();
+
+                input.value = "";
+
+                displayMessages();
+
+            });
+
+
         // SEARCH CONVERSATIONS
+
         document.getElementById("searchChat")
             .addEventListener("input", function () {
-                const search = this.value.toLowerCase();
+
+                const search = this.value.toLowerCase().trim();
+
                 document.querySelectorAll(".chat-user")
                     .forEach(item => {
+
                         const name = item.innerText.toLowerCase();
+
                         item.style.display =
                             name.includes(search) ? "flex" : "none";
+
                     });
+
             });
+
+
         // INITIAL DISPLAY
+
         displayMessages();
+
     </script>
+
 </body>
 
 </html>

@@ -17,7 +17,7 @@
         }
 
         body {
-            background: #edf2ff;
+            background: rgb(19, 171, 5);
             color: #14234e;
         }
 
@@ -227,6 +227,9 @@
             <section class="map-section">
                 <!-- MAP / SATELLITE BUTTONS -->
                 <div class="map-tabs">
+                    <button id="mapBtn" class="active" >
+                       <a href="renter-dashboard.html"> GO back</a>
+                    </button>
                     <button id="mapBtn" class="active" onclick="showMap()">
                         Map
                     </button>
@@ -254,7 +257,7 @@
                 </p>
                 <!-- HOUSE IMAGE -->
                 <img class="property-image" id="propertyImage"
-                    src="https://images.unsplash.com/photo-1600596542815-ffad4c1539a9?w=700" alt="Rental Property">
+                    src="image001.jpg" alt="Rental Property">
                 <!-- DIRECTIONS BUTTON -->
                 <button class="directions-btn" onclick="getDirections()">
                     Get Directions ↗
