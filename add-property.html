@@ -1,507 +1,1023 @@
 <!DOCTYPE html>
 <html lang="en">
-
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Add Property - Smart Rental Finder</title>
-    <style>
-        * {
-            margin: 0;
-            padding: 0;
-            box-sizing: border-box;
-            font-family: Arial, sans-serif;
-        }
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Add Property - Rental House Finder</title>
 
-        body {
-            background: rgb(19, 171, 5);
-            color: #172554;
-            padding: 25px;
-        }
+<style>
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+    font-family: Arial, sans-serif;
+}
 
-        .container {
-            max-width: 1000px;
-            margin: auto;
-            background: white;
-            padding: 28px;
-            border-radius: 14px;
-            box-shadow: 0 5px 20px rgba(0, 0, 0, 0.08);
-        }
+body {
+    background: #f4f7fb;
+    color: #1e293b;
+}
 
-        /* HEADER */
-        .header {
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            margin-bottom: 28px;
-        }
+header {
+    background: white;
+    padding: 18px 6%;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    border-bottom: 1px solid #e5e7eb;
+}
 
-        .logo {
-            font-size: 19px;
-            font-size: 19px;
-            font-weight: bold;
-            color: #0755d9;
-        }
+.logo {
+    font-size: 22px;
+    font-weight: bold;
+    color: #2563eb;
+}
 
-        .back-btn {
-            text-decoration: none;
-            background: #eaf1ff;
-            color: #0755d9;
-            padding: 10px 15px;
-            border-radius: 7px;
-            font-size: 13px;
-        }
+header a {
+    text-decoration: none;
+    color: #2563eb;
+    font-weight: 600;
+}
 
-        h2 {
-            font-size: 23px;
-            margin-bottom: 8px;
-        }
+.container {
+    max-width: 1050px;
+    margin: 35px auto;
+    padding: 20px;
+}
 
-        .subtitle {
-            color: #64748b;
-            font-size: 13px;
-            margin-bottom: 25px;
-        }
+.page-title {
+    margin-bottom: 25px;
+}
 
-        /* FORM */
-        .section {
-            margin-bottom: 28px;
-        }
+.page-title h1 {
+    margin-bottom: 8px;
+}
 
-        .section h3 {
-            font-size: 17px;
-            margin-bottom: 18px;
-            padding-bottom: 12px;
-            border-bottom: 1px solid #e5eaf3;
-        }
+.page-title p {
+    color: #64748b;
+}
 
-        .form-grid {
-            display: grid;
-            grid-template-columns: repeat(2, 1fr);
-            gap: 18px;
-            gap: 18px;
-        }
+.card {
+    background: white;
+    padding: 30px;
+    border-radius: 16px;
+    box-shadow: 0 5px 25px rgba(0,0,0,0.05);
+}
 
-        .form-group {
-            margin-bottom: 5px;
-        }
+.form-grid {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 20px;
+}
 
-        .form-group.full {
-            grid-column: 1 / -1;
-        }
+.form-group {
+    margin-bottom: 20px;
+}
 
-        label {
-            display: block;
-            font-size: 13px;
-            font-weight: bold;
-            margin-bottom: 8px;
-        }
+.full-width {
+    grid-column: 1 / -1;
+}
 
-        input,
-        select,
-        textarea {
-            width: 100%;
-            padding: 12px;
-            border: 1px solid #dce4f2;
-            border-radius: 7px;
-            outline: none;
-            font-size: 13px;
-            background: white;
-        }
+label {
+    display: block;
+    font-weight: 600;
+    margin-bottom: 8px;
+}
 
-        input:focus,
-        select:focus,
-        textarea:focus {
-            border-color: #0755d9;
-        }
+input, select, textarea {
+    width: 100%;
+    padding: 13px;
+    border: 1px solid #d7deea;
+    border-radius: 9px;
+    outline: none;
+    font-size: 15px;
+    background: white;
+}
 
-        textarea {
-            height: 110px;
-            resize: vertical;
-        }
+input:focus, select:focus, textarea:focus {
+    border-color: #2563eb;
+    box-shadow: 0 0 0 3px rgba(37,99,235,0.1);
+}
 
-        /* IMAGE UPLOAD */
-        .upload-box {
-            border: 2px dashed #9bb9f4;
-            background: #f5f8ff;
-            background: #f5f8ff;
-            padding: 30px 15px;
-            border-radius: 10px;
-            text-align: center;
-            cursor: pointer;
-        }
+textarea {
+    resize: vertical;
+    min-height: 120px;
+}
 
-        .upload-box .upload-icon {
-            font-size: 35px;
-            margin-bottom: 12px;
-        }
+small {
+    display: block;
+    color: #64748b;
+    margin-top: 7px;
+    line-height: 1.5;
+}
 
-        .upload-box h4 {
-            font-size: 14px;
-            margin-bottom: 7px;
-        }
+.upload-box {
+    border: 2px dashed #cbd5e1;
+    padding: 20px;
+    border-radius: 12px;
+    background: #f8fafc;
+}
 
-        .upload-box p {
-            font-size: 12px;
-            color: #64748b;
-        }
+.preview-grid {
+    display: flex;
+    gap: 12px;
+    flex-wrap: wrap;
+    margin-top: 15px;
+}
 
-        .upload-box input {
-            display: none;
-        }
+.image-item {
+    position: relative;
+}
 
-        .upload-button {
-            display: inline-block;
-            margin-top: 15px;
-            background: #0755e8;
-            color: white;
-            padding: 10px 17px;
-            border-radius: 6px;
-            font-size: 12px;
-            cursor: pointer;
-        }
+.preview-grid img {
+    width: 130px;
+    height: 100px;
+    object-fit: cover;
+    border-radius: 10px;
+}
 
-        .preview {
-            display: grid;
-            grid-template-columns: repeat(auto-fill, minmax(110px, 1fr));
-            gap: 12px;
-            margin-top: 15px;
-            margin-top: 15px;
-        }
+.image-remove {
+    position: absolute;
+    top: 5px;
+    right: 5px;
+    background: #dc2626;
+    color: white;
+    border: none;
+    border-radius: 50%;
+    width: 25px;
+    height: 25px;
+    cursor: pointer;
+}
 
-        .preview-item {
-            position: relative;
-        }
+.video-preview {
+    width: 100%;
+    max-height: 420px;
+    border-radius: 12px;
+    background: #000;
+    margin-top: 15px;
+}
 
-        .preview img {
-            width: 100%;
-            height: 90px;
-            object-fit: cover;
-            border-radius: 7px;
-        }
+.remove-btn {
+    margin-top: 10px;
+    background: #fee2e2;
+    color: #b91c1c;
+    padding: 10px 15px;
+    border: none;
+    border-radius: 8px;
+    cursor: pointer;
+}
 
-        .remove-image {
-            position: absolute;
-            top: 4px;
-            right: 4px;
-            border: none;
-            background: #dc2626;
-            color: white;
-            border-radius: 50%;
-            width: 23px;
-            height: 23px;
-            cursor: pointer;
-        }
+.actions {
+    display: flex;
+    gap: 12px;
+    margin-top: 15px;
+}
 
-        /* AMENITIES */
-        .amenities {
-            display: grid;
-            grid-template-columns: repeat(3, 1fr);
-            gap: 15px;
-        }
+.btn {
+    padding: 14px 20px;
+    border: none;
+    border-radius: 9px;
+    cursor: pointer;
+    text-decoration: none;
+    text-align: center;
+    font-weight: bold;
+}
 
-        .amenities label {
-            display: flex;
-            align-items: center;
-            gap: 8px;
-            font-weight: normal;
-            cursor: pointer;
-        }
-        
+.btn-primary {
+    background: #2563eb;
+    color: white;
+    flex: 1;
+}
 
-        .amenities input {
-            width: auto;
-            accent-color: #0755e8;
-        }
+.btn-primary:hover {
+    background: #1d4ed8;
+}
 
-        /* BUTTONS */
-        .buttons {
-            display: flex;
-            gap: 12px;
-            margin-top: 25px;
-        }
+.btn-primary:disabled {
+    background: #94a3b8;
+    cursor: not-allowed;
+}
 
-        .submit-btn {
-            flex: 1;
-            background: #0755e8;
-            color: white;
-            border: none;
-            padding: 14px;
-            border-radius: 8px;
-            font-size: 14px;
-            font-weight: bold;
-            cursor: pointer;
-        }
+.btn-secondary {
+    background: #e2e8f0;
+    color: #334155;
+}
 
-        .submit-btn:hover {
-            background: #003db5;
-        }
+.status-message {
+    margin-top: 15px;
+    padding: 12px;
+    border-radius: 8px;
+    display: none;
+    line-height: 1.5;
+}
 
-        .cancel-btn {
-            background: #e9eef8;
-            color: #334155;
-            border: none;
-            padding: 14px 25px;
-            border-radius: 8px;
-            cursor: pointer;
-        }
+.notice {
+    background: #eff6ff;
+    color: #1d4ed8;
+    padding: 13px;
+    border-radius: 8px;
+    margin-bottom: 20px;
+    line-height: 1.5;
+}
 
-        /* RESPONSIVE */
-        @media(max-width: 650px) {
-            body {
-                padding: 10px;
-            }
+@media(max-width:700px) {
+    .form-grid {
+        grid-template-columns: 1fr;
+    }
 
-            .container {
-                padding: 17px;
-            }
+    .full-width {
+        grid-column: auto;
+    }
 
-            .form-grid {
-                grid-template-columns: 1fr;
-            }
+    .container {
+        margin: 15px auto;
+        padding: 12px;
+    }
 
-            .form-group.full {
-                grid-column: auto;
-            }
+    .card {
+        padding: 20px;
+    }
 
-            .amenities {
-                grid-template-columns: repeat(2, 1fr);
-            }
+    header {
+        padding: 15px 5%;
+    }
 
-            .buttons {
-                flex-direction: column;
-            }
-
-            .header {
-                gap: 10px;
-            }
-        }
-    </style>
+    .logo {
+        font-size: 18px;
+    }
+}
+</style>
 </head>
 
 <body>
-    <div class="container">
-        <!-- HEADER -->
-        <div class="header">
-            <div class="logo">
-                Smart Rental Finder
-            </div>
-            <a href="owner-dashboard.html" class="back-btn">
-                ← Dashboard
-            </a>
-        </div>
-        <h2>Add New Property</h2>
-        <p class="subtitle">
-            Fill in the details below to list your property for rent.
-        </p>
-        <form id="propertyForm">
-            <!-- PROPERTY INFORMATION -->
-            <div class="section">
-                <h3> Property Information</h3>
-                <div class="form-grid">
-                    <div class="form-group full">
-                        <label>Property Title</label>
-                        <input type="text" id="title" placeholder="e.g. Modern 3 Bedroom House" required>
-                    </div>
-                    <div class="form-group">
-                        <label>Property Type</label>
-                        <select id="type" required>
-                            <option value="">Select Property Type</option>
-                            <option>House</option>
-                            <option>Apartment</option>
-                            <option>Single Room</option>
-                            <option>Double Room</option>
-                            <option>Studio</option>
-                        </select>
-                    </div>
-                    <div class="form-group">
-                        <label>Monthly Rental Price (TZS)</label>
-                        <input type="number" id="price" min="1" placeholder="e.g. 550000" required>
-                    </div>
-                    <div class="form-group">
-                        <label>Region</label>
-                        <input type="text" id="region" placeholder="e.g. Morogoro" required>
-                    </div>
-                    <div class="form-group">
-                        <label>Specific Location</label>
-                        <input type="text" id="location" placeholder="e.g. Big Mjini" required>
-                    </div>
-                    <div class="form-group">
-                        <label>Bedrooms</label>
-                        <input type="number" id="bedrooms" min="0" placeholder="Number of bedrooms" required>
-                    </div>
-                    <div class="form-group">
-                        <label>Bathrooms</label>
-                        <input type="number" id="bathrooms" min="0" placeholder="Number of bathrooms" required>
-                    </div>
-                    <div class="form-group full">
-                        <label>Property Description</label>
-                   
-                        <textarea id="description"
-                            placeholder="Describe your property, facilities and nearby services..." required></textarea>
-                    </div>
-                </div>
-            </div>
-            <!-- PROPERTY PHOTOS -->
-            <div class="section">
-                <h3> Upload Property Photos</h3>
-                <label class="upload-box" for="photos">
-                    <div class="upload-icon">
-                         </div>
-                            <h4>Upload Property Images</h4>
-                            <p>Choose photos from your device.</p>
-                            <span class="upload-button">
-                                Browse Images
-                            </span>
-                            <input type="file" id="photos" accept="image/*" multiple>
-                </label>
-                <div class="preview" id="preview"></div>
-            </div>
-            <!-- AMENITIES -->
-            <div class="section">
-                <h3> Property Amenities</h3>
-                <div class="amenities">
-                    <label>
-                        <input type="checkbox" value="Water">
-                        Water Supply
-                    </label>
-                    <label>
-                        <input type="checkbox" value="Electricity">
-                        Electricity
-                    </label>
-                    <label>
-                        <input type="checkbox" value="Parking">
-                        Parking
-                    </label>
-                    <label>
-                        <input type="checkbox" value="Security">
-                        Security
-                    </label>
-                    <label>
-                        <input type="checkbox" value="Internet">
-                        Internet
-                    </label>
-                    <label>
-                        <input type="checkbox" value="Garden">
-                        Garden
-                    </label>
-                    <label>
-                 
-                        <input type="checkbox" value="Kitchen">
-                        Kitchen
-                    </label>
-                    <label>
-                        <input type="checkbox" value="Furnished">
-                        Furnished
-                    </label>
-                    <label>
-                        <input type="checkbox" value="Balcony">
-                        Balcony
-                    </label>
-                </div>
-            </div>
-            <!-- FORM BUTTONS -->
-            <div class="buttons">
-                <button type="button" class="cancel-btn" onclick="resetForm()">
-                    Clear Form
-                </button>
-                <button type="submit" class="submit-btn">
-                    Submit Property →
-                </button>
-            </div>
-        </form>
+
+<header>
+    <div class="logo">Rental House Finder</div>
+    <a href="owner-dashboard.html">← Owner Dashboard</a>
+</header>
+
+<div class="container">
+
+    <div class="page-title">
+        <h1>Add New Property</h1>
+        <p>Provide property details, photos and a video tour.</p>
     </div>
-    <script>
-        
-// IMAGE UPLOAD PREVIEW
-            const photoInput = document.getElementById("photos");
-            const preview = document.getElementById("preview");
-            let selectedFiles = [];
-            photoInput.addEventListener("change", function() {
-const newFiles = Array.from(this.files);
-newFiles.forEach(file => {
-if (!file.type.startsWith("image/")) return;
-if (!selectedFiles.some(item =>
-            item.name === file.name &&
-            item.size === file.size)) {
-                selectedFiles.push(file);
+
+    <div class="card">
+
+        <div class="notice">
+            Your property will be submitted for approval before it
+            becomes visible to renters.
+        </div>
+
+        <form id="propertyForm">
+
+            <div class="form-grid">
+
+                <!-- PROPERTY NAME -->
+                <div class="form-group">
+                    <label for="propertyName">Property Name</label>
+                    <input type="text" id="propertyName"
+                           maxlength="100"
+                           placeholder="e.g. 3 Bedroom House"
+                           required>
+                </div>
+
+                <!-- PROPERTY TYPE -->
+                <div class="form-group">
+                    <label for="propertyType">Property Type</label>
+                    <select id="propertyType" required>
+                        <option value="">Select property type</option>
+                        <option>House</option>
+                        <option>Apartment</option>
+                        <option>Single Room</option>
+                        <option>Self Contained</option>
+                        <option>Studio</option>
+                        <option>Villa</option>
+                    </select>
+                </div>
+
+                <!-- LOCATION -->
+                <div class="form-group">
+                    <label for="location">Location / Area</label>
+                    <input type="text" id="location"
+                           maxlength="150"
+                           placeholder="Street / Area"
+                           required>
+                </div>
+
+                <!-- CITY -->
+                <div class="form-group">
+                    <label for="city">City</label>
+                    <input type="text" id="city"
+                           maxlength="100"
+                           placeholder="e.g. Morogoro"
+                           required>
+                </div>
+
+                <!-- RENT -->
+                <div class="form-group">
+                    <label for="price">Monthly Rent (TZS)</label>
+                    <input type="number" id="price"
+                           min="1"
+                           step="1"
+                           placeholder="Enter monthly rent"
+                           required>
+                </div>
+
+                <!-- BEDROOMS -->
+                <div class="form-group">
+                    <label for="bedrooms">Bedrooms</label>
+                    <input type="number" id="bedrooms"
+                           min="0" max="50" value="1">
+                </div>
+
+                <!-- BATHROOMS -->
+                <div class="form-group">
+                    <label for="bathrooms">Bathrooms</label>
+                    <input type="number" id="bathrooms"
+                           min="0" max="50" value="1">
+                </div>
+
+                <!-- KITCHENS -->
+                <div class="form-group">
+                    <label for="kitchens">Kitchens</label>
+                    <input type="number" id="kitchens"
+                           min="0" max="20" value="1">
+                </div>
+
+                <!-- PARKING -->
+                <div class="form-group">
+                    <label for="parking">Parking Spaces</label>
+                    <input type="number" id="parking"
+                           min="0" max="100" value="0">
+                </div>
+
+                <!-- AVAILABILITY -->
+                <div class="form-group">
+                    <label for="availability">Availability</label>
+                    <select id="availability" required>
+                        <option value="Available">Available</option>
+                        <option value="Unavailable">Unavailable</option>
+                    </select>
+                </div>
+
+                <!-- DESCRIPTION -->
+                <div class="form-group full-width">
+                    <label for="description">Property Description</label>
+                    <textarea id="description"
+                        maxlength="2000"
+                        placeholder="Describe the house, its facilities and nearby services..."
+                        required></textarea>
+                </div>
+
+                <!-- PHOTOS -->
+                <div class="form-group full-width">
+                    <label for="propertyImages">Property Photos</label>
+
+                    <div class="upload-box">
+                        <input type="file"
+                               id="propertyImages"
+                               accept="image/jpeg,image/png,image/webp"
+                               multiple>
+
+                        <small>
+                            JPG, PNG or WebP.
+                            Maximum 8 images.
+                            Each image must be 5 MB or less.
+                        </small>
+
+                        <div class="preview-grid"
+                             id="imagePreview"></div>
+                    </div>
+                </div>
+
+                <!-- VIDEO -->
+                <div class="form-group full-width">
+                    <label for="propertyVideo">
+                        Property Video (Optional)
+                    </label>
+
+                    <div class="upload-box">
+
+                        <input type="file"
+                               id="propertyVideo"
+                               accept="video/mp4,video/webm,video/ogg">
+
+                        <small>
+                            MP4, WebM or OGG.
+                            Maximum video size: 50 MB.
+                        </small>
+
+                        <div id="videoPreviewContainer"
+                             style="display:none;">
+
+                            <video id="propertyVideoPreview"
+                                   class="video-preview"
+                                   controls
+                                   playsinline>
+                            </video>
+
+                            <button type="button"
+                                    class="remove-btn"
+                                    id="removePropertyVideo">
+                                Remove Video
+                            </button>
+                        </div>
+
+                    </div>
+                </div>
+
+            </div>
+
+            <!-- BUTTONS -->
+            <div class="actions">
+
+                <a href="owner-dashboard.html"
+                   class="btn btn-secondary">
+                    Cancel
+                </a>
+
+                <button type="submit"
+                        class="btn btn-primary"
+                        id="savePropertyButton">
+                    Save Property
+                </button>
+
+            </div>
+
+            <div id="statusMessage"
+                 class="status-message"></div>
+
+        </form>
+
+    </div>
+
+</div>
+
+<script>
+// ======================================
+// 1. OWNER AUTHENTICATION
+// ======================================
+
+function getCurrentOwner() {
+
+    let user;
+
+    try {
+        user = JSON.parse(
+            localStorage.getItem("rentalCurrentUser") || "null"
+        );
+    } catch (error) {
+        user = null;
+    }
+
+    if (!user || user.role !== "owner" || !(user.id || user.userId)) {
+
+        alert("Please login using an owner account first.");
+
+        window.location.href = "login.html";
+
+        return null;
+    }
+
+    return {
+        id: user.id || user.userId,
+        name: user.name || user.fullName || "Property Owner",
+        email: user.email || "",
+        phone: user.phone || user.phoneNumber || ""
+    };
 }
-});
-            renderImages();
-});
-            function renderImages() {
-                preview.innerHTML = "";
-selectedFiles.forEach((file, index) => {
-const div = document.createElement("div");
-            div.className = "preview-item";
-            div.className = "preview-item";
-            const img = document.createElement("img");
-            const imageURL = URL.createObjectURL(file);
-            img.src = imageURL;
-            const remove = document.createElement("button");
-            remove.className = "remove-image";
-            remove.textContent = "×";
-            remove.type = "button";
-            remove.onclick = function() {
-                URL.revokeObjectURL(imageURL);
-            selectedFiles.splice(index, 1);
-            renderImages();
-};
-            div.appendChild(img);
-            div.appendChild(remove);
-            preview.appendChild(div);
-});
+
+const currentOwner = getCurrentOwner();
+
+// Stop page setup if no valid owner is logged in.
+if (!currentOwner) {
+    throw new Error("Owner authentication required.");
 }
-            // SUBMIT PROPERTY
-            document.getElementById("propertyForm")
-            .addEventListener("submit", function(event) {
-                event.preventDefault();
-            const amenities = Array.from(
-            document.querySelectorAll(
-            ".amenities input:checked"
-            )
-).map(item => item.value);
-            const property = {
-                title: document.getElementById("title").value,
-            type: document.getElementById("type").value,
-            price: Number(
-            document.getElementById("price").value
-            ),
-            region: document.getElementById("region").value,
-            location: document.getElementById("location").value,
-            bedrooms: document.getElementById("bedrooms").value,
-            bathrooms: document.getElementById("bathrooms").value,
-            description: document.getElementById("description").value,
-            amenities: amenities,
-imageNames: selectedFiles.map(file => file.name),
-            status: "Pending Approval"
-};
-            let properties = JSON.parse(
-            localStorage.getItem("ownerProperties")
-            ) || [];
-            properties.push(property);
-            properties.push(property);
-            localStorage.setItem(
+
+
+// ======================================
+// 2. INDEXED DB VIDEO STORAGE
+// ======================================
+
+const VIDEO_DB_NAME = "RentalHouseVideoDB";
+const VIDEO_STORE_NAME = "propertyVideos";
+
+function openVideoDB() {
+
+    return new Promise((resolve, reject) => {
+
+        const request = indexedDB.open(VIDEO_DB_NAME, 1);
+
+        request.onupgradeneeded = function(event) {
+
+            const db = event.target.result;
+
+            if (!db.objectStoreNames.contains(VIDEO_STORE_NAME)) {
+
+                db.createObjectStore(VIDEO_STORE_NAME, {
+                    keyPath: "videoId"
+                });
+            }
+        };
+
+        request.onsuccess = () => resolve(request.result);
+
+        request.onerror = () => reject(request.error);
+    });
+}
+
+async function savePropertyVideo(videoId, file) {
+
+    const db = await openVideoDB();
+
+    return new Promise((resolve, reject) => {
+
+        const transaction = db.transaction(
+            VIDEO_STORE_NAME,
+            "readwrite"
+        );
+
+        transaction.objectStore(VIDEO_STORE_NAME).put({
+            videoId: videoId,
+            file: file,
+            fileName: file.name,
+            fileType: file.type,
+            uploadedAt: new Date().toISOString()
+        });
+
+        transaction.oncomplete = function() {
+            db.close();
+            resolve(true);
+        };
+
+        transaction.onerror = function() {
+            db.close();
+            reject(transaction.error);
+        };
+
+        transaction.onabort = function() {
+            db.close();
+            reject(transaction.error);
+        };
+    });
+}
+
+async function deletePropertyVideo(videoId) {
+
+    if (!videoId) return;
+
+    const db = await openVideoDB();
+
+    return new Promise((resolve, reject) => {
+
+        const transaction = db.transaction(
+            VIDEO_STORE_NAME,
+            "readwrite"
+        );
+
+        transaction.objectStore(VIDEO_STORE_NAME).delete(videoId);
+
+        transaction.oncomplete = function() {
+            db.close();
+            resolve(true);
+        };
+
+        transaction.onerror = function() {
+            db.close();
+            reject(transaction.error);
+        };
+    });
+}
+
+
+// ======================================
+// 3. IMAGE UPLOAD & PREVIEW
+// ======================================
+
+const imageInput = document.getElementById("propertyImages");
+const imagePreview = document.getElementById("imagePreview");
+
+let selectedImages = [];
+
+const MAX_IMAGES = 8;
+const MAX_IMAGE_SIZE = 5 * 1024 * 1024;
+
+const allowedImageTypes = [
+    "image/jpeg",
+    "image/png",
+    "image/webp"
+];
+
+function renderImagePreview() {
+
+    imagePreview.innerHTML = "";
+
+    selectedImages.forEach((file, index) => {
+
+        const wrapper = document.createElement("div");
+        wrapper.className = "image-item";
+
+        const img = document.createElement("img");
+
+        img.src = URL.createObjectURL(file);
+        img.alt = "Property photo " + (index + 1);
+
+        const removeButton = document.createElement("button");
+
+        removeButton.type = "button";
+        removeButton.className = "image-remove";
+        removeButton.textContent = "×";
+        removeButton.title = "Remove image";
+
+        removeButton.addEventListener("click", function() {
+
+            selectedImages.splice(index, 1);
+
+            renderImagePreview();
+        });
+
+        wrapper.appendChild(img);
+        wrapper.appendChild(removeButton);
+
+        imagePreview.appendChild(wrapper);
+    });
+}
+
+imageInput.addEventListener("change", function() {
+
+    const newFiles = Array.from(this.files);
+
+    for (const file of newFiles) {
+
+        if (!allowedImageTypes.includes(file.type)) {
+
+            alert(
+                file.name +
+                " is not supported. Use JPG, PNG or WebP."
+            );
+
+            continue;
+        }
+
+        if (file.size > MAX_IMAGE_SIZE) {
+
+            alert(file.name + " exceeds the 5 MB limit.");
+
+            continue;
+        }
+
+        if (selectedImages.length >= MAX_IMAGES) {
+
+            alert("Maximum of 8 property photos allowed.");
+
+            break;
+        }
+
+        selectedImages.push(file);
+    }
+
+    renderImagePreview();
+
+    // Allow selecting the same file again
+    this.value = "";
+});
+
+
+// ======================================
+// 4. VIDEO PREVIEW
+// ======================================
+
+const videoInput = document.getElementById("propertyVideo");
+
+const videoPreview = document.getElementById(
+    "propertyVideoPreview"
+);
+
+const videoPreviewContainer = document.getElementById(
+    "videoPreviewContainer"
+);
+
+const removeVideoButton = document.getElementById(
+    "removePropertyVideo"
+);
+
+let selectedPropertyVideo = null;
+let currentVideoPreviewURL = null;
+
+const allowedVideoTypes = [
+    "video/mp4",
+    "video/webm",
+    "video/ogg"
+];
+
+const MAX_VIDEO_SIZE = 50 * 1024 * 1024;
+
+function clearVideoPreview() {
+
+    videoPreview.pause();
+
+    videoPreview.removeAttribute("src");
+
+    videoPreview.load();
+
+    videoPreviewContainer.style.display = "none";
+
+    if (currentVideoPreviewURL) {
+
+        URL.revokeObjectURL(currentVideoPreviewURL);
+
+        currentVideoPreviewURL = null;
+    }
+}
+
+videoInput.addEventListener("change", function() {
+
+    const file = this.files[0];
+
+    if (!file) return;
+
+    if (!allowedVideoTypes.includes(file.type)) {
+
+        alert("Please select MP4, WebM or OGG video.");
+
+        this.value = "";
+
+        selectedPropertyVideo = null;
+
+        clearVideoPreview();
+
+        return;
+    }
+
+    if (file.size > MAX_VIDEO_SIZE) {
+
+        alert("Video must not exceed 50 MB.");
+
+        this.value = "";
+
+        selectedPropertyVideo = null;
+
+        clearVideoPreview();
+
+        return;
+    }
+
+    selectedPropertyVideo = file;
+
+    clearVideoPreview();
+
+    currentVideoPreviewURL = URL.createObjectURL(file);
+
+    videoPreview.src = currentVideoPreviewURL;
+
+    videoPreviewContainer.style.display = "block";
+});
+
+removeVideoButton.addEventListener("click", function() {
+
+    videoInput.value = "";
+
+    selectedPropertyVideo = null;
+
+    clearVideoPreview();
+});
+
+
+// ======================================
+// 5. IMAGE CONVERSION
+// ======================================
+
+function convertImageToDataURL(file) {
+
+    return new Promise((resolve, reject) => {
+
+        const reader = new FileReader();
+
+        reader.onload = () => resolve(reader.result);
+
+        reader.onerror = () => reject(reader.error);
+
+        reader.readAsDataURL(file);
+    });
+}
+
+
+// ======================================
+// 6. STATUS MESSAGE
+// ======================================
+
+const propertyForm = document.getElementById("propertyForm");
+
+const statusMessage = document.getElementById("statusMessage");
+
+const saveButton = document.getElementById(
+    "savePropertyButton"
+);
+
+function showStatus(message, success = true) {
+
+    statusMessage.textContent = message;
+
+    statusMessage.style.display = "block";
+
+    statusMessage.style.background = success
+        ? "#dcfce7"
+        : "#fee2e2";
+
+    statusMessage.style.color = success
+        ? "#166534"
+        : "#991b1b";
+}
+
+
+// ======================================
+// 7. SAVE PROPERTY
+// ======================================
+
+propertyForm.addEventListener("submit", async function(event) {
+
+    event.preventDefault();
+
+    if (!currentOwner) {
+        return;
+    }
+
+    if (selectedImages.length > MAX_IMAGES) {
+
+        showStatus("You can upload a maximum of 8 images.", false);
+
+        return;
+    }
+
+    saveButton.disabled = true;
+
+    saveButton.textContent = "Saving Property...";
+
+    let savedVideoId = null;
+
+    try {
+
+        const propertyId = "property-" + Date.now();
+
+        const videoId = selectedPropertyVideo
+            ? "video-" + propertyId
+            : null;
+
+        // Convert images to data URLs
+        const imageData = await Promise.all(
+            selectedImages.map(file => convertImageToDataURL(file))
+        );
+
+        // Save video in IndexedDB
+        if (selectedPropertyVideo) {
+
+            await savePropertyVideo(
+                videoId,
+                selectedPropertyVideo
+            );
+
+            savedVideoId = videoId;
+        }
+
+        // Property object
+        const property = {
+
+            id: propertyId,
+
+            name: document.getElementById("propertyName")
+                .value.trim(),
+
+            propertyType: document.getElementById("propertyType")
+                .value,
+
+            location: document.getElementById("location")
+                .value.trim(),
+
+            city: document.getElementById("city")
+                .value.trim(),
+
+            price: Number(document.getElementById("price").value),
+
+            bedrooms: Number(document.getElementById("bedrooms").value),
+
+            bathrooms: Number(document.getElementById("bathrooms").value),
+
+            kitchens: Number(document.getElementById("kitchens").value),
+
+            parking: Number(document.getElementById("parking").value),
+
+            description: document.getElementById("description")
+                .value.trim(),
+
+            status: "Pending Approval",
+
+            availability: document.getElementById("availability")
+                .value,
+
+            ownerId: currentOwner.id,
+
+            ownerName: currentOwner.name,
+
+            images: imageData,
+
+            image: imageData[0] || "image001.jpg",
+
+            videoId: videoId,
+
+            videoName: selectedPropertyVideo
+                ? selectedPropertyVideo.name
+                : null,
+
+            createdAt: new Date().toISOString()
+        };
+
+        // Read existing properties
+        const properties = JSON.parse(
+            localStorage.getItem("ownerProperties") || "[]"
+        );
+
+        // Save new property
+        properties.push(property);
+
+        localStorage.setItem(
             "ownerProperties",
             JSON.stringify(properties)
-            );
-            alert(
-            "Property submitted successfully!\n\n" +
-            "Your property is waiting for admin approval."
-            );
-            this.reset();
-            selectedFiles = [];
-            preview.innerHTML = "";
-});
-            // CLEAR FORM
-            function resetForm() {
-if (confirm("Are you sure you want to clear this form?")) {
-                document.getElementById("propertyForm").reset();
-            selectedFiles = [];
-            preview.innerHTML = "";
-}
-}
-    </script>
-</body>
+        );
 
+        localStorage.setItem(
+            "selectedProperty",
+            JSON.stringify(property)
+        );
+
+        localStorage.setItem(
+            "rentalNewProperty",
+            JSON.stringify(property)
+        );
+
+        showStatus(
+            "Property saved successfully! Awaiting approval.",
+            true
+        );
+
+        // Reset form
+        propertyForm.reset();
+
+        selectedImages = [];
+
+        renderImagePreview();
+
+        selectedPropertyVideo = null;
+
+        clearVideoPreview();
+
+        // Redirect
+        setTimeout(function() {
+
+            window.location.href = "manage-properties.html";
+
+        }, 1500);
+
+    } catch (error) {
+
+        console.error("Property save error:", error);
+
+        // Remove video if save process failed
+        if (savedVideoId) {
+
+            try {
+                await deletePropertyVideo(savedVideoId);
+            } catch (deleteError) {
+                console.error("Video cleanup failed:", deleteError);
+            }
+        }
+
+        showStatus(
+            "Unable to save property. Storage may be full. Try smaller images.",
+            false
+        );
+
+    } finally {
+
+        saveButton.disabled = false;
+
+        saveButton.textContent = "Save Property";
+    }
+});
+
+
+// ======================================
+// 8. CLEANUP
+// ======================================
+
+window.addEventListener("beforeunload", function() {
+
+    if (currentVideoPreviewURL) {
+        URL.revokeObjectURL(currentVideoPreviewURL);
+    }
+});
+</script>
+
+</body>
 </html>

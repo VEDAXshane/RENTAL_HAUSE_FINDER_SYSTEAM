@@ -4,7 +4,8 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Renter Profile - Rental System</title>
+
+    <title>Renter Profile - Smart Rental Finder</title>
 
     <style>
         * {
@@ -15,7 +16,7 @@
         }
 
         body {
-            background: #0fee4a;
+            background: #edf2ff;
             color: #263247;
         }
 
@@ -35,12 +36,12 @@
         }
 
         .logo {
-            font-size: 22px;
+            font-size: 21px;
             font-weight: bold;
             margin-bottom: 40px;
         }
 
-        .sidebar a {
+        .sidebar nav a {
             display: block;
             text-decoration: none;
             color: #d5deed;
@@ -51,8 +52,8 @@
             transition: .3s;
         }
 
-        .sidebar a:hover,
-        .sidebar a.active {
+        .sidebar nav a:hover,
+        .sidebar nav a.active {
             background: #3478f6;
             color: white;
         }
@@ -115,10 +116,13 @@
             justify-content: center;
             font-size: 38px;
             color: #3478f6;
+            object-fit: cover;
+            border: 3px solid #e8efff;
         }
 
         .profile-header h2 {
             margin-bottom: 8px;
+            overflow-wrap: anywhere;
         }
 
         .profile-header p {
@@ -231,7 +235,7 @@
             background: #edf3ff;
         }
 
-        /* MOBILE MENU BUTTON */
+        /* MOBILE MENU */
 
         .menu-btn {
             display: none;
@@ -262,7 +266,7 @@
             padding: 25px;
             border-radius: 12px;
             width: 100%;
-            max-width: 450px;
+            max-width: 470px;
             max-height: 90vh;
             overflow-y: auto;
         }
@@ -271,10 +275,20 @@
             margin-bottom: 20px;
         }
 
+        .form-group {
+            margin-bottom: 15px;
+        }
+
+        .form-group label {
+            display: block;
+            font-size: 13px;
+            font-weight: 600;
+            margin-bottom: 7px;
+        }
+
         .modal-content input {
             width: 100%;
             padding: 12px;
-            margin-bottom: 15px;
             border: 1px solid #dce3ed;
             border-radius: 7px;
             outline: none;
@@ -294,9 +308,31 @@
             margin-right: 5px;
         }
 
-        /* TABLET */
+        .modal-content .cancel-btn {
+            background: #777;
+        }
+
+        .image-preview {
+            width: 75px;
+            height: 75px;
+            border-radius: 50%;
+            object-fit: cover;
+            display: none;
+            margin-top: 10px;
+            border: 2px solid #dce3ed;
+        }
+
+        .note {
+            font-size: 12px;
+            color: #7b8798;
+            line-height: 1.5;
+            margin-top: 6px;
+        }
+
+        /* MOBILE */
 
         @media (max-width: 900px) {
+
             .sidebar {
                 width: 210px;
             }
@@ -309,8 +345,6 @@
                 grid-template-columns: repeat(2, minmax(0, 1fr));
             }
         }
-
-        /* MOBILE */
 
         @media (max-width: 650px) {
 
@@ -347,8 +381,7 @@
                 display: block;
             }
 
-            .sidebar a {
-                display: block;
+            .sidebar nav a {
                 padding: 12px;
                 margin-bottom: 5px;
             }
@@ -394,10 +427,6 @@
                 gap: 14px;
             }
 
-            .card {
-                padding: 20px;
-            }
-
             .actions {
                 flex-direction: column;
             }
@@ -406,8 +435,6 @@
                 width: 100%;
             }
         }
-
-        /* SMALL PHONES */
 
         @media (max-width: 380px) {
 
@@ -431,6 +458,7 @@
                 margin-bottom: 8px;
             }
         }
+
     </style>
 </head>
 
@@ -443,34 +471,73 @@
         <aside class="sidebar">
 
             <div class="menu-header">
-                <div class="logo">RENTAL PROFILE</div>
 
-                <button class="menu-btn" onclick="toggleMenu()" aria-label="Toggle navigation" aria-expanded="false"
-                    id="menuBtn">
+                <div class="logo">
+                    RENTAL PROFILE
+                </div>
+
+                <button class="menu-btn"
+                        onclick="toggleMenu()"
+                        aria-label="Toggle navigation"
+                        aria-expanded="false"
+                        id="menuBtn">
                     ☰
                 </button>
+
             </div>
 
             <nav id="sidebarNav">
-                <a href="renter-dashboard.html">Dashboard</a>
-                <a href="my-bookings.html">My Bookings</a>
-                <a href="renter-profile.html" class="active">My Profile</a>
-                <a href="help-support.html">Help & Support</a>
-                <a href="login.html" class="logout">Logout</a>
+
+                <a href="renter-dashboard.html">
+                    Dashboard
+                </a>
+
+                <a href="house-listings.html">
+                    Browse Houses
+                </a>
+
+                <a href="my-bookings.html">
+                    My Bookings
+                </a>
+
+                <a href="chat.html">
+                    Messages
+                </a>
+
+                <a href="notifications.html">
+                    Notifications
+                </a>
+
+                <a href="renter-profile.html" class="active">
+                    My Profile
+                </a>
+
+                <a href="help-support.html">
+                    Help & Support
+                </a>
+
+                <a href="#" class="logout" onclick="confirmLogout(event)">
+                    Logout
+                </a>
+
             </nav>
 
         </aside>
+
 
         <!-- MAIN CONTENT -->
 
         <main class="main">
 
             <div class="topbar">
+
                 <div>
                     <h2>My Profile</h2>
                     <p>Manage your personal information and account.</p>
                 </div>
+
             </div>
+
 
             <!-- PROFILE INFORMATION -->
 
@@ -478,12 +545,21 @@
 
                 <div class="profile-header">
 
-                    <div class="avatar">👤</div>
+                    <img id="profileAvatar"
+                         class="avatar"
+                         src="image001.jpg"
+                         alt="Renter Profile">
 
                     <div>
-                        <h2 id="displayName">Jacob Juma</h2>
+
+                        <h2 id="displayName">Renter Name</h2>
+
                         <p>Registered Renter</p>
-                        <p>Member since October 2026</p>
+
+                        <p id="memberSince">
+                            Member since: Not available
+                        </p>
+
                     </div>
 
                     <button class="edit-btn" onclick="openEdit()">
@@ -492,69 +568,91 @@
 
                 </div>
 
-                <h3 class="section-title">Personal Information</h3>
+
+                <h3 class="section-title">
+                    Personal Information
+                </h3>
+
 
                 <div class="details">
 
                     <div class="detail">
                         <label>Full Name</label>
-                        <p id="name">Jacob Juma</p>
+                        <p id="name">Not provided</p>
                     </div>
 
                     <div class="detail">
                         <label>Email Address</label>
-                       
+                        <p id="email">Not provided</p>
                     </div>
 
                     <div class="detail">
                         <label>Phone Number</label>
-                        <p id="phone">+255 700 000 000</p>
+                        <p id="phone">Not provided</p>
                     </div>
 
                     <div class="detail">
                         <label>Location</label>
-                        <p id="location">Morogoro, Tanzania</p>
+                        <p id="location">Not provided</p>
                     </div>
 
                 </div>
 
             </section>
 
+
             <!-- RENTAL ACTIVITY -->
 
-            <h3 class="section-title">My Rental Activity</h3>
+            <h3 class="section-title">
+                My Rental Activity
+            </h3>
 
             <div class="cards">
 
                 <div class="card">
+
                     <div class="icon">📋</div>
-                    <h3>03</h3>
+
+                    <h3 id="totalBookings">0</h3>
+
                     <p>Total Bookings</p>
+
                 </div>
 
                 <div class="card">
+
                     <div class="icon">🏠</div>
-                    <h3>01</h3>
+
+                    <h3 id="activeBookings">0</h3>
+
                     <p>Active Bookings</p>
+
                 </div>
 
                 <div class="card">
-                    <div class="icon">💳</div>
-                    <h3>02</h3>
-                    <p>Completed Payments</p>
+
+                    <div class="icon">⏳</div>
+
+                    <h3 id="pendingBookings">0</h3>
+
+                    <p>Pending Bookings</p>
+
                 </div>
 
             </div>
+
 
             <!-- ACCOUNT SETTINGS -->
 
             <section class="profile-card">
 
-                <h3 class="section-title">Account Settings</h3>
+                <h3 class="section-title">
+                    Account Settings
+                </h3>
 
                 <div class="actions">
 
-                    <button onclick="alert('Change Password page will be connected here.')">
+                    <button onclick="showPasswordMessage()">
                         Change Password
                     </button>
 
@@ -570,6 +668,7 @@
 
     </div>
 
+
     <!-- EDIT PROFILE MODAL -->
 
     <div class="modal" id="editModal">
@@ -578,17 +677,81 @@
 
             <h3>Edit Personal Information</h3>
 
-            <input type="text" id="editName" placeholder="Full Name">
+            <div class="form-group">
 
-            <input type="email" id="editEmail" placeholder="Email Address">
+                <label for="editName">Full Name</label>
 
-            <input type="tel" id="editPhone" placeholder="Phone Number">
+                <input type="text"
+                       id="editName"
+                       placeholder="Enter full name"
+                       maxlength="100"
+                       required>
 
-            <input type="text" id="editLocation" placeholder="Location">
+            </div>
 
-            <button onclick="saveProfile()">Save Changes</button>
 
-            <button onclick="closeEdit()" style="background:#777;">
+            <div class="form-group">
+
+                <label for="editEmail">Email Address</label>
+
+                <input type="email"
+                       id="editEmail"
+                       placeholder="Enter email address"
+                       required>
+
+            </div>
+
+
+            <div class="form-group">
+
+                <label for="editPhone">Phone Number</label>
+
+                <input type="tel"
+                       id="editPhone"
+                       placeholder="Enter phone number"
+                       maxlength="20"
+                       required>
+
+            </div>
+
+
+            <div class="form-group">
+
+                <label for="editLocation">Location</label>
+
+                <input type="text"
+                       id="editLocation"
+                       placeholder="Enter your location"
+                       maxlength="150"
+                       required>
+
+            </div>
+
+
+            <div class="form-group">
+
+                <label for="editPhoto">Profile Picture</label>
+
+                <input type="file"
+                       id="editPhoto"
+                       accept="image/png,image/jpeg,image/webp">
+
+                <img id="imagePreview"
+                     class="image-preview"
+                     alt="Image Preview">
+
+                <p class="note">
+                    Select an image. Maximum size: 1 MB.
+                </p>
+
+            </div>
+
+
+            <button onclick="saveProfile()">
+                Save Changes
+            </button>
+
+            <button onclick="closeEdit()" class="cancel-btn">
                 Cancel
             </button>
 
@@ -596,13 +759,468 @@
 
     </div>
 
+
     <script>
 
-        /* MOBILE MENU */
+        // CURRENT USER
+
+        let currentUser = null;
+
+        let selectedPhoto = null;
+
+
+        // READ CURRENT USER
+
+        function getCurrentUser() {
+
+            const storedUser = localStorage.getItem("rentalCurrentUser");
+
+            if (!storedUser) {
+                return null;
+            }
+
+            try {
+
+                return JSON.parse(storedUser);
+
+            } catch (error) {
+
+                return {
+                    name: storedUser
+                };
+
+            }
+
+        }
+
+
+        // READ RENTER PROFILE
+
+        function getSavedProfile() {
+
+            try {
+
+                return JSON.parse(
+                    localStorage.getItem("renterProfile") || "{}"
+                );
+
+            } catch (error) {
+
+                return {};
+
+            }
+
+        }
+
+
+        // GET RENTER NAME
+
+        function getRenterName(user, profile) {
+
+            return profile.fullName ||
+                   user.fullName ||
+                   user.name ||
+                   user.username ||
+                   "Renter";
+
+        }
+
+
+        // LOAD PROFILE
+
+        function loadProfile() {
+
+            currentUser = getCurrentUser();
+
+            if (!currentUser) {
+
+                alert("Please login first.");
+
+                window.location.href = "login.html";
+
+                return;
+
+            }
+
+            const profile = getSavedProfile();
+
+            const name = getRenterName(currentUser, profile);
+
+            const email = profile.email ||
+                          currentUser.email ||
+                          "";
+
+            const phone = profile.phone ||
+                          currentUser.phone ||
+                          currentUser.phoneNumber ||
+                          "";
+
+            const location = profile.location ||
+                             currentUser.location ||
+                             currentUser.address ||
+                             "";
+
+            const photo = profile.photo ||
+                          currentUser.profileImage ||
+                          currentUser.image ||
+                          "image001.jpg";
+
+
+            // DISPLAY INFORMATION
+
+            document.getElementById("displayName").textContent = name;
+
+            document.getElementById("name").textContent =
+                name || "Not provided";
+
+            document.getElementById("email").textContent =
+                email || "Not provided";
+
+            document.getElementById("phone").textContent =
+                phone || "Not provided";
+
+            document.getElementById("location").textContent =
+                location || "Not provided";
+
+            document.getElementById("profileAvatar").src = photo;
+
+
+            // MEMBER SINCE
+
+            const joinedDate =
+                currentUser.createdAt ||
+                currentUser.registeredAt ||
+                currentUser.joinDate;
+
+            if (joinedDate) {
+
+                const date = new Date(joinedDate);
+
+                document.getElementById("memberSince").textContent =
+                    "Member since: " +
+                    (isNaN(date.getTime())
+                        ? "Not available"
+                        : date.toLocaleDateString("en-GB", {
+                            month: "long",
+                            year: "numeric"
+                        }));
+
+            } else {
+
+                document.getElementById("memberSince").textContent =
+                    "Member since: Not available";
+
+            }
+
+            loadRentalActivity();
+
+        }
+
+
+        // LOAD RENTAL ACTIVITY
+
+        function loadRentalActivity() {
+
+            const user = getCurrentUser();
+
+            const profile = getSavedProfile();
+
+            const renterName = getRenterName(user, profile)
+                .trim()
+                .toLowerCase();
+
+            let bookings = [];
+
+            try {
+
+                bookings = JSON.parse(
+                    localStorage.getItem("ownerBookingRequests") || "[]"
+                );
+
+            } catch (error) {
+
+                bookings = [];
+
+            }
+
+            const myBookings = bookings.filter(booking => {
+
+                const bookingName = String(
+                    booking.tenant || ""
+                ).trim().toLowerCase();
+
+                return bookingName === renterName;
+
+            });
+
+            const active = myBookings.filter(booking => {
+
+                return String(booking.status || "")
+                    .toLowerCase() === "approved";
+
+            });
+
+            const pending = myBookings.filter(booking => {
+
+                return String(booking.status || "")
+                    .toLowerCase() === "pending";
+
+            });
+
+            document.getElementById("totalBookings").textContent =
+                myBookings.length;
+
+            document.getElementById("activeBookings").textContent =
+                active.length;
+
+            document.getElementById("pendingBookings").textContent =
+                pending.length;
+
+        }
+
+
+        // OPEN EDIT MODAL
+
+        function openEdit() {
+
+            const profile = getSavedProfile();
+
+            document.getElementById("editName").value =
+                document.getElementById("name").textContent === "Not provided"
+                    ? ""
+                    : document.getElementById("name").textContent;
+
+            document.getElementById("editEmail").value =
+                document.getElementById("email").textContent === "Not provided"
+                    ? ""
+                    : document.getElementById("email").textContent;
+
+            document.getElementById("editPhone").value =
+                document.getElementById("phone").textContent === "Not provided"
+                    ? ""
+                    : document.getElementById("phone").textContent;
+
+            document.getElementById("editLocation").value =
+                document.getElementById("location").textContent === "Not provided"
+                    ? ""
+                    : document.getElementById("location").textContent;
+
+            selectedPhoto = null;
+
+            document.getElementById("editPhoto").value = "";
+
+            document.getElementById("imagePreview").style.display = "none";
+
+            document.getElementById("editModal").style.display = "flex";
+
+        }
+
+
+        // IMAGE PREVIEW
+
+        document.getElementById("editPhoto").addEventListener(
+            "change",
+            function () {
+
+                const file = this.files[0];
+
+                if (!file) {
+                    return;
+                }
+
+                const allowedTypes = [
+                    "image/jpeg",
+                    "image/png",
+                    "image/webp"
+                ];
+
+                if (!allowedTypes.includes(file.type)) {
+
+                    alert("Please select a JPG, PNG or WEBP image.");
+
+                    this.value = "";
+
+                    return;
+
+                }
+
+                if (file.size > 1024 * 1024) {
+
+                    alert("Image must not exceed 1 MB.");
+
+                    this.value = "";
+
+                    return;
+
+                }
+
+                const reader = new FileReader();
+
+                reader.onload = function (event) {
+
+                    selectedPhoto = event.target.result;
+
+                    const preview =
+                        document.getElementById("imagePreview");
+
+                    preview.src = selectedPhoto;
+
+                    preview.style.display = "block";
+
+                };
+
+                reader.readAsDataURL(file);
+
+            }
+        );
+
+
+        // CLOSE EDIT MODAL
+
+        function closeEdit() {
+
+            document.getElementById("editModal").style.display = "none";
+
+            selectedPhoto = null;
+
+        }
+
+
+        // SAVE PROFILE
+
+        function saveProfile() {
+
+            const name = document.getElementById("editName")
+                .value.trim();
+
+            const email = document.getElementById("editEmail")
+                .value.trim();
+
+            const phone = document.getElementById("editPhone")
+                .value.trim();
+
+            const location = document.getElementById("editLocation")
+                .value.trim();
+
+
+            if (!name || !email || !phone || !location) {
+
+                alert("Please fill in all fields.");
+
+                return;
+
+            }
+
+
+            if (!/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email)) {
+
+                alert("Please enter a valid email address.");
+
+                return;
+
+            }
+
+
+            const previousProfile = getSavedProfile();
+
+            const updatedProfile = {
+
+                ...previousProfile,
+
+                fullName: name,
+
+                email: email,
+
+                phone: phone,
+
+                location: location,
+
+                photo: selectedPhoto ||
+                       previousProfile.photo ||
+                       currentUser.profileImage ||
+                       currentUser.image ||
+                       ""
+
+            };
+
+
+            // SAVE RENTER PROFILE
+
+            try {
+
+                localStorage.setItem(
+                    "renterProfile",
+                    JSON.stringify(updatedProfile)
+                );
+
+
+                // UPDATE CURRENT USER
+
+                const updatedUser = {
+
+                    ...currentUser,
+
+                    name: name,
+
+                    fullName: name,
+
+                    email: email,
+
+                    phone: phone,
+
+                    phoneNumber: phone,
+
+                    location: location,
+
+                    profileImage: updatedProfile.photo,
+
+                    image: updatedProfile.photo
+
+                };
+
+
+                localStorage.setItem(
+                    "rentalCurrentUser",
+                    JSON.stringify(updatedUser)
+                );
+
+
+                currentUser = updatedUser;
+
+                closeEdit();
+
+                loadProfile();
+
+                alert("Profile updated successfully!");
+
+            } catch (error) {
+
+                alert(
+                    "Unable to save profile. Your browser storage may be full. Try using a smaller image."
+                );
+
+            }
+
+        }
+
+
+        // CHANGE PASSWORD MESSAGE
+
+        function showPasswordMessage() {
+
+            alert(
+                "Password changing will be connected when the PHP and MySQL authentication system is implemented."
+            );
+
+        }
+
+
+        // MOBILE MENU
 
         function toggleMenu() {
 
             const nav = document.getElementById("sidebarNav");
+
             const btn = document.getElementById("menuBtn");
 
             nav.classList.toggle("show");
@@ -611,72 +1229,53 @@
                 "aria-expanded",
                 nav.classList.contains("show")
             );
+
         }
 
-        /* OPEN MODAL */
 
-        function openEdit() {
+        // LOGOUT
 
-            document.getElementById("editName").value =
-                document.getElementById("name").innerText;
+        function confirmLogout(event) {
 
-            document.getElementById("editEmail").value =
-                document.getElementById("email").innerText;
+            event.preventDefault();
 
-            document.getElementById("editPhone").value =
-                document.getElementById("phone").innerText;
+            const confirmAction = confirm(
+                "Are you sure you want to logout?"
+            );
 
-            document.getElementById("editLocation").value =
-                document.getElementById("location").innerText;
+            if (confirmAction) {
 
-            document.getElementById("editModal").style.display = "flex";
-        }
+                localStorage.removeItem("rentalCurrentUser");
 
-        /* CLOSE MODAL */
+                window.location.href = "login.html";
 
-        function closeEdit() {
-            document.getElementById("editModal").style.display = "none";
-        }
-
-        /* SAVE PROFILE */
-
-        function saveProfile() {
-
-            const name = document.getElementById("editName").value.trim();
-            const email = document.getElementById("editEmail").value.trim();
-            const phone = document.getElementById("editPhone").value.trim();
-            const location = document.getElementById("editLocation").value.trim();
-
-            if (!name || !email || !phone || !location) {
-                alert("Please fill in all fields.");
-                return;
             }
 
-            if (!/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email)) {
-                alert("Please enter a valid email address.");
-                return;
-            }
-
-            document.getElementById("name").innerText = name;
-            document.getElementById("displayName").innerText = name;
-            document.getElementById("email").innerText = email;
-            document.getElementById("phone").innerText = phone;
-            document.getElementById("location").innerText = location;
-
-            closeEdit();
-
-            alert("Profile updated successfully!");
         }
 
-        /* CLOSE MODAL WHEN CLICKING OUTSIDE */
 
-        document.getElementById("editModal").addEventListener("click", function (e) {
+        // CLOSE MODAL OUTSIDE
 
-            if (e.target === this) {
-                closeEdit();
+        document.getElementById("editModal").addEventListener(
+            "click",
+            function (event) {
+
+                if (event.target === this) {
+
+                    closeEdit();
+
+                }
+
             }
+        );
 
-        });
+
+        // START
+
+        document.addEventListener(
+            "DOMContentLoaded",
+            loadProfile
+        );
 
     </script>
 

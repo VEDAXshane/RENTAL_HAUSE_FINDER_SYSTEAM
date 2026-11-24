@@ -1,0 +1,883 @@
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Admin Properties - Rental House Finder</title>
+
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: Arial, Helvetica, sans-serif;
+        }
+
+        body {
+            background: #f4f7fb;
+            color: #1e293b;
+        }
+
+        .layout {
+            display: flex;
+            min-height: 100vh;
+        }
+
+        /* SIDEBAR */
+        .sidebar {
+            width: 240px;
+            background: #102e6c;
+            color: white;
+            padding: 22px 14px;
+            flex-shrink: 0;
+        }
+
+        .logo {
+            text-align: center;
+            font-size: 21px;
+            font-weight: bold;
+            margin-bottom: 35px;
+            line-height: 1.5;
+        }
+
+        .logo span {
+            color: #60a5fa;
+        }
+
+        .sidebar a {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            text-decoration: none;
+            color: #dbeafe;
+            padding: 13px 12px;
+            margin-bottom: 8px;
+            border-radius: 8px;
+            font-size: 14px;
+            transition: 0.3s;
+        }
+
+        .sidebar a:hover,
+        .sidebar a.active {
+            background: #1764e8;
+            color: white;
+        }
+
+        .nav-icon {
+            width: 25px;
+            text-align: center;
+            font-size: 18px;
+        }
+
+        /* MAIN */
+        .main {
+            flex: 1;
+            min-width: 0;
+            padding: 28px;
+        }
+
+        .topbar {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            gap: 15px;
+            margin-bottom: 25px;
+        }
+
+        .topbar h1 {
+            font-size: 27px;
+            color: #142957;
+        }
+
+        .topbar p {
+            color: #64748b;
+            margin-top: 7px;
+            font-size: 14px;
+        }
+
+        .back-dashboard {
+            background: #2563eb;
+            color: white;
+            text-decoration: none;
+            padding: 11px 16px;
+            border-radius: 8px;
+            font-size: 13px;
+            white-space: nowrap;
+        }
+
+        .back-dashboard:hover {
+            background: #1d4ed8;
+        }
+
+        /* SUMMARY CARDS */
+        .summary {
+            display: grid;
+            grid-template-columns: repeat(4, 1fr);
+            gap: 15px;
+            margin-bottom: 25px;
+        }
+
+        .summary-card {
+            background: white;
+            padding: 20px;
+            border-radius: 12px;
+            box-shadow: 0 3px 12px rgba(15, 23, 42, 0.05);
+        }
+
+        .summary-card p {
+            color: #64748b;
+            font-size: 13px;
+            margin-bottom: 10px;
+        }
+
+        .summary-card h2 {
+            font-size: 26px;
+            color: #1e293b;
+        }
+
+        .summary-card.pending h2 {
+            color: #d97706;
+        }
+
+        .summary-card.approved h2 {
+            color: #16a34a;
+        }
+
+        .summary-card.rejected h2 {
+            color: #dc2626;
+        }
+
+        /* FILTERS */
+        .toolbar {
+            background: white;
+            padding: 20px;
+            border-radius: 12px;
+            box-shadow: 0 3px 12px rgba(15, 23, 42, 0.05);
+            display: flex;
+            gap: 12px;
+            margin-bottom: 22px;
+            flex-wrap: wrap;
+        }
+
+        .toolbar input,
+        .toolbar select {
+            padding: 12px;
+            border: 1px solid #d1d5db;
+            border-radius: 8px;
+            outline: none;
+            font-size: 14px;
+            background: white;
+        }
+
+        .toolbar input {
+            flex: 1;
+            min-width: 200px;
+        }
+
+        .toolbar select {
+            min-width: 160px;
+        }
+
+        .toolbar input:focus,
+        .toolbar select:focus {
+            border-color: #2563eb;
+        }
+
+        /* PROPERTY LIST */
+        .section-title {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            gap: 10px;
+            margin-bottom: 18px;
+        }
+
+        .section-title h2 {
+            font-size: 19px;
+        }
+
+        .section-title span {
+            color: #64748b;
+            font-size: 13px;
+        }
+
+        .property-list {
+            display: grid;
+            grid-template-columns: repeat(2, minmax(0, 1fr));
+            gap: 20px;
+        }
+
+        .property-card {
+            background: white;
+            border-radius: 12px;
+            overflow: hidden;
+            box-shadow: 0 3px 12px rgba(15, 23, 42, 0.05);
+        }
+
+        .property-image {
+            height: 210px;
+            background: #e2e8f0;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: #64748b;
+            font-size: 45px;
+            overflow: hidden;
+        }
+
+        .property-image img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+        }
+
+        .property-body {
+            padding: 20px;
+        }
+
+        .property-heading {
+            display: flex;
+            justify-content: space-between;
+            align-items: flex-start;
+            gap: 12px;
+            margin-bottom: 12px;
+        }
+
+        .property-heading h3 {
+            font-size: 17px;
+            line-height: 1.4;
+        }
+
+        .status {
+            padding: 6px 10px;
+            border-radius: 20px;
+            font-size: 11px;
+            font-weight: bold;
+            white-space: nowrap;
+        }
+
+        .status.pending {
+            background: #fef3c7;
+            color: #92400e;
+        }
+
+        .status.approved {
+            background: #dcfce7;
+            color: #166534;
+        }
+
+        .status.rejected {
+            background: #fee2e2;
+            color: #991b1b;
+        }
+
+        .property-location {
+            color: #64748b;
+            font-size: 13px;
+            margin-bottom: 12px;
+        }
+
+        .property-price {
+            color: #2563eb;
+            font-weight: bold;
+            font-size: 20px;
+            margin-bottom: 12px;
+        }
+
+        .property-meta {
+            display: flex;
+            gap: 15px;
+            flex-wrap: wrap;
+            color: #475569;
+            font-size: 13px;
+            margin-bottom: 12px;
+        }
+
+        .amenities {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 6px;
+            margin-bottom: 15px;
+        }
+
+        .amenity-tag {
+            background: #eff6ff;
+            color: #1d4ed8;
+            font-size: 11px;
+            padding: 6px 9px;
+            border-radius: 6px;
+        }
+
+        .property-description {
+            color: #64748b;
+            font-size: 13px;
+            line-height: 1.6;
+            margin-bottom: 15px;
+            overflow-wrap: anywhere;
+        }
+
+        .property-actions {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 8px;
+            border-top: 1px solid #edf0f5;
+            padding-top: 15px;
+        }
+
+        .action-btn {
+            border: none;
+            padding: 9px 12px;
+            border-radius: 7px;
+            font-size: 12px;
+            font-weight: bold;
+            cursor: pointer;
+            transition: 0.2s;
+        }
+
+        .view-btn {
+            background: #dbeafe;
+            color: #1d4ed8;
+        }
+
+        .approve-btn {
+            background: #dcfce7;
+            color: #166534;
+        }
+
+        .reject-btn {
+            background: #fee2e2;
+            color: #991b1b;
+        }
+
+        .delete-btn {
+            background: #e2e8f0;
+            color: #334155;
+        }
+
+        .action-btn:hover {
+            opacity: 0.8;
+        }
+
+        .empty-state {
+            background: white;
+            text-align: center;
+            padding: 50px 20px;
+            border-radius: 12px;
+            color: #64748b;
+            grid-column: 1 / -1;
+        }
+
+        .empty-state .empty-icon {
+            font-size: 45px;
+            margin-bottom: 12px;
+        }
+
+        .empty-state h3 {
+            color: #334155;
+            margin-bottom: 8px;
+        }
+
+        footer {
+            text-align: center;
+            color: #64748b;
+            font-size: 12px;
+            padding: 25px 10px;
+        }
+
+        /* RESPONSIVE */
+        @media (max-width: 1050px) {
+            .summary {
+                grid-template-columns: repeat(2, 1fr);
+            }
+
+            .property-list {
+                grid-template-columns: 1fr;
+            }
+        }
+
+        @media (max-width: 700px) {
+            .layout {
+                flex-direction: column;
+            }
+
+            .sidebar {
+                width: 100%;
+                display: flex;
+                flex-wrap: wrap;
+                padding: 12px;
+                align-items: center;
+            }
+
+            .logo {
+                width: 100%;
+                margin-bottom: 10px;
+            }
+
+            .sidebar a {
+                padding: 10px;
+                margin: 3px;
+                font-size: 12px;
+            }
+
+            .main {
+                padding: 15px;
+            }
+
+            .topbar h1 {
+                font-size: 21px;
+            }
+
+            .toolbar {
+                flex-direction: column;
+            }
+
+            .toolbar input,
+            .toolbar select {
+                width: 100%;
+            }
+        }
+
+        @media (max-width: 400px) {
+            .summary {
+                grid-template-columns: 1fr 1fr;
+            }
+
+            .property-heading {
+                flex-direction: column;
+            }
+        }
+    </style>
+</head>
+
+<body>
+
+<div class="layout">
+
+    <!-- ADMIN SIDEBAR -->
+    <aside class="sidebar">
+
+        <div class="logo">
+            Smart Rental<br>
+            <span>Finder</span>
+        </div>
+
+        <a href="admin-dashboard.html">
+            <span class="nav-icon">▣</span>
+            Dashboard
+        </a>
+
+        <a href="admin-properties.html" class="active">
+            <span class="nav-icon">⌂</span>
+            Properties
+        </a>
+
+        <a href="help-support.html">
+            <span class="nav-icon">♙</span>
+            Help and Support
+        </a>
+
+        <a href="notifications.html">
+            <span class="nav-icon">▤</span>
+            Notifications
+        </a>
+
+        <a href="report-fraud.html">
+            <span class="nav-icon">⚑</span>
+            Reports
+        </a>
+
+        <a href="login.html">
+            <span class="nav-icon">⇥</span>
+            Logout
+        </a>
+
+    </aside>
+
+    <!-- MAIN CONTENT -->
+    <main class="main">
+
+        <div class="topbar">
+
+            <div>
+                <h1>Property Management</h1>
+                <p>Review, approve, reject and manage submitted properties.</p>
+            </div>
+
+            <a href="admin-dashboard.html" class="back-dashboard">
+                ← Dashboard
+            </a>
+
+        </div>
+
+        <!-- SUMMARY -->
+        <section class="summary">
+
+            <div class="summary-card">
+                <p>Total Properties</p>
+                <h2 id="totalCount">0</h2>
+            </div>
+
+            <div class="summary-card pending">
+                <p>Pending Approval</p>
+                <h2 id="pendingCount">0</h2>
+            </div>
+
+            <div class="summary-card approved">
+                <p>Approved</p>
+                <h2 id="approvedCount">0</h2>
+            </div>
+
+            <div class="summary-card rejected">
+                <p>Rejected</p>
+                <h2 id="rejectedCount">0</h2>
+            </div>
+
+        </section>
+
+        <!-- SEARCH AND FILTER -->
+        <section class="toolbar">
+
+            <input type="search"
+                   id="searchInput"
+                   placeholder="Search by property title or location...">
+
+            <select id="statusFilter">
+                <option value="all">All Properties</option>
+                <option value="Pending Approval">Pending Approval</option>
+                <option value="Approved">Approved</option>
+                <option value="Rejected">Rejected</option>
+            </select>
+
+        </section>
+
+        <!-- PROPERTY LIST -->
+        <section>
+
+            <div class="section-title">
+                <h2>Submitted Properties</h2>
+                <span id="resultCount">0 properties</span>
+            </div>
+
+            <div class="property-list" id="propertyList"></div>
+
+        </section>
+
+        <footer>
+            © 2026 Smart Rental Finder. All Rights Reserved.
+        </footer>
+
+    </main>
+
+</div>
+
+<script>
+    const propertyList = document.getElementById("propertyList");
+    const searchInput = document.getElementById("searchInput");
+    const statusFilter = document.getElementById("statusFilter");
+
+    // Read properties saved from Add Property page
+    function getProperties() {
+        try {
+            const data = JSON.parse(
+                localStorage.getItem("ownerProperties") || "[]"
+            );
+
+            return Array.isArray(data) ? data : [];
+
+        } catch (error) {
+            return [];
+        }
+    }
+
+    // Save updated property records
+    function saveProperties(properties) {
+        localStorage.setItem(
+            "ownerProperties",
+            JSON.stringify(properties)
+        );
+    }
+
+    // Escape text to prevent HTML injection when displaying stored values
+    function escapeHTML(value) {
+        return String(value ?? "").replace(/[&<>"']/g, function(character) {
+            const entities = {
+                "&": "&amp;",
+                "<": "&lt;",
+                ">": "&gt;",
+                '"': "&quot;",
+                "'": "&#39;"
+            };
+
+            return entities[character];
+        });
+    }
+
+    // Update summary numbers
+    function updateSummary(properties) {
+
+        document.getElementById("totalCount").textContent =
+            properties.length;
+
+        document.getElementById("pendingCount").textContent =
+            properties.filter(p => p.status === "Pending Approval").length;
+
+        document.getElementById("approvedCount").textContent =
+            properties.filter(p => p.status === "Approved").length;
+
+        document.getElementById("rejectedCount").textContent =
+            properties.filter(p => p.status === "Rejected").length;
+    }
+
+    // Display properties
+    function renderProperties() {
+
+        const properties = getProperties();
+
+        updateSummary(properties);
+
+        const searchTerm = searchInput.value.trim().toLowerCase();
+        const selectedStatus = statusFilter.value;
+
+        const filteredProperties = properties.filter(property => {
+
+            const title = String(property.title || "").toLowerCase();
+            const location = String(property.location || "").toLowerCase();
+            const region = String(property.region || "").toLowerCase();
+
+            const matchesSearch =
+                title.includes(searchTerm) ||
+                location.includes(searchTerm) ||
+                region.includes(searchTerm);
+
+            const matchesStatus =
+                selectedStatus === "all" ||
+                property.status === selectedStatus;
+
+            return matchesSearch && matchesStatus;
+        });
+
+        document.getElementById("resultCount").textContent =
+            filteredProperties.length + " properties";
+
+        propertyList.innerHTML = "";
+
+        if (filteredProperties.length === 0) {
+
+            propertyList.innerHTML = `
+                <div class="empty-state">
+                    <div class="empty-icon">🏠</div>
+                    <h3>No properties found</h3>
+                    <p>Properties submitted by owners will appear here.</p>
+                </div>
+            `;
+
+            return;
+        }
+
+        filteredProperties.forEach(property => {
+
+            const status = property.status || "Pending Approval";
+
+            const statusClass =
+                status === "Approved" ? "approved" :
+                status === "Rejected" ? "rejected" : "pending";
+
+            const amenities = Array.isArray(property.amenities)
+                ? property.amenities
+                : [];
+
+            const safeAmenities = amenities
+                .map(item => `<span class="amenity-tag">${escapeHTML(item)}</span>`)
+                .join("");
+
+            const card = document.createElement("article");
+            card.className = "property-card";
+
+            card.innerHTML = `
+                <div class="property-image">
+                    🏠
+                </div>
+
+                <div class="property-body">
+
+                    <div class="property-heading">
+                        <h3>${escapeHTML(property.title || "Untitled Property")}</h3>
+
+                        <span class="status ${statusClass}">
+                            ${escapeHTML(status)}
+                        </span>
+                    </div>
+
+                    <div class="property-location">
+                        📍 ${escapeHTML(property.location || "Location not specified")},
+                        ${escapeHTML(property.region || "")}
+                    </div>
+
+                    <div class="property-price">
+                        TZS ${Number(property.price || 0).toLocaleString()}
+                        / month
+                    </div>
+
+                    <div class="property-meta">
+                        <span>🛏 ${escapeHTML(property.bedrooms ?? 0)} Bedrooms</span>
+                        <span>🚿 ${escapeHTML(property.bathrooms ?? 0)} Bathrooms</span>
+                        <span>🏠 ${escapeHTML(property.type || "Property")}</span>
+                    </div>
+
+                    <div class="amenities">
+                        ${safeAmenities || "<span class='amenity-tag'>No amenities added</span>"}
+                    </div>
+
+                    <p class="property-description">
+                        ${escapeHTML(property.description || "No description available.")}
+                    </p>
+
+                    <div class="property-actions">
+
+                        <button class="action-btn view-btn" data-action="view">
+                            View Details
+                        </button>
+
+                        ${
+                            status !== "Approved"
+                            ? `<button class="action-btn approve-btn" data-action="approve">
+                                Approve
+                               </button>`
+                            : ""
+                        }
+
+                        ${
+                            status !== "Rejected"
+                            ? `<button class="action-btn reject-btn" data-action="reject">
+                                Reject
+                               </button>`
+                            : ""
+                        }
+
+                        <button class="action-btn delete-btn" data-action="delete">
+                            Delete
+                        </button>
+
+                    </div>
+
+                </div>
+            `;
+
+            // Button actions
+            card.querySelectorAll("[data-action]").forEach(button => {
+
+                button.addEventListener("click", function() {
+
+                    const action = this.dataset.action;
+
+                    if (action === "view") {
+                        viewProperty(property);
+                    }
+
+                    if (action === "approve") {
+                        updatePropertyStatus(property.id, "Approved");
+                    }
+
+                    if (action === "reject") {
+                        updatePropertyStatus(property.id, "Rejected");
+                    }
+
+                    if (action === "delete") {
+                        deleteProperty(property.id);
+                    }
+
+                });
+
+            });
+
+            propertyList.appendChild(card);
+        });
+    }
+
+    // View full details
+    function viewProperty(property) {
+
+        const amenities = Array.isArray(property.amenities)
+            ? property.amenities.join(", ")
+            : "None";
+
+        const details =
+            "PROPERTY DETAILS\n\n" +
+            "Title: " + (property.title || "") + "\n" +
+            "Type: " + (property.type || "") + "\n" +
+            "Region: " + (property.region || "") + "\n" +
+            "Location: " + (property.location || "") + "\n" +
+            "Price: TZS " + Number(property.price || 0).toLocaleString() + "\n" +
+            "Bedrooms: " + (property.bedrooms ?? 0) + "\n" +
+            "Bathrooms: " + (property.bathrooms ?? 0) + "\n" +
+            "Amenities: " + amenities + "\n" +
+            "Status: " + (property.status || "Pending Approval") + "\n\n" +
+            "Description:\n" + (property.description || "No description");
+
+        alert(details);
+    }
+
+    // Approve or reject property
+    function updatePropertyStatus(propertyId, newStatus) {
+
+        const confirmation = confirm(
+            "Are you sure you want to change this property's status to " +
+            newStatus + "?"
+        );
+
+        if (!confirmation) return;
+
+        const properties = getProperties();
+
+        const updatedProperties = properties.map(property => {
+
+            if (String(property.id) === String(propertyId)) {
+
+                return {
+                    ...property,
+                    status: newStatus,
+                    reviewedAt: new Date().toISOString()
+                };
+            }
+
+            return property;
+        });
+
+        saveProperties(updatedProperties);
+
+        renderProperties();
+    }
+
+    // Delete property
+    function deleteProperty(propertyId) {
+
+        const confirmation = confirm(
+            "Are you sure you want to permanently delete this property?"
+        );
+
+        if (!confirmation) return;
+
+        const properties = getProperties();
+
+        const updatedProperties = properties.filter(
+            property => String(property.id) !== String(propertyId)
+        );
+
+        saveProperties(updatedProperties);
+
+        renderProperties();
+    }
+
+    // Search
+    searchInput.addEventListener("input", renderProperties);
+
+    // Filter
+    statusFilter.addEventListener("change", renderProperties);
+
+    // Initial loading
+    renderProperties();
+</script>
+
+</body>
+</html>

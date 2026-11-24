@@ -4,7 +4,9 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
     <title>Renter Dashboard | Smart Rental Finder</title>
+
     <style>
         * {
             margin: 0;
@@ -22,31 +24,29 @@
             display: flex;
             min-height: 100vh;
             padding: 8px;
-            gap: 0;
         }
 
         /* SIDEBAR */
+
         .sidebar {
-            width: 205px;
+            width: 220px;
             flex-shrink: 0;
             background: #102b68;
             color: white;
             border-radius: 12px 0 0 12px;
-            padding: 20px 12px;
+            padding: 22px 13px;
         }
 
         .user-profile {
-            display: flex;
-            justify-content: center;
-            margin-bottom: 27px;
-            margin-bottom: 27px;
+            text-align: center;
+            margin-bottom: 30px;
         }
 
         .user-profile img {
-            width: 48px;
-            height: 48px;
+            width: 65px;
+            height: 65px;
             border-radius: 50%;
-            border: 2px solid white;
+            border: 3px solid white;
             object-fit: cover;
         }
 
@@ -55,18 +55,18 @@
         }
 
         .sidebar-menu li {
-            margin-bottom: 8px;
+            margin-bottom: 9px;
         }
 
         .sidebar-menu a {
             display: flex;
             align-items: center;
-            gap: 10px;
-            padding: 11px 10px;
+            gap: 12px;
+            padding: 12px 10px;
             text-decoration: none;
             color: #e0eaff;
             border-radius: 7px;
-            font-size: 12px;
+            font-size: 13px;
             transition: 0.3s;
         }
 
@@ -77,31 +77,33 @@
         }
 
         .sidebar-menu .icon {
-            font-size: 16px;
+            font-size: 18px;
         }
 
         /* MAIN CONTENT */
-        /* MAIN CONTENT */
+
         .main {
             flex: 1;
             min-width: 0;
-            background: rgb(19, 171, 5);
-            padding: 20px;
+            background: #ffffff;
+            padding: 23px;
             border-radius: 0 12px 12px 0;
         }
 
         /* HEADER */
+
         .header {
             display: flex;
             justify-content: space-between;
             align-items: center;
-            margin-bottom: 23px;
+            margin-bottom: 25px;
+            gap: 15px;
         }
 
         .welcome h1 {
             font-size: 25px;
             font-weight: 750;
-            margin-bottom: 5px;
+            margin-bottom: 6px;
         }
 
         .welcome p {
@@ -112,20 +114,19 @@
         .header-right {
             display: flex;
             align-items: center;
-            gap: 20px;
+            gap: 18px;
         }
 
         .notification {
-            width: 38px;
-            height: 38px;
+            width: 40px;
+            height: 40px;
             background: #edf3ff;
             border-radius: 50%;
             display: grid;
             place-items: center;
-            position: relative;
-            position: relative;
             cursor: pointer;
-            font-size: 18px;
+            font-size: 19px;
+            position: relative;
         }
 
         .notification::after {
@@ -140,10 +141,11 @@
         }
 
         .header-avatar {
-            width: 40px;
-            height: 40px;
+            width: 43px;
+            height: 43px;
             border-radius: 50%;
             object-fit: cover;
+            background: #dbeafe;
         }
 
         .menu-toggle {
@@ -151,385 +153,757 @@
             background: #075bea;
             color: white;
             border: none;
-            padding: 9px;
+            padding: 9px 12px;
             border-radius: 6px;
             font-size: 20px;
+            cursor: pointer;
         }
 
         /* STATISTICS */
+
         .statistics {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 15px;
+            margin-bottom: 28px;
+        }
+
+        .stat-card {
+            min-height: 115px;
+            border-radius: 12px;
+            padding: 15px;
+            text-align: center;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            gap: 7px;
+        }
+
+        .stat-icon {
+            font-size: 25px;
+        }
+
+        .stat-card h2 {
+            font-size: 23px;
+            font-weight: bold;
+        }
+
+        .stat-card p {
+            font-size: 12px;
+            font-weight: 600;
+        }
+
+        .available {
+            background: #dfedff;
+            color: #0754db;
+        }
+
+        .bookings {
+            background: #ddf7e8;
+            color: #168b4e;
+        }
+
+        .favorites {
+            background: #ffe2ed;
+            color: #e62e59;
+        }
+
+        /* QUICK ACTIONS */
+
+        .section-title {
+            font-size: 17px;
+            margin-bottom: 14px;
+            font-weight: bold;
+        }
+
+        .quick-actions {
             display: grid;
             grid-template-columns: repeat(4, 1fr);
             gap: 13px;
+            margin-bottom: 27px;
+        }
+
+        .action {
+            border: none;
+            min-height: 100px;
+            border-radius: 10px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            flex-direction: column;
+            gap: 9px;
+            cursor: pointer;
+            transition: 0.3s;
+        }
+
+        .action:hover {
+            transform: translateY(-4px);
+            box-shadow: 0 5px 12px rgba(0, 0, 0, 0.1);
+        }
+
+        .action span {
+            font-size: 27px;
+        }
+
+        .action strong {
+            font-size: 12px;
+            color: #132d68;
+        }
+
+        .search-action {
+            background: #dfebff;
+        }
+
+        .map-action {
+            background: #e7e7ff;
+        }
+
+        .booking-action {
+            background: #e0f6e8;
+        }
+
+        .chat-action {
+            background: #e3edff;
+        }
+
+        /* BANNER */
+
+        .banner {
+            width: 100%;
+            height: 180px;
+            overflow: hidden;
+            border-radius: 11px;
+            position: relative;
             margin-bottom: 20px;
         }
-            .stat-card {
-                min-height: 100px;
-                border-radius: 12px;
-                padding: 13px 8px;
-                text-align: center;
-                display: flex;
-                flex-direction: column;
-                align-items: center;
-                justify-content: center;
-                gap: 5px;
+
+        .banner img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            display: block;
+        }
+
+        .banner-location {
+            position: absolute;
+            bottom: 12px;
+            left: 15px;
+            color: white;
+            font-size: 14px;
+            font-weight: bold;
+            text-shadow: 0 2px 5px black;
+        }
+
+        /* INFORMATION */
+
+        .dashboard-info {
+            background: #f1f6ff;
+            padding: 16px;
+            border-radius: 10px;
+            margin-top: 15px;
+        }
+
+        .dashboard-info h3 {
+            font-size: 15px;
+            margin-bottom: 7px;
+        }
+
+        .dashboard-info p {
+            font-size: 12px;
+            color: #53617d;
+            line-height: 1.6;
+        }
+
+        /* MOBILE */
+
+        @media(max-width: 850px) {
+
+            .sidebar {
+                width: 190px;
             }
 
-            .stat-card .stat-icon {
-                font-size: 25px;
+            .main {
+                padding: 17px;
             }
 
-            .stat-card h2 {
+            .quick-actions {
+                grid-template-columns: repeat(2, 1fr);
+            }
+        }
+
+        @media(max-width: 600px) {
+
+            .dashboard {
+                padding: 0;
+            }
+
+            .sidebar {
+                position: fixed;
+                top: 0;
+                left: -230px;
+                height: 100vh;
+                width: 220px;
+                z-index: 100;
+                border-radius: 0;
+                transition: 0.3s;
+            }
+
+            .sidebar.open {
+                left: 0;
+            }
+
+            .main {
+                width: 100%;
+                border-radius: 0;
+                padding: 15px;
+            }
+
+            .menu-toggle {
+                display: block;
+            }
+
+            .welcome {
+                flex: 1;
+            }
+
+            .welcome h1 {
                 font-size: 19px;
-                font-weight: bold;
             }
 
-            .stat-card p {
+            .welcome p {
                 font-size: 11px;
-                font-weight: 600;
             }
 
-            .available {
-                background: #dfedff;
-                color: #0754db;
+            .header-right {
+                gap: 10px;
             }
 
-            .bookings {
-                background: #ddf7e8;
-                color: #168b4e;
+            .header-avatar {
+                width: 35px;
+                height: 35px;
             }
 
-            .favorites {
-                background: #ffe2ed;
-                color: #e62e59;
+            .statistics {
+                grid-template-columns: repeat(2, 1fr);
+                gap: 10px;
             }
 
-                .rating {
-                    background: #fff0cf;
-                    color: #db9000;
-                }
+            .quick-actions {
+                grid-template-columns: repeat(2, 1fr);
+                gap: 10px;
+            }
 
-                /* QUICK ACTIONS */
-                .section-title {
-                    font-size: 16px;
-                    margin-bottom: 13px;
-                    font-weight: bold;
-                }
+            .banner {
+                height: 155px;
+            }
+        }
 
-                .quick-actions {
-                    display: grid;
-                    grid-template-columns: repeat(4, 1fr);
-                    gap: 12px;
-                    margin-bottom: 18px;
-                }
-
-                .action {
-                    border: none;
-                    min-height: 85px;
-                    border-radius: 10px;
-                    display: flex;
-                    align-items: center;
-                    justify-content: center;
-                    flex-direction: column;
-                    gap: 8px;
-                    cursor: pointer;
-                    transition: 0.3s;
-                }
-
-                .action:hover {
-                    transform: translateY(-4px);
-                    box-shadow: 0 5px 12px rgba(0, 0, 0, 0.1);
-                }
-
-                .action span {
-                    font-size: 25px;
-                }
-                    .action strong {
-                        font-size: 11px;
-                        color: #132d68;
-                    }
-
-                    .search-action {
-                        background: #dfebff;
-                    }
-
-                    .map-action {
-                        background: #e7e7ff;
-                    }
-
-                    .booking-action {
-                        background: #e0f6e8;
-                    }
-
-                    .chat-action {
-                        background: #e3edff;
-                    }
-
-                    /* MOROGORO BANNER */
-                    .banner {
-                        width: 100%;
-                        height: 170px;
-                        overflow: hidden;
-                        border-radius: 11px;
-                        position: relative;
-                    }
-
-                    .banner img {
-                        width: 100%;
-                        height: 100%;
-                        object-fit: cover;
-                        display: block;
-                    }
-
-                    .banner-location {
-                        position: absolute;
-                        bottom: 12px;
-                        left: 15px;
-                        color: white;
-                        color: white;
-                        font-size: 12px;
-                        font-weight: bold;
-                        text-shadow: 0 2px 5px black;
-                    }
-
-                    /* MOBILE */
-                    @media(max-width: 850px) {
-                        .sidebar {
-                            width: 175px;
-                        }
-
-                        .main {
-                            padding: 15px;
-                        }
-
-                        .welcome h1 {
-                            font-size: 21px;
-                        }
-
-                        .statistics {
-                            gap: 8px;
-                        }
-
-                        .quick-actions {
-                            gap: 8px;
-                        }
-                    }
-
-                    @media(max-width: 600px) {
-                        .dashboard {
-                            padding: 0;
-                        }
-
-                        .sidebar {
-                            position: fixed;
-                            top: 0;
-                            left: -220px;
-                            height: 100vh;
-                            width: 205px;
-                            width: 205px;
-                            z-index: 100;
-                            border-radius: 0;
-                            transition: 0.3s;
-                        }
-
-                        .sidebar.open {
-                            left: 0;
-                        }
-
-                        .main {
-                            width: 100%;
-                            border-radius: 0;
-                            padding: 15px;
-                        }
-
-                        .menu-toggle {
-                            display: block;
-                        }
-
-                        .header {
-                            gap: 10px;
-                        }
-
-                        .welcome {
-                            flex: 1;
-                        }
-
-                        .welcome h1 {
-                            font-size: 19px;
-                        }
-
-                        .welcome p {
-                            font-size: 11px;
-                        }
-
-                        .header-right {
-                            gap: 10px;
-                        }
-
-                        .header-avatar {
-                            width: 34px;
-                            width: 34px;
-                            height: 34px;
-                        }
-
-                        .statistics {
-                            grid-template-columns: repeat(2, 1fr);
-                        }
-
-                        .quick-actions {
-                            grid-template-columns: repeat(2, 1fr);
-                        }
-
-                        .banner {
-                            height: 155px;
-                        }
-                    }
     </style>
 </head>
 
 <body>
+
     <div class="dashboard">
+
         <!-- SIDEBAR -->
+
         <aside class="sidebar" id="sidebar">
+
             <div class="user-profile">
-                <img src="https://images.unsplash.com/photo-1500648767791-00dcc994a43e?w=100" alt="User">
+
+                <img id="sidebarAvatar"
+                     src="image001.jpg"
+                     alt="Renter Profile">
+
+                <h3 id="sidebarName"
+                    style="font-size:14px;margin-top:10px;">
+                    Renter
+                </h3>
+
             </div>
+
             <ul class="sidebar-menu">
+
                 <li>
                     <a href="renter-dashboard.html" class="active">
                         <span class="icon">▦</span>
                         Dashboard
                     </a>
                 </li>
+
+                <li>
+                    <a href="house-listings.html">
+                        <span class="icon">⌂</span>
+                        Browse Houses
+                    </a>
                 </li>
+
                 <li>
                     <a href="advanced-search.html">
                         <span class="icon">⌕</span>
                         Search Homes
                     </a>
                 </li>
+
                 <li>
                     <a href="my-bookings.html">
                         <span class="icon">▣</span>
                         My Bookings
                     </a>
                 </li>
+
                 <li>
                     <a href="chat.html">
                         <span class="icon">✉</span>
                         Messages
                     </a>
                 </li>
+
+                <li>
+                    <a href="notifications.html">
+                        <span class="icon">♧</span>
+                        Notifications
+                    </a>
+                </li>
+
                 <li>
                     <a href="renter-profile.html">
                         <span class="icon">♙</span>
                         My Profile
                     </a>
                 </li>
+
                 <li>
-                    <a href="home.html" onclick="return confirmLogout()">
+                    <a href="help-support.html">
+                        <span class="icon">?</span>
+                        Help & Support
+                    </a>
+                </li>
+
+                <li>
+                    <a href="#" onclick="confirmLogout(event)">
                         <span class="icon">⇥</span>
                         Logout
                     </a>
                 </li>
+
             </ul>
+
         </aside>
+
+
         <!-- MAIN CONTENT -->
+
         <main class="main">
+
             <!-- HEADER -->
+
             <header class="header">
-                <button class="menu-toggle" onclick="toggleSidebar()">
+
+                <button class="menu-toggle"
+                        onclick="toggleSidebar()">
                     ☰
                 </button>
+
                 <div class="welcome">
-                    <h1>Hello, Welcome!</h1>
-                    <p>Find your dream home easily.</p>
+
+                    <h1 id="welcomeName">
+                        Hello, Welcome!
+                    </h1>
+
+                    <p>
+                        Find your dream home easily.
+                    </p>
+
                 </div>
+
                 <div class="header-right">
-                    <div class="notification" onclick="openNotifications()">
+
+                    <div class="notification"
+                         onclick="openNotifications()"
+                         title="Notifications">
+                        🔔
                     </div>
-                    <img class="header-avatar" src="https://images.unsplash.com/photo-1506794778202-cad84cf45f1d?w=100"
-                        alt="Profile">
+
+                    <img class="header-avatar"
+                         id="headerAvatar"
+                         src="image001.jpg"
+                         alt="Profile">
+
                 </div>
+
             </header>
+
+
             <!-- STATISTICS CARDS -->
+
             <section class="statistics">
+
                 <div class="stat-card available">
-                    <div class="stat-card available">
-                        <span class="stat-icon"> </span>
-                        <h2>12</h2>
-                        <p>Available</p>
-                    </div>
-                    <div class="stat-card bookings">
-                        <span class="stat-icon"> </span>
-                        <h2>3</h2>
-                        <p>Bookings</p>
-                    </div>
-                    <div class="stat-card favorites">
-                        <span class="stat-icon">¥ </span>
-                        <h2>5</h2>
-                        <p>Favorites</p>
-                    </div>
-                    <div class="stat-card rating">
-                        <span class="stat-icon">³ </span>
-                        <h2>4.5</h2>
-                        <p>My Rating</p>
-                    </div>
+
+                    <span class="stat-icon">🏠</span>
+
+                    <h2 id="availableCount">0</h2>
+
+                    <p>Available Houses</p>
+
+                </div>
+
+                <div class="stat-card bookings">
+
+                    <span class="stat-icon">📅</span>
+
+                    <h2 id="bookingCount">0</h2>
+
+                    <p>My Bookings</p>
+
+                </div>
+
+                <div class="stat-card favorites">
+
+                    <span class="stat-icon">❤️</span>
+
+                    <h2 id="favoriteCount">0</h2>
+
+                    <p>My Favorites</p>
+
+                </div>
+
             </section>
+
+
             <!-- QUICK ACTIONS -->
+
             <section>
+
                 <h2 class="section-title">
                     Quick Actions
                 </h2>
+
                 <div class="quick-actions">
-                    <button class="action search-action" onclick="goTo('advanced-search.html')">
-                        <span> </span>
+
+                    <button class="action search-action"
+                            onclick="goTo('advanced-search.html')">
+
+                        <span>🔍</span>
+
                         <strong>Search Homes</strong>
+
                     </button>
-                    <button class="action map-action" onclick="goTo('map.html')">
-                        <span> </span>
+
+                    <button class="action map-action"
+                            onclick="goTo('map.html')">
+
+                        <span>🗺️</span>
+
                         <strong>View Map</strong>
+
                     </button>
-                    <button class="action booking-action" onclick="goTo('my-bookings.html')">
-                        <span> </span>
+
+                    <button class="action booking-action"
+                            onclick="goTo('my-bookings.html')">
+
+                        <span>📅</span>
+
                         <strong>My Bookings</strong>
+
                     </button>
-                    <button class="action chat-action" onclick="goTo('chat.html')">
-                        <span> </span>
-                        <span> </span>
+
+                    <button class="action chat-action"
+                            onclick="goTo('chat.html')">
+
+                        <span>💬</span>
+
                         <strong>Chat Now</strong>
+
                     </button>
+
                 </div>
+
             </section>
+
+
             <!-- MOROGORO IMAGE -->
+
             <section class="banner">
-                <img src="image016.jpg" alt="Morogoro Town">
+
+                <img src="image016.jpg"
+                     alt="Morogoro Town">
+
                 <div class="banner-location">
                     Morogoro
                 </div>
+
             </section>
+
+
+            <!-- INFORMATION -->
+
+            <section class="dashboard-info">
+
+                <h3>Welcome to Smart Rental Finder</h3>
+
+                <p>
+                    Use your dashboard to search for available rental houses,
+                    manage your bookings, communicate with property owners
+                    and manage your renter profile.
+                </p>
+
+            </section>
+
         </main>
+
     </div>
+
+
     <script>
+
+        // GET CURRENT RENTER
+
+        function getCurrentUser() {
+
+            try {
+
+                const userData = localStorage.getItem("rentalCurrentUser");
+
+                if (!userData) {
+                    return null;
+                }
+
+                return JSON.parse(userData);
+
+            } catch (error) {
+
+                return null;
+
+            }
+
+        }
+
+
+        // GET RENTER NAME
+
+        function getRenterName(user) {
+
+            if (!user) {
+                return "Renter";
+            }
+
+            return user.name ||
+                   user.fullName ||
+                   user.username ||
+                   "Renter";
+
+        }
+
+
+        // GET RENTER PROFILE IMAGE
+
+        function getProfileImage(user) {
+
+            const profile = JSON.parse(
+                localStorage.getItem("ownerProfile") || "{}"
+            );
+
+            return profile.photo ||
+                   user.profileImage ||
+                   user.image ||
+                   "image001.jpg";
+
+        }
+
+
+        // LOAD RENTER INFORMATION
+
+        function loadRenterInformation() {
+
+            const user = getCurrentUser();
+
+            if (!user) {
+
+                alert("Please login first.");
+
+                window.location.href = "login.html";
+
+                return;
+
+            }
+
+            const name = getRenterName(user);
+
+            const image = getProfileImage(user);
+
+            document.getElementById("welcomeName").textContent =
+                "Hello, " + name + "!";
+
+            document.getElementById("sidebarName").textContent =
+                name;
+
+            document.getElementById("sidebarAvatar").src =
+                image;
+
+            document.getElementById("headerAvatar").src =
+                image;
+
+        }
+
+
+        // GET AVAILABLE PROPERTIES
+
+        function loadAvailableHouses() {
+
+            const properties = JSON.parse(
+                localStorage.getItem("ownerProperties") || "[]"
+            );
+
+            const availableProperties = properties.filter(property => {
+
+                const status = String(property.status || "")
+                    .toLowerCase();
+
+                return status === "approved" ||
+                       status === "available";
+
+            });
+
+            document.getElementById("availableCount").textContent =
+                availableProperties.length;
+
+        }
+
+
+        // GET RENTER BOOKINGS
+
+        function loadMyBookings() {
+
+            const user = getCurrentUser();
+
+            const renterName = getRenterName(user)
+                .trim()
+                .toLowerCase();
+
+            const bookings = JSON.parse(
+                localStorage.getItem("ownerBookingRequests") || "[]"
+            );
+
+            const myBookings = bookings.filter(booking => {
+
+                const bookingName = String(
+                    booking.tenant || ""
+                ).trim().toLowerCase();
+
+                return bookingName === renterName;
+
+            });
+
+            document.getElementById("bookingCount").textContent =
+                myBookings.length;
+
+        }
+
+
+        // GET FAVORITES
+
+        function loadFavorites() {
+
+            const favorites = JSON.parse(
+                localStorage.getItem("favorites") || "[]"
+            );
+
+            document.getElementById("favoriteCount").textContent =
+                favorites.length;
+
+        }
+
+
+        // LOAD DASHBOARD
+
+        function loadDashboard() {
+
+            try {
+
+                loadRenterInformation();
+
+                if (!getCurrentUser()) {
+                    return;
+                }
+
+                loadAvailableHouses();
+
+                loadMyBookings();
+
+                loadFavorites();
+
+            } catch (error) {
+
+                console.error("Dashboard error:", error);
+
+            }
+
+        }
+
+
         // MOBILE SIDEBAR
+
         function toggleSidebar() {
+
             document
                 .getElementById("sidebar")
                 .classList.toggle("open");
+
         }
+
+
         // NAVIGATION
+
         function goTo(page) {
+
             window.location.href = page;
+
         }
+
+
         // NOTIFICATIONS
+
         function openNotifications() {
+
             window.location.href = "notifications.html";
+
         }
+
+
         // LOGOUT
-        function confirmLogout() {
-            return confirm("Are you sure you want to logout?");
+
+        function confirmLogout(event) {
+
+            event.preventDefault();
+
+            const confirmAction = confirm(
+                "Are you sure you want to logout?"
+            );
+
+            if (confirmAction) {
+
+                localStorage.removeItem("rentalCurrentUser");
+
+                window.location.href = "login.html";
+
+            }
+
         }
+
+
+        // START DASHBOARD
+
+        document.addEventListener("DOMContentLoaded", function () {
+
+            loadDashboard();
+
+        });
+
     </script>
+
 </body>
 
 </html>

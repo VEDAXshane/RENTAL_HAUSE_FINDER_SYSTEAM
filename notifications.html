@@ -1,10 +1,11 @@
+
 <!DOCTYPE html>
 <html lang="en">
-
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Notifications - Smart Rental Finder</title>
+
     <style>
         * {
             margin: 0;
@@ -14,7 +15,7 @@
         }
 
         body {
-            background: rgb(19, 171, 5);
+            background: #f1f5f9;
             color: #142957;
         }
 
@@ -25,20 +26,19 @@
 
         /* SIDEBAR */
         .sidebar {
-            width: 220px;
+            width: 240px;
             background: #102e6c;
             color: white;
-            padding: 20px 12px;
+            padding: 22px 14px;
             flex-shrink: 0;
         }
 
         .logo {
             text-align: center;
-            font-size: 20px;
+            font-size: 21px;
             font-weight: bold;
-            line-height: 1.4;
-            margin-bottom: 35px;
-            margin-bottom: 35px;
+            line-height: 1.5;
+            margin-bottom: 30px;
         }
 
         .logo span {
@@ -53,9 +53,9 @@
             color: #dbeafe;
             padding: 13px 12px;
             margin-bottom: 8px;
-            border-radius: 7px;
+            border-radius: 8px;
             font-size: 14px;
-            transition: .3s;
+            transition: .2s;
         }
 
         .sidebar a:hover,
@@ -69,7 +69,6 @@
             flex: 1;
             min-width: 0;
             padding: 30px;
-            
         }
 
         .topbar {
@@ -77,11 +76,11 @@
             justify-content: space-between;
             align-items: center;
             margin-bottom: 25px;
+            gap: 15px;
         }
 
-        .topbar h2 {
-            font-size: 24px;
-            font-size: 24px;
+        .topbar h1 {
+            font-size: 25px;
         }
 
         .topbar p {
@@ -93,7 +92,7 @@
         .profile {
             display: flex;
             align-items: center;
-            gap: 15px;
+            gap: 10px;
         }
 
         .profile img {
@@ -103,27 +102,53 @@
             object-fit: cover;
         }
 
-        /* NOTIFICATION PANEL */
+        .profile-info {
+            font-size: 13px;
+            font-weight: bold;
+        }
+
+        .profile-info small {
+            display: block;
+            color: #64748b;
+            font-weight: normal;
+            margin-top: 3px;
+        }
+
+        /* PANEL */
         .notification-panel {
             background: white;
-            max-width: 950px;
-            border-radius: 12px;
+            max-width: 1000px;
+            border-radius: 14px;
             padding: 25px;
-            box-shadow: 0 3px 12px #dfe7f4;
+            box-shadow: 0 4px 15px rgba(15, 23, 42, .05);
         }
 
         .notification-header {
             display: flex;
             justify-content: space-between;
             align-items: center;
-            margin-bottom: 22px;
-            gap: 10px;
+            gap: 12px;
+            flex-wrap: wrap;
+            margin-bottom: 15px;
         }
 
         .notification-header h2 {
-            font-size: 21px;
+            font-size: 20px;
         }
-        
+
+        .header-actions {
+            display: flex;
+            align-items: center;
+            gap: 15px;
+        }
+
+        .unread-count {
+            font-size: 12px;
+            color: #64748b;
+            background: #f1f5f9;
+            padding: 7px 12px;
+            border-radius: 20px;
+        }
 
         .mark-read {
             border: none;
@@ -138,44 +163,39 @@
             text-decoration: underline;
         }
 
-        /* NOTIFICATION ITEM */
+        /* NOTIFICATIONS */
+        .notification-list {
+            margin-top: 10px;
+        }
+
         .notification {
             display: flex;
             align-items: center;
-            gap: 15px;
-            padding: 20px 12px;
+            gap: 14px;
+            padding: 18px 12px;
             border-bottom: 1px solid #edf0f5;
+            border-radius: 8px;
             cursor: pointer;
             transition: .2s;
-            border-radius: 8px;
         }
 
         .notification:hover {
             background: #f8faff;
         }
 
-        .notification:last-child {
-            border-bottom: none;
-        }
-
         .notification.unread {
-            background: #f7f9ff;
+            background: #f0f6ff;
         }
 
         .notification-icon {
-            width: 43px;
-            height: 43px;
-            height: 43px;
-            min-width: 43px;
+            width: 46px;
+            height: 46px;
+            min-width: 46px;
             border-radius: 50%;
             display: flex;
             justify-content: center;
             align-items: center;
-            font-size: 19px;
-        }
-
-        .red {
-            background: #ffe1e1;
+            font-size: 20px;
         }
 
         .purple {
@@ -184,6 +204,10 @@
 
         .blue {
             background: #dceaff;
+        }
+
+        .green {
+            background: #dcfce7;
         }
 
         .orange {
@@ -197,14 +221,14 @@
 
         .notification-info h3 {
             font-size: 14px;
-            margin-bottom: 6px;
-            color: #142957;
+            margin-bottom: 5px;
         }
 
         .notification-info p {
             font-size: 12px;
             color: #64748b;
-            line-height: 1.5;
+            line-height: 1.6;
+            overflow-wrap: anywhere;
         }
 
         .notification-info small {
@@ -220,14 +244,9 @@
             gap: 12px;
         }
 
-        .notification-right .arrow {
-            color: #64748b;
-            font-size: 22px;
-        }
-
         .dot {
-            width: 8px;
-            height: 8px;
+            width: 9px;
+            height: 9px;
             background: #1764e8;
             border-radius: 50%;
         }
@@ -236,30 +255,39 @@
             display: none;
         }
 
+        .arrow {
+            color: #64748b;
+            font-size: 22px;
+        }
+
         /* EMPTY STATE */
         .empty-state {
             display: none;
             text-align: center;
-            padding: 45px 15px;
+            padding: 60px 15px;
             color: #64748b;
         }
 
         .empty-state .icon {
-            font-size: 40px;
+            font-size: 45px;
             margin-bottom: 12px;
         }
-        
+
+        .empty-state h3 {
+            margin-bottom: 8px;
+            color: #142957;
+        }
 
         /* FOOTER */
         footer {
             text-align: center;
             padding: 25px 10px;
-            color: #64748b;
+            color: #94a3b8;
             font-size: 12px;
         }
 
         /* RESPONSIVE */
-        @media(max-width:750px) {
+        @media(max-width: 750px) {
             .container {
                 flex-direction: column;
             }
@@ -289,20 +317,19 @@
 
             .notification-panel {
                 padding: 15px;
-                padding: 15px;
             }
 
-            .notification-header h2 {
-                font-size: 18px;
+            .topbar h1 {
+                font-size: 21px;
             }
 
             .notification {
                 gap: 10px;
-                padding: 17px 5px;
+                padding: 16px 5px;
             }
 
             .notification-info h3 {
-                font-size: 12px;
+                font-size: 13px;
             }
 
             .notification-info p {
@@ -310,7 +337,11 @@
             }
         }
 
-        @media(max-width:400px) {
+        @media(max-width: 420px) {
+            .profile-info {
+                display: none;
+            }
+
             .notification-icon {
                 width: 36px;
                 height: 36px;
@@ -318,7 +349,15 @@
                 font-size: 16px;
             }
 
-            .notification-right .arrow {
+            .arrow {
+                font-size: 17px;
+            }
+
+            .notification-right {
+                gap: 7px;
+            }
+
+            .notification-header h2 {
                 font-size: 17px;
             }
         }
@@ -326,166 +365,444 @@
 </head>
 
 <body>
-    <div class="container">
-        <!-- SIDEBAR -->
-        <!-- SIDEBAR -->
-        <aside class="sidebar">
-            <div class="logo">
-                Smart Rental<br>
-                <span>Finder</span>
+
+<div class="container">
+
+    <!-- SIDEBAR -->
+    <aside class="sidebar">
+
+        <div class="logo">
+            Smart Rental<br>
+            <span>Finder</span>
+        </div>
+
+        <a href="#" id="dashboardLink">
+            <span>▣</span> Dashboard
+        </a>
+
+        <a href="advanced-search.html">
+            <span>⌕</span> Search Homes
+        </a>
+
+        <a href="my-bookings.html">
+            <span>▤</span> My Bookings
+        </a>
+
+        <a href="chat.html">
+            <span>▣</span> Messages
+        </a>
+
+        <a href="notifications.html" class="active">
+            <span>♧</span> Notifications
+        </a>
+
+        <a href="help-support.html">
+            <span>?</span> Help & Support
+        </a>
+
+        <a href="login.html" id="logoutLink">
+            <span>⇥</span> Logout
+        </a>
+
+    </aside>
+
+    <!-- MAIN CONTENT -->
+    <main class="main">
+
+        <!-- TOPBAR -->
+        <div class="topbar">
+
+            <div>
+                <h1>Notifications</h1>
+                <p>Stay updated with your rental activities.</p>
             </div>
-            <a href="renter-dashboard.html">
-                <span>▣</span> Dashboard
-            </a>
-            <a href="advanced-search.html">
-                <span>⌕</span> Search Homes
-            </a>
-            <a href="my-bookings.html">
-                <span>▤</span> My Bookings
-            </a>
-            <a href="chat.html">
-                <span>▣</span> Messages
-            </a>
-            <a href="notifications.html" class="active">
-                <span>♧</span> Notifications
-            </a>
-            <!-- <a href="profile.html">
-                <span>♙</span> My Profile
-            </a> -->
-            <a href="help-support.html">
-                <span>?</span> Help & Support
-            </a>
-            <a href="login.html">
-                <span>⇥</span> Logout
-            </a>
-        </aside>
-        <!-- MAIN CONTENT -->
-        <main class="main">
-            <!-- TOPBAR -->
-            <div class="topbar">
-                <div>
-                    <h2>Notifications</h2>
-                    <p>Stay updated with your rental activities.</p>
+
+            <div class="profile">
+                <div class="profile-info">
+                    <span id="userName">User</span>
+                    <small id="userRole">Account</small>
                 </div>
-                <div class="profile">
-                    <span> </span>
-                    <img src="https://i.pravatar.cc/100?img=12" alt="User Profile">
-                </div>
+
+                <img
+                    src="https://i.pravatar.cc/100?img=12"
+                    alt="User Profile"
+                >
             </div>
-            <!-- NOTIFICATIONS PANEL -->
-            <section class="notification-panel">
-                <div class="notification-header">
-                    <h2>Notifications</h2>
-                    <button class="mark-read" onclick="markAllRead()">
+
+        </div>
+
+        <!-- NOTIFICATION PANEL -->
+        <section class="notification-panel">
+
+            <div class="notification-header">
+
+                <h2>All Notifications</h2>
+
+                <div class="header-actions">
+                    <span class="unread-count" id="unreadCount">
+                        0 unread
+                    </span>
+
+                    <button
+                        class="mark-read"
+                        id="markAllReadBtn"
+                        type="button"
+                    >
                         Mark all as read
                     </button>
                 </div>
-                <!-- NOTIFICATION 1 -->
-                <div class="notification unread" onclick="openNotification(this,'my-bookings.html')">
-                    <div class="notification-icon red">
-                    </div>
-                    <div class="notification-info">
-                        <h3>Your booking is approved</h3>
-                        <p>
-                            Your booking for 3 Bedroom House
-                            has been approved by the owner.
-                        </p>
-                        <small>2 hours ago</small>
-                    </div>
-                    <div class="notification-right">
-                        <div class="dot"></div>
-                        <span class="arrow">›</span>
-                    </div>
-                </div>
-                <!-- NOTIFICATION 2 -->
-                <div class="notification unread" onclick="openNotification(this,'chat.html')">
-                    <div class="notification-icon purple">
-                    </div>
-                    <div class="notification-info">
-                        <h3>New message from owner</h3>
-                        <p>
-                            You have received a new message
-                            from a property owner.
-                        </p>
-                        <small>3 hours ago</small>
-                    </div>
-                    <div class="notification-right">
-                        <div class="dot"></div>
-                        <span class="arrow">›</span>
-                    </div>
-                </div>
-                <!-- NOTIFICATION 3 -->
-                <div class="notification unread" onclick="openNotification(this,'house-listings.html')">
-                    <div class="notification-icon blue">
-                    </div>
-                    <div class="notification-info">
-                        <h3>New property in Morogoro</h3>
-                        <p>
-                            A new rental property matching
-                            your interests is now available.
-                        </p>
-                        <small>1 day ago</small>
-                    </div>
-                    <div class="notification-right">
-                        <div class="dot"></div>
-                        <span class="arrow">›</span>
-                    </div>
-                </div>
-                <!-- NOTIFICATION 4 -->
-                <div class="notification unread" onclick="openNotification(this,'profile.html')">
-                    <div class="notification-icon orange">
-                    </div>
-                    <div class="notification-info">
-                        <h3>Your profile updated</h3>
-                        <p>
-                            Your account information has
-                            been successfully updated.
-                        </p>
-                        <small>2 days ago</small>
-                    </div>
-                    <div class="notification-right">
-                        <div class="dot"></div>
-                        <span class="arrow">›</span>
-                    </div>
-                </div>
-                <!-- EMPTY STATE -->
-                <div class="empty-state" id="emptyState">
-                    <div class="icon"> </div>
-                    <h3>No notifications</h3>
-                    <p>You are all caught up!</p>
-                </div>
-            </section>
-            <footer>
-                © 2026 Smart Rental Finder. All Rights Reserved.
-            </footer>
-        </main>
-    </div>
-    <script>
-        // MARK ALL NOTIFICATIONS AS READ
-        function markAllRead() {
-            const notifications =
-                document.querySelectorAll(".notification");
-            notifications.forEach(notification => {
-                notification.classList.remove("unread");
-                notification.classList.add("read");
-            });
-            alert("All notifications marked as read!");
-        }
-        // OPEN INDIVIDUAL NOTIFICATION
-        function openNotification(element, page) {
-            element.classList.remove("unread");
-            element.classList.add("read");
-            window.location.href = page;
-        }
-        // UPDATE NOTIFICATION COUNT
-        function updateNotificationCount() {
-            const unread =
-                document.querySelectorAll(".notification.unread");
-            document.querySelectorAll(".notification.unread");
-            console.log("Unread notifications: " + unread.length);
-        }
-        updateNotificationCount();
-    </script>
-</body>
 
+            </div>
+
+            <div class="notification-list" id="notificationList">
+            </div>
+
+            <div class="empty-state" id="emptyState">
+                <div class="icon">♧</div>
+                <h3>No notifications</h3>
+                <p>You are all caught up!</p>
+            </div>
+
+        </section>
+
+        <footer>
+            © 2026 Smart Rental Finder. All Rights Reserved.
+        </footer>
+
+    </main>
+
+</div>
+
+<script>
+    // =========================================
+    // 1. CURRENT USER
+    // =========================================
+
+    const currentUser = JSON.parse(
+        localStorage.getItem("rentalCurrentUser")
+    ) || {
+        id: "renter-001",
+        name: "John Peter",
+        role: "renter"
+    };
+
+    // =========================================
+    // 2. ROLE-BASED DASHBOARD
+    // =========================================
+
+    const dashboardLink = document.getElementById("dashboardLink");
+
+    const dashboards = {
+        renter: "renter-dashboard.html",
+        owner: "owner-dashboard.html",
+        admin: "admin-dashboard.html"
+    };
+
+    dashboardLink.href =
+        dashboards[currentUser.role] || "login.html";
+
+    // =========================================
+    // 3. USER INFORMATION
+    // =========================================
+
+    document.getElementById("userName").textContent =
+        currentUser.name || "User";
+
+    document.getElementById("userRole").textContent =
+        currentUser.role
+            ? currentUser.role.charAt(0).toUpperCase() +
+              currentUser.role.slice(1)
+            : "Account";
+
+    // =========================================
+    // 4. LOAD CHAT CONVERSATIONS
+    // =========================================
+
+    const defaultConversations = [
+        {
+            id: "conversation-001",
+            property: "2 Bedroom House",
+            location: "Kihonda, Morogoro",
+            participantIds: ["renter-001", "owner-001"],
+            messages: [
+                {
+                    senderId: "owner-001",
+                    receiverId: "renter-001",
+                    text: "Hello, the house is still available.",
+                    time: "10:30 AM",
+                    date: "2026-11-24"
+                },
+                {
+                    senderId: "renter-001",
+                    receiverId: "owner-001",
+                    text: "Thank you. I would like to know more.",
+                    time: "10:35 AM",
+                    date: "2026-11-24"
+                },
+                {
+                    senderId: "owner-001",
+                    receiverId: "renter-001",
+                    text: "You are welcome. You can visit tomorrow.",
+                    time: "10:40 AM",
+                    date: "2026-11-24"
+                }
+            ]
+        },
+        {
+            id: "conversation-002",
+            property: "Single Room",
+            location: "Mazimbu, Morogoro",
+            participantIds: ["renter-001", "admin-001"],
+            messages: [
+                {
+                    senderId: "admin-001",
+                    receiverId: "renter-001",
+                    text: "Welcome to Rental House Finder support.",
+                    time: "11:00 AM",
+                    date: "2026-11-24"
+                }
+            ]
+        }
+    ];
+
+    let conversations = JSON.parse(
+        localStorage.getItem("rentalConversations")
+    ) || defaultConversations;
+
+    // =========================================
+    // 5. NOTIFICATION READ STORAGE
+    // =========================================
+
+    let readNotifications = JSON.parse(
+        localStorage.getItem("rentalNotificationRead")
+    ) || [];
+
+    function saveReadNotifications() {
+        localStorage.setItem(
+            "rentalNotificationRead",
+            JSON.stringify(readNotifications)
+        );
+    }
+
+    // =========================================
+    // 6. TIME HELPER
+    // =========================================
+
+    function getMessageTime(message) {
+        if (message.date && message.time) {
+            return message.date + " · " + message.time;
+        }
+
+        return message.time || message.date || "Recent message";
+    }
+
+    // =========================================
+    // 7. CREATE CHAT NOTIFICATIONS
+    // =========================================
+
+    function getChatNotifications() {
+
+        const notifications = [];
+
+        conversations.forEach(conversation => {
+
+            // Current user must belong to conversation
+            if (
+                !conversation.participantIds ||
+                !conversation.participantIds.includes(currentUser.id)
+            ) {
+                return;
+            }
+
+            conversation.messages.forEach((message, index) => {
+
+                // Only messages received by current user
+                if (message.receiverId !== currentUser.id) {
+                    return;
+                }
+
+                const notificationId =
+                    conversation.id + "_" + index;
+
+                const isRead =
+                    readNotifications.includes(notificationId);
+
+                const sender = message.senderId;
+
+                // Sender name from chat demo IDs
+                const demoUsers = {
+                    "renter-001": "John Peter",
+                    "owner-001": "Amina Joseph",
+                    "admin-001": "Rental Admin"
+                };
+
+                const senderName =
+                    demoUsers[sender] || "Rental User";
+
+                notifications.push({
+                    id: notificationId,
+                    conversationId: conversation.id,
+                    senderId: message.senderId,
+                    senderName: senderName,
+                    property: conversation.property || "Rental Property",
+                    message: message.text || "You received a new message.",
+                    time: getMessageTime(message),
+                    read: isRead,
+                    type: "chat"
+                });
+
+            });
+
+        });
+
+        // Newest first
+        notifications.reverse();
+
+        return notifications;
+    }
+
+    // =========================================
+    // 8. RENDER NOTIFICATIONS
+    // =========================================
+
+    const notificationList =
+        document.getElementById("notificationList");
+
+    const emptyState =
+        document.getElementById("emptyState");
+
+    const unreadCount =
+        document.getElementById("unreadCount");
+
+    function renderNotifications() {
+
+        const notifications = getChatNotifications();
+
+        notificationList.innerHTML = "";
+
+        if (notifications.length === 0) {
+
+            emptyState.style.display = "block";
+            notificationList.style.display = "none";
+
+        } else {
+
+            emptyState.style.display = "none";
+            notificationList.style.display = "block";
+
+        }
+
+        notifications.forEach(notification => {
+
+            const item = document.createElement("div");
+
+            item.className = "notification";
+
+            if (!notification.read) {
+                item.classList.add("unread");
+            } else {
+                item.classList.add("read");
+            }
+
+            item.innerHTML = `
+                <div class="notification-icon purple">
+                    💬
+                </div>
+
+                <div class="notification-info">
+                    <h3>Message from ${escapeHTML(notification.senderName)}</h3>
+
+                    <p>${escapeHTML(notification.message)}</p>
+
+                    <small>
+                        ${escapeHTML(notification.property)}
+                        · ${escapeHTML(notification.time)}
+                    </small>
+                </div>
+
+                <div class="notification-right">
+                    <div class="dot"></div>
+                    <span class="arrow">›</span>
+                </div>
+            `;
+
+            item.addEventListener("click", function() {
+                openChatNotification(notification);
+            });
+
+            notificationList.appendChild(item);
+
+        });
+
+        const unread = notifications.filter(
+            notification => !notification.read
+        ).length;
+
+        unreadCount.textContent = unread + " unread";
+    }
+
+    // =========================================
+    // 9. SAFE TEXT
+    // =========================================
+
+    function escapeHTML(text) {
+
+        return String(text)
+            .replace(/&/g, "&amp;")
+            .replace(/</g, "&lt;")
+            .replace(/>/g, "&gt;")
+            .replace(/"/g, "&quot;")
+            .replace(/'/g, "&#039;");
+    }
+
+    // =========================================
+    // 10. OPEN CORRECT CHAT
+    // =========================================
+
+    function openChatNotification(notification) {
+
+        if (!readNotifications.includes(notification.id)) {
+
+            readNotifications.push(notification.id);
+
+            saveReadNotifications();
+        }
+
+        // Open the specific conversation
+        window.location.href =
+            "chat.html?conversationId=" +
+            encodeURIComponent(notification.conversationId);
+    }
+
+    // =========================================
+    // 11. MARK ALL AS READ
+    // =========================================
+
+    document.getElementById("markAllReadBtn")
+        .addEventListener("click", function() {
+
+            const notifications = getChatNotifications();
+
+            notifications.forEach(notification => {
+
+                if (!readNotifications.includes(notification.id)) {
+                    readNotifications.push(notification.id);
+                }
+
+            });
+
+            saveReadNotifications();
+
+            renderNotifications();
+        });
+
+    // =========================================
+    // 12. INITIALIZE
+    // =========================================
+
+    renderNotifications();
+
+</script>
+
+</body>
 </html>

@@ -4,7 +4,9 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
     <title>Owner Dashboard - Smart Rental Finder</title>
+
     <style>
         * {
             margin: 0;
@@ -14,11 +16,10 @@
         }
 
         body {
-            background:rgb(19, 171, 5);
+            background: #f1f5f9;
             color: #172554;
         }
 
-        /* MAIN LAYOUT */
         .dashboard {
             display: flex;
             min-height: 100vh;
@@ -26,17 +27,17 @@
 
         /* SIDEBAR */
         .sidebar {
-            width: 230px;
+            width: 240px;
             background: #102d70;
             color: white;
             padding: 22px 14px;
             display: flex;
             flex-direction: column;
+            flex-shrink: 0;
         }
 
         .logo {
-            font-size: 19px;
-            font-weight: bold;
+            font-size: 20px;
             font-weight: bold;
             margin-bottom: 35px;
             padding: 0 10px;
@@ -68,27 +69,28 @@
         }
 
         .sidebar-menu a.logout {
-            margin-top: 20px;
+            margin-top: 25px;
             color: #fecaca;
         }
 
         /* MAIN CONTENT */
         .main {
             flex: 1;
-            padding: 25px;
+            padding: 28px;
             min-width: 0;
-            background: rgb(19, 171, 5);
         }
 
+        /* TOPBAR */
         .topbar {
             display: flex;
             justify-content: space-between;
             align-items: center;
-            margin-bottom: 28px;
+            margin-bottom: 30px;
+            gap: 15px;
         }
 
         .welcome h2 {
-            font-size: 23px;
+            font-size: 24px;
             margin-bottom: 7px;
         }
 
@@ -100,26 +102,20 @@
         .profile {
             display: flex;
             align-items: center;
-            gap: 12px;
-        }
-
-        .profile img {
-            width: 43px;
-            height: 43px;
-            border-radius: 50%;
-            object-fit: cover;
+            gap: 15px;
         }
 
         .notification {
             position: relative;
             background: white;
-            padding: 10px;
+            padding: 12px;
             border-radius: 50%;
             cursor: pointer;
+            text-decoration: none;
+            font-size: 19px;
         }
 
         .notification span {
-            position: absolute;
             position: absolute;
             top: 2px;
             right: 2px;
@@ -129,12 +125,20 @@
             border-radius: 50%;
         }
 
+        .profile img {
+            width: 43px;
+            height: 43px;
+            border-radius: 50%;
+            object-fit: cover;
+            border: 2px solid white;
+        }
+
         /* STATISTICS */
         .stats {
             display: grid;
             grid-template-columns: repeat(3, 1fr);
             gap: 18px;
-            margin-bottom: 28px;
+            margin-bottom: 30px;
         }
 
         .stat-card {
@@ -170,7 +174,7 @@
         }
 
         .stat-card h3 {
-            font-size: 24px;
+            font-size: 25px;
             margin-bottom: 5px;
         }
 
@@ -179,12 +183,13 @@
             font-size: 12px;
         }
 
-        /* QUICK ACTIONS */
+        /* SECTION HEADER */
         .section-header {
             display: flex;
             justify-content: space-between;
             align-items: center;
             margin-bottom: 17px;
+            gap: 10px;
         }
 
         .section-header h3 {
@@ -199,225 +204,165 @@
             border-radius: 7px;
             font-size: 12px;
         }
-.quick-actions {
-    display: grid;
-    grid-template-columns: repeat(3, 1fr);
-    gap: 15px;
-    margin-bottom: 30px;
-}
 
-.action-card {
-    background: white;
-    padding: 20px;
-    border-radius: 10px;
-    text-align: center;
-    text-decoration: none;
-    color: #0755d9;
-    font-size: 13px;
-    font-weight: bold;
-    box-shadow: 0 3px 10px rgba(0, 0, 0, 0.04);
-    transition: 0.2s;
-}
+        .add-btn:hover {
+            background: #0645bd;
+        }
 
-.action-card:hover {
-    transform: translateY(-3px);
-}
+        /* QUICK ACTIONS */
+        .quick-actions {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 15px;
+            margin-bottom: 30px;
+        }
 
-.action-card .icon {
-    display: block;
-    font-size: 27px;
-    margin-bottom: 10px;
-}
-        
-            /* .quick-actions {
-                display: grid;
-                grid-template-columns: repeat(3, 1fr);
-                gap: 15px;
-                margin-bottom: 30px;
-            } */
+        .action-card {
+            background: white;
+            padding: 22px;
+            border-radius: 10px;
+            text-align: center;
+            text-decoration: none;
+            color: #0755d9;
+            font-size: 13px;
+            font-weight: bold;
+            box-shadow: 0 3px 10px rgba(0, 0, 0, 0.04);
+            transition: 0.2s;
+        }
 
-            /* .action-card {
-                background: white;
-                padding: 20px;
-                border-radius: 10px;
-                text-align: center;
-                text-decoration: none;
-                color: #0755d9;
-                font-size: 13px;
-                font-weight: bold;
-                box-shadow: 0 3px 10px rgba(0, 0, 0, 0.04);
-                transition: 0.2s;
+        .action-card:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.08);
+        }
+
+        .action-card .icon {
+            display: block;
+            font-size: 28px;
+            margin-bottom: 12px;
+        }
+
+        /* RECENT REQUESTS */
+        .request-section {
+            background: white;
+            padding: 22px;
+            border-radius: 12px;
+            box-shadow: 0 3px 10px rgba(0, 0, 0, 0.04);
+        }
+
+        .view-all {
+            color: #0755d9;
+            text-decoration: none;
+            font-size: 12px;
+            font-weight: bold;
+        }
+
+        .request {
+            display: flex;
+            align-items: center;
+            gap: 14px;
+            padding: 15px 0;
+            border-bottom: 1px solid #edf0f6;
+        }
+
+        .request:last-child {
+            border-bottom: none;
+        }
+
+        .request img {
+            width: 75px;
+            height: 62px;
+            object-fit: cover;
+            border-radius: 8px;
+            background: #e2e8f0;
+        }
+
+        .request-info {
+            flex: 1;
+            min-width: 0;
+        }
+
+        .request-info h4 {
+            font-size: 13px;
+            margin-bottom: 6px;
+        }
+
+        .request-info p {
+            font-size: 11px;
+            color: #64748b;
+            margin-bottom: 4px;
+        }
+
+        .request-status {
+            padding: 7px 12px;
+            border-radius: 20px;
+            font-size: 11px;
+            font-weight: bold;
+        }
+
+        .approved {
+            background: #d1fae5;
+            color: #059669;
+        }
+
+        .pending {
+            background: #fef3c7;
+            color: #d97706;
+        }
+
+        .rejected {
+            background: #fee2e2;
+            color: #dc2626;
+        }
+
+        .cancelled {
+            background: #e2e8f0;
+            color: #475569;
+        }
+
+        .empty-message {
+            text-align: center;
+            padding: 30px 10px;
+            color: #64748b;
+            font-size: 13px;
+        }
+
+        .empty-message a {
+            display: inline-block;
+            margin-top: 12px;
+            color: #0755d9;
+            text-decoration: none;
+            font-weight: bold;
+        }
+
+        /* RESPONSIVE */
+        @media (max-width: 900px) {
+            .sidebar {
+                width: 200px;
             }
 
-            .action-card:hover {
-                transform: translateY(-3px);
+            .stats {
+                grid-template-columns: repeat(2, 1fr);
+            }
+        }
+
+        @media (max-width: 600px) {
+            .dashboard {
+                flex-direction: column;
             }
 
-            .action-card .icon {
-                display: block;
-                font-size: 27px;
-                margin-bottom: 10px;
-            } */
-
-            /* RECENT REQUESTS */
-            .request-section {
-                background: white;
-                padding: 22px;
-                border-radius: 12px;
-                box-shadow: 0 3px 10px rgba(0, 0, 0, 0.04);
+            .sidebar {
+                width: 100%;
+                padding: 14px;
             }
-
-            .view-all {
-                color: #0755d9;
-                text-decoration: none;
-                text-decoration: none;
-                font-size: 12px;
-                font-weight: bold;
-            }
-
-            .request {
-                display: flex;
-                align-items: center;
-                gap: 14px;
-                padding: 15px 0;
-                border-bottom: 1px solid #edf0f6;
-            }
-
-            .request:last-child {
-                border-bottom: none;
-            }
-
-            .request img {
-                width: 75px;
-                height: 62px;
-                object-fit: cover;
-                border-radius: 8px;
-            }
-
-            .request-info {
-                flex: 1;
-            }
-
-            .request-info h4 {
-                font-size: 13px;
-                margin-bottom: 6px;
-            }
-
-            .request-info p {
-                font-size: 11px;
-                color: #64748b;
-            }
-
-            .request-status {
-                padding: 7px 12px;
-                border-radius: 20px;
-                font-size: 11px;
-                font-size: 11px;
-                font-weight: bold;
-            }
-
-            .view {
-                background: #d1fae5;
-                color: #059669;
-            }
-
-            .pending {
-                background: #fef3c7;
-                color: #d97706;
-            }
-
-            .rejected {
-                background: #fee2e2;
-                color: #dc2626;
-            }
-
-            /* RESPONSIVE */
-            /* @media(max-width: 900px) {
-                .sidebar {
-                    width: 190px;
-                }
-
-                .stats {
-                    grid-template-columns: repeat(2, 1fr);
-                }
-            }
-
-            @media(max-width: 600px) {
-                .dashboard {
-                    flex-direction: column;
-                }
-
-                .sidebar {
-                    width: 100%;
-                    padding: 12px;
-                }
-            } */
-             @media (max-width: 900px) {
-    .sidebar {
-        width: 190px;
-    }
-
-    .stats {
-        grid-template-columns: repeat(2, 1fr);
-    }
-}
-
-@media (max-width: 600px) {
-    .dashboard {
-        flex-direction: column;
-    }
-
-    .sidebar {
-        width: 100%;
-        padding: 12px;
-    }
-
-    .logo {
-        margin-bottom: 12px;
-    }
-
-    .sidebar-menu {
-        flex-direction: row;
-        overflow-x: auto;
-    }
-
-    .sidebar-menu a {
-        white-space: nowrap;
-        font-size: 11px;
-    }
-
-    .sidebar-menu a.logout {
-        margin-top: 0;
-    }
-
-    .main {
-        padding: 15px;
-    }
-
-    .stats {
-        grid-template-columns: 1fr;
-    }
-
-    .quick-actions {
-        grid-template-columns: repeat(2, 1fr);
-    }
-
-    .welcome h2 {
-        font-size: 18px;
-    }
-
-    .request {
-        flex-wrap: wrap;
-    }
-}
 
             .logo {
-                margin-bottom: 12px;
+                margin-bottom: 15px;
             }
 
             .sidebar-menu {
                 flex-direction: row;
                 overflow-x: auto;
+                padding-bottom: 5px;
             }
 
             .sidebar-menu a {
@@ -433,6 +378,27 @@
                 padding: 15px;
             }
 
+            .topbar {
+                align-items: flex-start;
+            }
+
+            .welcome h2 {
+                font-size: 18px;
+            }
+
+            .welcome p {
+                font-size: 11px;
+            }
+
+            .profile {
+                gap: 8px;
+            }
+
+            .profile img {
+                width: 36px;
+                height: 36px;
+            }
+
             .stats {
                 grid-template-columns: 1fr;
             }
@@ -441,177 +407,553 @@
                 grid-template-columns: repeat(2, 1fr);
             }
 
-            .welcome h2 {
-                font-size: 18px;
+            .action-card {
+                padding: 17px 10px;
             }
 
             .request {
                 flex-wrap: wrap;
             }
-        
-    </style>
+
+            .request-status {
+                margin-left: 88px;
+            }
+        }
     </style>
 </head>
 
 <body>
+
     <div class="dashboard">
+
         <!-- SIDEBAR -->
         <aside class="sidebar">
+
             <div class="logo">
                 Smart <span>Rental</span>
             </div>
+
             <nav class="sidebar-menu">
+
                 <a href="owner-dashboard.html" class="active">
                     ▦ Dashboard
                 </a>
+
                 <a href="add-property.html">
-                    My Properties
+                    + Add Property
                 </a>
+
+                <a href="manage-properties.html">
+                    🏠 Manage Properties
+                </a>
+
+                <a href="booking-requests.html">
+                    📋 Booking Requests
+                </a>
+
                 <a href="chat.html">
                     ✉ Messages
                 </a>
-                <!-- <a href="my-bookings.html">
-                    Bookings
-                </a> -->
-                <a href="owner-profile.html">
-                    ✓ Profile
+
+                <a href="notifications.html">
+                    🔔 Notifications
                 </a>
-                <a href="home.html" class="logout">
+
+                <a href="owner-profile.html">
+                    👤 Profile
+                </a>
+
+                <a href="owner-setting.html">
+                    ⚙ Settings
+                </a>
+
+                <a href="#" class="logout" onclick="logoutOwner(event)">
                     ⇥ Logout
                 </a>
+
             </nav>
-            </nav>
+
         </aside>
+
+
         <!-- MAIN CONTENT -->
         <main class="main">
-            <!-- TOP BAR -->
+
+            <!-- TOPBAR -->
             <div class="topbar">
+
                 <div class="welcome">
-                    <h2>Welcome, Property Owner!</h2>
-                    <p>Manage your properties and rental requests.</p>
+                    <h2 id="welcomeName">Welcome, Property Owner!</h2>
+
+                    <p>
+                        Manage your properties and rental requests.
+                    </p>
                 </div>
+
                 <div class="profile">
-                    <div class="notification" onclick="showNotifications()">
-                        <span></span>
-                    </div>
-                    <img src="https://i.pravatar.cc/100?img=12" alt="Owner Profile">
+
+                    <a href="notifications.html" class="notification"
+                       title="Notifications">
+                        🔔
+                        <span id="notificationDot"></span>
+                    </a>
+
+                    <a href="owner-profile.html">
+                        <img id="ownerImage"
+                             src="https://i.pravatar.cc/100?img=12"
+                             alt="Owner Profile">
+                    </a>
+
                 </div>
+
             </div>
+
+
             <!-- STATISTICS -->
             <div class="stats">
+
                 <div class="stat-card">
-                    <div class="stat-icon blue"> </div>
-                    <div>
-                        <h3 id="propertyCount">5</h3>
-                        <p>Properties</p>
+
+                    <div class="stat-icon blue">
+                        🏠
                     </div>
+
+                    <div>
+                        <h3 id="propertyCount">0</h3>
+                        <p>My Properties</p>
+                    </div>
+
                 </div>
+
+
                 <div class="stat-card">
-                    <div class="stat-icon green"> </div>
-                    <div>
-                        <h3 id="requestCount">8</h3>
-                        <p>Requests</p>
+
+                    <div class="stat-icon green">
+                        📋
                     </div>
+
+                    <div>
+                        <h3 id="requestCount">0</h3>
+                        <p>Pending Requests</p>
+                    </div>
+
                 </div>
+
+
                 <div class="stat-card">
-                    <div class="stat-icon orange"> </div>
-                    <div>
-                        <h3 id="bookingCount">3</h3>
-                        <p>Bookings</p>
+
+                    <div class="stat-icon orange">
+                        ✓
                     </div>
+
+                    <div>
+                        <h3 id="bookingCount">0</h3>
+                        <p>Approved Bookings</p>
+                    </div>
+
                 </div>
+
             </div>
+
+
             <!-- QUICK ACTIONS -->
             <div class="section-header">
+
+                <h3>Quick Actions</h3>
+
+                <a href="add-property.html" class="add-btn">
+                    + Add Property
+                </a>
+
+            </div>
+
+
+            <div class="quick-actions">
+
+                <a href="add-property.html" class="action-card">
+                    <span class="icon">🏠</span>
+                    Add New Property
+                </a>
+
+                <a href="manage-properties.html" class="action-card">
+                    <span class="icon">🏢</span>
+                    Manage Properties
+                </a>
+
+                <a href="booking-requests.html" class="action-card">
+                    <span class="icon">📋</span>
+                    Manage Requests
+                </a>
+
+                <a href="chat.html" class="action-card">
+                    <span class="icon">💬</span>
+                    Messages
+                </a>
+
+                <a href="owner-profile.html" class="action-card">
+                    <span class="icon">👤</span>
+                    My Profile
+                </a>
+
+                <a href="notifications.html" class="action-card">
+                    <span class="icon">🔔</span>
+                    Notifications
+                </a>
+
+            </div>
+
+
+            <!-- RECENT REQUESTS -->
+            <div class="request-section">
+
                 <div class="section-header">
-                    <h3>Quick Actions</h3>
-                    <a href="add-property.html" class="add-btn">
-                        + Add Property
+
+                    <h3>Recent Booking Requests</h3>
+
+                    <a href="booking-requests.html" class="view-all">
+                        View All →
                     </a>
+
                 </div>
-                <div class="quick-actions">
-                    <a href="add-property.html" class="action-card">
-                        <span class="icon"> </span>
-                        Add New Property
-                    </a>
-                    <a href="manage-properties.html" class="action-card">
-                        <span class="icon"> </span>
-                        Manage Bookings
-                    </a>
-                    <a href="chat.html" class="action-card">
-                        <span class="icon"> </span>
-                        Messages
-                    </a>
+
+                <div id="recentRequests">
+
+                    <div class="empty-message">
+                        Loading booking requests...
+                    </div>
+
                 </div>
-                <!-- RECENT REQUESTS -->
-                <div class="request-section">
-                    <div class="section-header">
-                        <h3>Recent Requests</h3>
-                        <a href="my-bookings.html" class="view-all">
-                            View All →
+
+            </div>
+
+        </main>
+
+    </div>
+
+
+    <script>
+
+        // GET CURRENT OWNER
+        function getCurrentOwner() {
+
+            try {
+
+                return JSON.parse(
+                    localStorage.getItem("rentalCurrentUser")
+                );
+
+            } catch (error) {
+
+                return null;
+
+            }
+
+        }
+
+
+        // GET OWNER NAME
+        function getOwnerName(owner) {
+
+            if (!owner) {
+                return "Property Owner";
+            }
+
+            return owner.name ||
+                   owner.fullName ||
+                   owner.username ||
+                   owner.email ||
+                   "Property Owner";
+
+        }
+
+
+        // GET OWNER ID
+        function getOwnerId(owner) {
+
+            if (!owner) {
+                return null;
+            }
+
+            return owner.id ||
+                   owner.userId ||
+                   owner.ownerId ||
+                   owner.email ||
+                   null;
+
+        }
+
+
+        // GET LOCAL STORAGE DATA
+        function getStorageArray(key) {
+
+            try {
+
+                const data = JSON.parse(
+                    localStorage.getItem(key)
+                );
+
+                return Array.isArray(data) ? data : [];
+
+            } catch (error) {
+
+                return [];
+
+            }
+
+        }
+
+
+        // GET OWNER PROPERTIES
+        function getOwnerProperties(owner) {
+
+            const allProperties = getStorageArray("ownerProperties");
+
+            const ownerId = getOwnerId(owner);
+
+            if (!ownerId) {
+                return [];
+            }
+
+            return allProperties.filter(property => {
+
+                return String(property.ownerId) === String(ownerId);
+
+            });
+
+        }
+
+
+        // GET OWNER BOOKING REQUESTS
+        function getOwnerRequests(owner, properties) {
+
+            const allRequests = getStorageArray("ownerBookingRequests");
+
+            const ownerId = getOwnerId(owner);
+
+            const propertyNames = properties.map(property =>
+                String(property.name || "").toLowerCase()
+            );
+
+            return allRequests.filter(booking => {
+
+                // Use ownerId when available
+                if (
+                    booking.ownerId &&
+                    ownerId &&
+                    String(booking.ownerId) === String(ownerId)
+                ) {
+                    return true;
+                }
+
+                // Match booking to properties owned by this owner
+                const bookingProperty = String(
+                    booking.property || ""
+                ).toLowerCase();
+
+                return propertyNames.includes(bookingProperty);
+
+            });
+
+        }
+
+
+        // UPDATE DASHBOARD
+        function updateDashboard() {
+
+            const owner = getCurrentOwner();
+
+            const properties = getOwnerProperties(owner);
+
+            const requests = getOwnerRequests(owner, properties);
+
+            const pendingRequests = requests.filter(booking =>
+                String(booking.status || "Pending").toLowerCase() === "pending"
+            );
+
+            const approvedBookings = requests.filter(booking =>
+                String(booking.status || "").toLowerCase() === "approved"
+            );
+
+            document.getElementById("propertyCount").textContent =
+                properties.length;
+
+            document.getElementById("requestCount").textContent =
+                pendingRequests.length;
+
+            document.getElementById("bookingCount").textContent =
+                approvedBookings.length;
+
+            displayRecentRequests(requests, properties);
+
+        }
+
+
+        // DISPLAY RECENT REQUESTS
+        function displayRecentRequests(requests, properties) {
+
+            const container = document.getElementById("recentRequests");
+
+            container.innerHTML = "";
+
+            if (requests.length === 0) {
+
+                container.innerHTML = `
+                    <div class="empty-message">
+                        <h3>No Booking Requests Yet</h3>
+
+                        <p>
+                            You have not received any booking requests.
+                        </p>
+
+                        <a href="manage-properties.html">
+                            Manage Your Properties
                         </a>
                     </div>
-                    <div class="request">
-                        <img src="image001.jpg"
-                            alt="3 Bedroom House">
-                        <div class="request-info">
-                            <h4>3 Bedroom House</h4>
-                            <p>Visit: 2026-11-15</p>
-                            <p>Renter: John Smith</p>
-                        </div>
-                        <span class="request-status view">
-                            View
-                        </span>
-                    </div>
-                    <div class="request">
-                        <img src="image003.jpg"
-                            alt="2 Bedroom House">
-                        <div class="request-info">
-                            <h4>2 Bedroom House</h4>
-                            <p>Visit: 2026-11-18</p>
-                            <p>Renter: Michael James</p>
-                        </div>
-                        <span class="request-status pending">
-                            Pending
-                        </span>
-                    </div>
-                    <div class="request">
-                        <img src="image019.jpg"
-                            alt="1 Bedroom Room">
-                        <div class="request-info">
-                            <h4>1 Bedroom Room</h4>
-                            <p>Visit: 2026-11-20</p>
-                            <p>Renter: David John</p>
-                        </div>
-                        <span class="request-status rejected">
-                            Rejected
-                        </span>
-                    </div>
-                </div>
-            </div>
-        </main>
-    </div>
-    <script>
-        // NOTIFICATIONS
-        function showNotifications() {
-            alert(
-                "Notifications:\n\n" +
-                "1. You have 3 new booking requests.\n" +
-                "2. Your property has received a new inquiry.\n" +
-                "3. Check your recent messages."
-            );
-        }
-        // QUICK DASHBOARD INFORMATION
-        function updateDashboard() {
-            document.getElementById("propertyCount")
-                .textContent = 5;
-            document.getElementById("requestCount")
-                .textContent = 8;
-            document.getElementById("bookingCount")
-                .textContent = 3;
-        }
-        updateDashboard();
-    </script>
-</body>
+                `;
 
+                return;
+
+            }
+
+            // Show newest requests first
+            const recentRequests = [...requests]
+                .sort((a, b) => {
+
+                    const dateA = new Date(
+                        a.createdAt || a.date || 0
+                    ).getTime();
+
+                    const dateB = new Date(
+                        b.createdAt || b.date || 0
+                    ).getTime();
+
+                    return dateB - dateA;
+
+                })
+                .slice(0, 5);
+
+
+            recentRequests.forEach(booking => {
+
+                const property = properties.find(item =>
+                    String(item.name || "").toLowerCase() ===
+                    String(booking.property || "").toLowerCase()
+                );
+
+                const propertyImage = property
+                    ? (
+                        property.images && property.images.length
+                            ? property.images[0]
+                            : property.image
+                    )
+                    : "image001.jpg";
+
+                const status = String(
+                    booking.status || "Pending"
+                );
+
+                let statusClass = "pending";
+
+                if (status.toLowerCase() === "approved") {
+                    statusClass = "approved";
+                } else if (status.toLowerCase() === "rejected") {
+                    statusClass = "rejected";
+                } else if (status.toLowerCase() === "cancelled") {
+                    statusClass = "cancelled";
+                }
+
+                const request = document.createElement("div");
+
+                request.className = "request";
+
+                const image = document.createElement("img");
+                image.src = propertyImage || "image001.jpg";
+                image.alt = booking.property || "Property";
+
+                image.onerror = function () {
+                    this.style.display = "none";
+                };
+
+                const info = document.createElement("div");
+                info.className = "request-info";
+
+                const title = document.createElement("h4");
+                title.textContent = booking.property || "Property";
+
+                const visit = document.createElement("p");
+                visit.textContent = "Visit: " + (booking.date || "Not specified");
+
+                const renter = document.createElement("p");
+                renter.textContent = "Renter: " + (booking.tenant || "Unknown");
+
+                info.appendChild(title);
+                info.appendChild(visit);
+                info.appendChild(renter);
+
+                const statusLabel = document.createElement("span");
+                statusLabel.className = "request-status " + statusClass;
+                statusLabel.textContent = status;
+
+                request.appendChild(image);
+                request.appendChild(info);
+                request.appendChild(statusLabel);
+
+                container.appendChild(request);
+
+            });
+
+        }
+
+
+        // LOGOUT
+        function logoutOwner(event) {
+
+            event.preventDefault();
+
+            const confirmLogout = confirm(
+                "Are you sure you want to logout?"
+            );
+
+            if (confirmLogout) {
+
+                localStorage.removeItem("rentalCurrentUser");
+
+                window.location.href = "login.html";
+
+            }
+
+        }
+
+
+        // SHOW OWNER NAME
+        function loadOwnerInformation() {
+
+            const owner = getCurrentOwner();
+
+            if (owner) {
+
+                document.getElementById("welcomeName").textContent =
+                    "Welcome, " + getOwnerName(owner) + "!";
+
+                if (owner.profileImage || owner.image) {
+
+                    document.getElementById("ownerImage").src =
+                        owner.profileImage || owner.image;
+
+                }
+
+            }
+
+        }
+
+
+        // INITIALIZE DASHBOARD
+        loadOwnerInformation();
+
+        updateDashboard();
+
+
+    </script>
+
+</body>
 </html>

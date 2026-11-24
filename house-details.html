@@ -1,557 +1,943 @@
+
 <!DOCTYPE html>
 <html lang="en">
-
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>House Details - Smart Rental Finder</title>
-    <style>
-        /* GENERAL SETTINGS */
-        * {
-            margin: 0;
-            padding: 0;
-            box-sizing: border-box;
-            font-family: Arial, sans-serif;
-        }
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>House Details - Rental House Finder</title>
 
-        body {
-            background: rgb(19, 171, 5);
-            color: #14234e;
-        }
+<style>
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+    font-family: Arial, sans-serif;
+}
 
-        /* MAIN CONTAINER */
-        .container {
-            max-width: 1250px;
-            margin: 22px auto;
-            padding: 12px;
-        }
+body {
+    background: #f4f7fb;
+    color: #1e293b;
+}
 
-        .details-card {
-            background: white;
-            padding: 14px;
-            border-radius: 13px;
-            box-shadow: 0 3px 12px rgba(0, 0, 0, 0.06);
-        }
+header {
+    background: white;
+    padding: 18px 6%;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    border-bottom: 1px solid #e5e7eb;
+}
 
-        /* TOP PROPERTY SECTION */
-        .property-top {
-            display: grid;
-            grid-template-columns: 1.15fr 1fr;
-            grid-template-columns: 1.15fr 1fr;
-            gap: 17px;
-            align-items: start;
-        }
+.logo {
+    font-size: 22px;
+    font-weight: bold;
+    color: #2563eb;
+}
 
-        /* PROPERTY IMAGE */
-        .image-wrapper {
-            position: relative;
-            height: 255px;
-            border-radius: 10px;
-            overflow: hidden;
-        }
+header a {
+    color: #2563eb;
+    text-decoration: none;
+    font-weight: bold;
+}
 
-        .main-image {
-            width: 100%;
-            height: 100%;
-            object-fit: cover;
-            display: block;
-        }
+.container {
+    max-width: 1200px;
+    margin: 30px auto;
+    padding: 20px;
+}
 
-        .available-badge {
-            position: absolute;
-            top: 12px;
-            right: 12px;
-            background: #24c55a;
-            color: white;
-            font-size: 12px;
-            font-weight: bold;
-            padding: 7px 12px;
-            border-radius: 20px;
-        }
+.back-button {
+    display: inline-block;
+    margin-bottom: 20px;
+    color: #2563eb;
+    text-decoration: none;
+}
 
-        /* PROPERTY INFORMATION */
-        .property-info {
-            padding: 7px 3px;
-        }
+.property-header {
+    display: flex;
+    justify-content: space-between;
+    gap: 20px;
+    flex-wrap: wrap;
+    margin-bottom: 20px;
+}
 
-        .property-info h1 {
-            font-size: 23px;
-            color: #102451;
-            margin-bottom: 9px;
-        }
-        
+.property-header h1 {
+    margin-bottom: 10px;
+}
 
-        .location {
-            color: #64748b;
-            font-size: 12px;
-            margin-bottom: 11px;
-        }
+.location {
+    color: #64748b;
+}
 
-        .location span {
-            color: #075bea;
-            margin-right: 5px;
-        }
+.price {
+    font-size: 24px;
+    color: #2563eb;
+    font-weight: bold;
+}
 
-        .price {
-            color: #075bea;
-            font-size: 21px;
-            font-weight: bold;
-            margin-bottom: 8px;
-        }
+.main-card {
+    background: white;
+    padding: 24px;
+    border-radius: 16px;
+    box-shadow: 0 5px 25px rgba(0,0,0,0.05);
+}
 
-        .price small {
-            font-size: 12px;
-            font-weight: normal;
-        }
+.main-image {
+    width: 100%;
+    height: 430px;
+    object-fit: cover;
+    border-radius: 14px;
+    background: #e2e8f0;
+}
 
-        .rating {
-            font-size: 12px;
-            margin-bottom: 19px;
-        }
+.gallery {
+    display: flex;
+    gap: 12px;
+    margin-top: 15px;
+    overflow-x: auto;
+}
 
-        .rating .stars {
-            color: #f5ad00;
-            font-size: 15px;
-        }
+.gallery img {
+    width: 125px;
+    height: 90px;
+    object-fit: cover;
+    border-radius: 10px;
+    cursor: pointer;
+    flex-shrink: 0;
+}
 
-        .rating small {
-            color: #64748b;
-        }
+.gallery img:hover {
+    outline: 3px solid #2563eb;
+}
 
-        /* PROPERTY FEATURES */
-        .features {
-            display: grid;
-            display: grid;
-            grid-template-columns: repeat(4, 1fr);
-            gap: 7px;
-            margin-bottom: 18px;
-        }
+.features {
+    display: grid;
+    grid-template-columns: repeat(4, 1fr);
+    gap: 15px;
+    margin: 25px 0;
+}
 
-        .feature {
-            text-align: center;
-            padding: 9px 3px;
-            border-radius: 7px;
-            background: #f7f9fd;
-        }
+.feature {
+    background: #f8fafc;
+    padding: 18px;
+    border-radius: 10px;
+    text-align: center;
+}
 
-        .feature span {
-            display: block;
-            font-size: 18px;
-            margin-bottom: 5px;
-        }
+.feature h3 {
+    color: #2563eb;
+    margin-bottom: 6px;
+}
 
-        .feature strong {
-            display: block;
-            font-size: 12px;
-            color: #102451;
-        }
+.tabs {
+    display: flex;
+    gap: 10px;
+    flex-wrap: wrap;
+    border-bottom: 1px solid #e2e8f0;
+    margin-top: 25px;
+}
 
-        .feature small {
-            font-size: 10px;
-            color: #64748b;
-        }
+.tab-button {
+    background: none;
+    border: none;
+    padding: 15px;
+    cursor: pointer;
+    font-weight: bold;
+    color: #64748b;
+}
 
-        /* ACTION BUTTONS */
-        .action-buttons {
-            display: flex;
-            gap: 9px;
-        }
+.tab-button.active {
+    color: #2563eb;
+    border-bottom: 3px solid #2563eb;
+}
 
-        .action-buttons button {
-            flex: 1;
-            padding: 11px 8px;
-            border-radius: 7px;
-            font-size: 12px;
-            font-weight: bold;
-            font-weight: bold;
-            cursor: pointer;
-            transition: 0.3s;
-        }
+.tab-content {
+    display: none;
+    padding: 25px 5px;
+}
 
-        .book-btn {
-            background: #075bea;
-            border: 1px solid #075bea;
-            color: white;
-        }
+.tab-content.active {
+    display: block;
+}
 
-        .book-btn:hover {
-            background: #0043c4;
-        }
+.video-box {
+    background: #f8fafc;
+    border-radius: 12px;
+    padding: 15px;
+}
 
-        .chat-btn {
-            background: white;
-            border: 1px solid #075bea;
-            color: #075bea;
-        }
+.property-video {
+    width: 100%;
+    max-height: 500px;
+    background: #000;
+    border-radius: 12px;
+}
 
-        .chat-btn:hover {
-            background: #edf4ff;
-        }
+.video-message {
+    padding: 35px 15px;
+    text-align: center;
+    color: #64748b;
+}
 
-        /* TABS SECTION */
-        .tabs-section {
-            margin-top: 17px;
-        }
+.owner-card {
+    display: flex;
+    align-items: center;
+    gap: 15px;
+    background: #f8fafc;
+    padding: 20px;
+    border-radius: 12px;
+    margin-top: 25px;
+}
 
-        .tabs {
-            display: flex;
-            gap: 0;
-            border-bottom: 1px solid #e3eaf5;
-            overflow-x: auto;
-        }
+.owner-avatar {
+    width: 55px;
+    height: 55px;
+    border-radius: 50%;
+    background: #dbeafe;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    color: #2563eb;
+    font-size: 22px;
+    font-weight: bold;
+}
 
-        .tab-btn {
-            padding: 12px 15px;
-            background: transparent;
-            border: none;
-            color: #64748b;
-            color: #64748b;
-            font-size: 12px;
-            font-weight: bold;
-            cursor: pointer;
-            white-space: nowrap;
-        }
+.owner-info {
+    flex: 1;
+}
 
-        .tab-btn.active {
-            color: #075bea;
-            border-bottom: 2px solid #075bea;
-        }
+.owner-info p {
+    color: #64748b;
+    margin-top: 5px;
+}
 
-        /* TAB CONTENT */
-        .tab-content {
-            padding: 16px 12px;
-            min-height: 95px;
-            background: #ffffff;
-        }
+.action-buttons {
+    display: flex;
+    gap: 12px;
+    flex-wrap: wrap;
+    margin-top: 25px;
+}
 
-        .tab-panel {
-            display: none;
-        }
+.btn {
+    padding: 14px 20px;
+    border: none;
+    border-radius: 9px;
+    cursor: pointer;
+    text-decoration: none;
+    text-align: center;
+    font-weight: bold;
+}
 
-        .tab-panel.active {
-            display: block;
-        }
+.btn-primary {
+    background: #2563eb;
+    color: white;
+    flex: 1;
+}
 
-        .tab-panel h3 {
-            font-size: 14px;
-            margin-bottom: 9px;
-        }
+.btn-secondary {
+    background: #e2e8f0;
+    color: #334155;
+}
 
-        .tab-panel p {
-            color: #475569;
-            font-size: 12px;
-            line-height: 1.8;
-        }
+.btn:disabled {
+    background: #94a3b8;
+    cursor: not-allowed;
+}
 
-        /* PHOTOS */
-        .photo-gallery {
-            display: grid;
-            grid-template-columns: repeat(3, 1fr);
-            grid-template-columns: repeat(3, 1fr);
-            gap: 10px;
-        }
+.badge {
+    display: inline-block;
+    padding: 7px 12px;
+    background: #dcfce7;
+    color: #166534;
+    border-radius: 20px;
+    font-size: 13px;
+    margin-bottom: 10px;
+}
 
-        .photo-gallery img {
-            width: 100%;
-            height: 110px;
-            object-fit: cover;
-            border-radius: 8px;
-        }
+.review {
+    padding: 15px;
+    background: #f8fafc;
+    border-radius: 10px;
+    margin-bottom: 12px;
+}
 
-        /* VIDEO */
-        .video-box {
-            position: relative;
-            max-width: 420px;
-        }
+.hidden {
+    display: none !important;
+}
 
-        .video-box video {
-            width: 100%;
-            border-radius: 8px;
-            background: #111;
-        }
+@media(max-width:800px) {
 
-        /* REVIEWS */
-        .review {
-            padding: 10px;
-            background: #f7f9fd;
-            border-radius: 8px;
-            margin-bottom: 9px;
-        }
+    .main-image {
+        height: 300px;
+    }
 
-        .review h4 {
-            font-size: 12px;
-            margin-bottom: 5px;
-        }
+    .features {
+        grid-template-columns: repeat(2, 1fr);
+    }
 
-        .review .stars {
-            color: #f5ad00;
-            font-size: 12px;
-        }
+    .property-header {
+        flex-direction: column;
+    }
+}
 
-        
-            .review p {
-                font-size: 11px;
-            }
+@media(max-width:480px) {
 
-            /* RESPONSIVE TABLET */
-            @media(max-width: 850px) {
-                .property-top {
-                    grid-template-columns: 1fr 1fr;
-                }
+    .container {
+        padding: 10px;
+    }
 
-                .property-info h1 {
-                    font-size: 19px;
-                }
+    .main-card {
+        padding: 15px;
+    }
 
-                .features {
-                    gap: 5px;
-                }
-            }
+    .main-image {
+        height: 230px;
+    }
 
-            /* RESPONSIVE MOBILE */
-            @media(max-width: 600px) {
-                .container {
-                    margin: 5px auto;
-                    padding: 8px;
-                }
-            }
-                .details-card {
-                    padding: 11px;
-                }
+    .features {
+        gap: 8px;
+    }
 
-                .property-top {
-                    grid-template-columns: 1fr;
-                }
-
-                .image-wrapper {
-                    height: 220px;
-                }
-
-                .property-info h1 {
-                    .property-info h1 {
-                        font-size: 21px;
-                    }
-
-                    .features {
-                        grid-template-columns: repeat(4, 1fr);
-                    }
-
-                    .action-buttons {
-                        gap: 7px;
-                    }
-
-                    .action-buttons button {
-                        font-size: 11px;
-                    }
-
-                    .photo-gallery img {
-                        height: 85px;
-                    }
-                }
-
-                @media(max-width: 350px) {
-                    .features {
-                        grid-template-columns: repeat(2, 1fr);
-                    }
-                }
-    </style>
+    .feature {
+        padding: 12px;
+    }
+}
+</style>
 </head>
 
 <body>
-    <div class="container">
-        <main class="details-card">
-            <!-- PROPERTY TOP SECTION -->
-            <section class="property-top">
-                <!-- HOUSE IMAGE -->
-                <div class="image-wrapper">
-                    <img class="main-image" id="mainImage"
-                        src="image001.jpg"
-                        alt="Three Bedroom House">
-                    <span class="available-badge">
-                        Available
-                    </span>
-                </div>
-                <!-- PROPERTY INFORMATION -->
-                <div class="property-info">
-                    <h1 id="houseName">
-                        3 Bedroom House
-                    </h1>
-                    <p class="location">
-                        <span> </span>
-                        <span id="houseLocation">Mjini, Morogoro</span>
-                    </p>
-                    <div class="price">
-                        TZS <span id="housePrice">550,000</span>
-                        <small>/ month</small>
-                    </div>
-                    <div class="rating">
-                        <span class="stars">★★★★★</span>
-                        <strong id="houseRating">4.6</strong>
-                        <small>
-                            <small>
-                                (24 reviews)
-                            </small>
-                    </div>
-                    <!-- PROPERTY FEATURES -->
-                    <div class="features">
-                        <div class="feature">
-                            <span> </span>
-                            <strong>3</strong>
-                            <small>Bedrooms</small>
-                        </div>
-                        <div class="feature">
-                            <span> </span>
-                            <strong>2</strong>
-                            <small>Bathrooms</small>
-                        </div>
-                        <div class="feature">
-                            <span> </span>
-                            <strong>1</strong>
-                            <small>Kitchen</small>
-                        </div>
-                        <div class="feature">
-                            <span> </span>
-                            <strong>1</strong>
-                            <small>Parking</small>
-                        </div>
-                    </div>
-                    <!-- ACTION BUTTONS -->
-                    <div class="action-buttons">
-                        <button class="book-btn" onclick="bookProperty()">
-                            Book Now
-                        </button>
-                        <button class="chat-btn" onclick="chatWithOwner()">
-                            Chat with Owner
-                        </button>
-                    </div>
-                </div>
-            </section>
-            <!-- TABS SECTION -->
-            <section class="tabs-section">
-                <div class="tabs">
-                    <button class="tab-btn active" onclick="openTab(event, 'description')">
-                        Description
-                    </button>
-                    <button class="tab-btn" onclick="openTab(event, 'photos')">
-                        Photos
-                    </button>
-                    <button class="tab-btn" onclick="openTab(event, 'video')">
-                        Video
-                    </button>
-                    <button class="tab-btn" onclick="openTab(event, 'reviews')">
-                        Reviews
-                    </button>
-                </div>
-                <!-- DESCRIPTION -->
-                <div class="tab-content">
-                    <div class="tab-panel active" id="description">
-                        <h3>Property Description</h3>
-                        <p>
-                            Spacious house with modern design,
-                            located in a quiet and secure area of
-                            Morogoro. The house has three bedrooms,
-                            two bathrooms, a kitchen and parking space.
-                            It is suitable for families looking for
-                            a comfortable home.
-                        </p>
-                    </div>
-                    <!-- PHOTOS -->
-                    <div class="tab-panel" id="photos">
-                        <h3>Property Photos</h3>
-                        <div class="photo-gallery">
-                            <img src="image020.jpg"
-                                alt="House front">
-                            <img src="image022.jpg"
-                                alt="House exterior">
-                            <img src="image003.jpg"
-                                alt="House interior">
-                        </div>
-                    </div>
-                    <!-- VIDEO -->
-                    <div class="tab-panel" id="video">
-                        <div class="tab-panel" id="video">
-                            <h3>Property Video</h3>
-                            <div class="video-box">
-                                <video controls
-                                    poster="https://images.unsplash.com/photo-1600596542815-ffad4c1539a9?w=700">
-                                    <source src="house-video.mp4" type="video/mp4">
-                                    Your browser does not support video.
-                                </video>
-                            </div>
-                        </div>
-                        <!-- REVIEWS -->
-                        <div class="tab-panel" id="reviews">
-                            <h3>Customer Reviews</h3>
-                            <div class="review">
-                                <h4>John Peter</h4>
-                                <div class="stars">★★★★★</div>
-                                <p>
-                                    Beautiful house and good location.
-                                </p>
-                            </div>
-                            <div class="review">
-                                <div class="review">
-                                    <h4>Mary James</h4>
-                                    <div class="stars">★★★★☆</div>
-                                    <p>
-                                        Nice property with a peaceful environment.
-                                    </p>
-                                </div>
-                            </div>
-                        </div>
-            </section>
-        </main>
-    </div>
-    <!-- JAVASCRIPT -->
-    <script>
-        /* GET SELECTED PROPERTY FROM PAGE 6 */
-        const savedProperty =
-            localStorage.getItem("selectedProperty");
-        if (savedProperty) {
-            const property = JSON.parse(savedProperty);
-            document.getElementById("houseName").textContent =
-                property.name;
-            document.getElementById("houseLocation").textContent =
-                property.location;
-            
-                document.getElementById("housePrice").textContent =
-                Number(property.price).toLocaleString("en-US");
-            document.getElementById("houseRating").textContent =
-                property.rating;
-            document.querySelector(".rating small").textContent =
-                "(" + property.reviews + " reviews)";
-        }
-        /* TABS FUNCTION */
-        /* TABS FUNCTION */
-        /* TABS FUNCTION */
-        function openTab(event, tabName) {
-            const panels =
-                document.querySelectorAll(".tab-panel");
-            const buttons =
-                document.querySelectorAll(".tab-btn");
-            panels.forEach(panel => {
-                panel.classList.remove("active");
-            });
-            buttons.forEach(button => {
-                button.classList.remove("active");
-            });
-            document.getElementById(tabName)
-                .classList.add("active");
-            event.currentTarget.classList.add("active");
-        }
-        /* BOOK PROPERTY */
-        /* BOOK PROPERTY */
-        /* BOOK PROPERTY */
-        function bookProperty() {
-            window.location.href = "booking.html";
-        }
-        /* CHAT WITH OWNER */
-        /* CHAT WITH OWNER */
-        /* CHAT WITH OWNER */
-        function chatWithOwner() {
-            window.location.href = "chat.html";
-        }
-    </script>
-</body>
 
+<header>
+    <div class="logo">Rental House Finder</div>
+    <a href="home.html">Home</a>
+</header>
+
+<div class="container">
+
+    <a href="house-listings.html" class="back-button">
+        ← Back to Properties
+    </a>
+
+    <div id="loadingMessage">
+        Loading property details...
+    </div>
+
+    <div id="propertyContainer" class="hidden">
+
+        <div class="property-header">
+
+            <div>
+                <span class="badge" id="propertyStatus">Available</span>
+
+                <h1 id="propertyName"></h1>
+
+                <p class="location" id="propertyLocation"></p>
+            </div>
+
+            <div class="price" id="propertyPrice"></div>
+
+        </div>
+
+        <div class="main-card">
+
+            <!-- MAIN PROPERTY IMAGE -->
+            <img id="mainImage"
+                 class="main-image"
+                 src="image001.jpg"
+                 alt="Property image">
+
+            <!-- IMAGE GALLERY -->
+            <div id="gallery" class="gallery"></div>
+
+            <!-- PROPERTY FEATURES -->
+            <div class="features">
+
+                <div class="feature">
+                    <h3 id="bedrooms">0</h3>
+                    <p>Bedrooms</p>
+                </div>
+
+                <div class="feature">
+                    <h3 id="bathrooms">0</h3>
+                    <p>Bathrooms</p>
+                </div>
+
+                <div class="feature">
+                    <h3 id="kitchens">0</h3>
+                    <p>Kitchens</p>
+                </div>
+
+                <div class="feature">
+                    <h3 id="parking">0</h3>
+                    <p>Parking</p>
+                </div>
+
+            </div>
+
+            <!-- TABS -->
+            <div class="tabs">
+
+                <button class="tab-button active"
+                        data-tab="description">
+                    Description
+                </button>
+
+                <button class="tab-button"
+                        data-tab="photos">
+                    Photos
+                </button>
+
+                <button class="tab-button"
+                        data-tab="video">
+                    Video Tour
+                </button>
+
+                <button class="tab-button"
+                        data-tab="reviews">
+                    Reviews
+                </button>
+
+            </div>
+
+            <!-- DESCRIPTION -->
+            <div id="description"
+                 class="tab-content active">
+
+                <h2>About this property</h2>
+
+                <p id="propertyDescription"
+                   style="margin-top:12px; line-height:1.8;">
+                </p>
+
+            </div>
+
+            <!-- PHOTOS -->
+            <div id="photos"
+                 class="tab-content">
+
+                <h2>Property Photos</h2>
+
+                <div id="photoGallery"
+                     class="gallery">
+                </div>
+
+            </div>
+
+            <!-- VIDEO -->
+            <div id="video"
+                 class="tab-content">
+
+                <h2>Property Video Tour</h2>
+
+                <div class="video-box">
+
+                    <div id="videoMessage"
+                         class="video-message">
+                        Loading video...
+                    </div>
+
+                    <video id="propertyVideoPlayer"
+                           class="property-video"
+                           controls
+                           playsinline
+                           preload="metadata"
+                           style="display:none;">
+                    </video>
+
+                </div>
+
+            </div>
+
+            <!-- REVIEWS -->
+            <div id="reviews"
+                 class="tab-content">
+
+                <h2>Property Reviews</h2>
+
+                <div id="reviewsContainer"></div>
+
+            </div>
+
+            <!-- OWNER -->
+            <div class="owner-card">
+
+                <div class="owner-avatar">O</div>
+
+                <div class="owner-info">
+
+                    <h3 id="ownerName">Property Owner</h3>
+
+                    <p>Property Owner</p>
+
+                </div>
+
+                <button class="btn btn-secondary"
+                        id="chatOwnerButton">
+                    Chat with Owner
+                </button>
+
+            </div>
+
+            <!-- ACTIONS -->
+            <div class="action-buttons">
+
+                <button class="btn btn-secondary"
+                        id="backButton">
+                    Back
+                </button>
+
+                <button class="btn btn-primary"
+                        id="bookButton">
+                    Book This Property
+                </button>
+
+            </div>
+
+        </div>
+
+    </div>
+
+</div>
+
+<script>
+// ========================================
+// LOAD PROPERTY
+// ========================================
+
+let selectedProperty = JSON.parse(
+    localStorage.getItem("selectedProperty") || "null"
+);
+
+const loadingMessage =
+    document.getElementById("loadingMessage");
+
+const propertyContainer =
+    document.getElementById("propertyContainer");
+
+if (!selectedProperty) {
+
+    loadingMessage.innerHTML = `
+        <h2>Property not found</h2>
+        <p>Please return to the property listings page.</p>
+        <br>
+        <a href="house-listings.html">Browse Properties</a>
+    `;
+
+} else {
+
+    loadingMessage.style.display = "none";
+    propertyContainer.classList.remove("hidden");
+
+    loadPropertyDetails(selectedProperty);
+}
+
+// ========================================
+// DISPLAY PROPERTY
+// ========================================
+
+function formatPrice(price) {
+
+    return "TZS " + Number(price || 0).toLocaleString() + " / month";
+}
+
+function loadPropertyDetails(property) {
+
+    document.getElementById("propertyName").textContent =
+        property.name || property.propertyName || "Rental Property";
+
+    document.getElementById("propertyLocation").textContent =
+        [property.location, property.city]
+        .filter(Boolean)
+        .join(", ");
+
+    document.getElementById("propertyPrice").textContent =
+        formatPrice(property.price);
+
+    document.getElementById("propertyStatus").textContent =
+        property.status || property.availability || "Available";
+
+    document.getElementById("bedrooms").textContent =
+        property.bedrooms ?? 0;
+
+    document.getElementById("bathrooms").textContent =
+        property.bathrooms ?? 0;
+
+    document.getElementById("kitchens").textContent =
+        property.kitchens ?? 0;
+
+    document.getElementById("parking").textContent =
+        property.parking ?? 0;
+
+    document.getElementById("propertyDescription").textContent =
+        property.description || "No description available.";
+
+    document.getElementById("ownerName").textContent =
+        property.ownerName || "Property Owner";
+
+    const mainImage = document.getElementById("mainImage");
+
+    mainImage.src = property.image || "image001.jpg";
+
+    // Gallery
+    loadGallery(property);
+
+    // Video
+    displayPropertyVideo(property);
+
+    // Reviews
+    loadReviews(property);
+
+    // Booking
+    configureBooking(property);
+}
+
+// ========================================
+// IMAGE GALLERY
+// ========================================
+
+function loadGallery(property) {
+
+    const gallery = document.getElementById("gallery");
+    const photoGallery = document.getElementById("photoGallery");
+
+    gallery.innerHTML = "";
+    photoGallery.innerHTML = "";
+
+    let images = [];
+
+    if (Array.isArray(property.images)) {
+        images = property.images;
+    }
+
+    if (property.image && !images.includes(property.image)) {
+        images.unshift(property.image);
+    }
+
+    if (images.length === 0) {
+        images = ["image001.jpg"];
+    }
+
+    images.forEach(imageSource => {
+
+        const image = document.createElement("img");
+
+        image.src = imageSource;
+        image.alt = "Property photo";
+
+        image.addEventListener("click", function() {
+
+            document.getElementById("mainImage").src =
+                imageSource;
+        });
+
+        gallery.appendChild(image.cloneNode(true));
+
+        const photo = image.cloneNode(true);
+
+        photo.addEventListener("click", function() {
+
+            document.getElementById("mainImage").src =
+                imageSource;
+        });
+
+        photoGallery.appendChild(photo);
+    });
+
+    // Main image changes from either gallery
+    gallery.querySelectorAll("img").forEach(img => {
+
+        img.addEventListener("click", function() {
+
+            document.getElementById("mainImage").src = img.src;
+        });
+    });
+}
+
+// ========================================
+// INDEXED DB VIDEO
+// ========================================
+
+const VIDEO_DB_NAME = "RentalHouseVideoDB";
+const VIDEO_STORE_NAME = "propertyVideos";
+
+function openVideoDB() {
+
+    return new Promise((resolve, reject) => {
+
+        const request = indexedDB.open(VIDEO_DB_NAME, 1);
+
+        request.onupgradeneeded = function(event) {
+
+            const db = event.target.result;
+
+            if (!db.objectStoreNames.contains(VIDEO_STORE_NAME)) {
+
+                db.createObjectStore(VIDEO_STORE_NAME, {
+                    keyPath: "videoId"
+                });
+            }
+        };
+
+        request.onsuccess = () => resolve(request.result);
+
+        request.onerror = () => reject(request.error);
+    });
+}
+
+async function getPropertyVideo(videoId) {
+
+    const db = await openVideoDB();
+
+    return new Promise((resolve, reject) => {
+
+        const transaction = db.transaction(
+            VIDEO_STORE_NAME,
+            "readonly"
+        );
+
+        const store = transaction.objectStore(VIDEO_STORE_NAME);
+
+        const request = store.get(videoId);
+
+        request.onsuccess = function() {
+
+            db.close();
+
+            resolve(request.result || null);
+        };
+
+        request.onerror = function() {
+
+            db.close();
+
+            reject(request.error);
+        };
+    });
+}
+
+let activeVideoObjectURL = null;
+
+const propertyVideoPlayer =
+    document.getElementById("propertyVideoPlayer");
+
+const videoMessage =
+    document.getElementById("videoMessage");
+
+async function displayPropertyVideo(property) {
+
+    propertyVideoPlayer.pause();
+
+    propertyVideoPlayer.removeAttribute("src");
+
+    propertyVideoPlayer.load();
+
+    propertyVideoPlayer.style.display = "none";
+
+    videoMessage.style.display = "block";
+
+    videoMessage.textContent = "Loading property video...";
+
+    if (activeVideoObjectURL) {
+
+        URL.revokeObjectURL(activeVideoObjectURL);
+
+        activeVideoObjectURL = null;
+    }
+
+    if (!property || !property.videoId) {
+
+        videoMessage.textContent =
+            "No video available for this property.";
+
+        return;
+    }
+
+    try {
+
+        const videoRecord = await getPropertyVideo(
+            property.videoId
+        );
+
+        if (!videoRecord || !videoRecord.file) {
+
+            videoMessage.textContent =
+                "The property video is currently unavailable.";
+
+            return;
+        }
+
+        activeVideoObjectURL = URL.createObjectURL(
+            videoRecord.file
+        );
+
+        propertyVideoPlayer.src = activeVideoObjectURL;
+
+        propertyVideoPlayer.style.display = "block";
+
+        videoMessage.style.display = "none";
+
+        propertyVideoPlayer.load();
+
+    } catch (error) {
+
+        console.error("Video loading error:", error);
+
+        videoMessage.textContent =
+            "Unable to load this property's video.";
+    }
+}
+
+// ========================================
+// TABS
+// ========================================
+
+document.querySelectorAll(".tab-button").forEach(button => {
+
+    button.addEventListener("click", function() {
+
+        const targetTab = this.dataset.tab;
+
+        document.querySelectorAll(".tab-button").forEach(btn => {
+            btn.classList.remove("active");
+        });
+
+        document.querySelectorAll(".tab-content").forEach(content => {
+            content.classList.remove("active");
+        });
+
+        this.classList.add("active");
+
+        document.getElementById(targetTab)
+            .classList.add("active");
+    });
+});
+
+// ========================================
+// REVIEWS
+// ========================================
+
+function loadReviews(property) {
+
+    const container = document.getElementById("reviewsContainer");
+
+    container.innerHTML = "";
+
+    // Demo reviews
+    const reviews = property.reviewsList || [];
+
+    if (!reviews.length) {
+
+        container.innerHTML = `
+            <div class="review">
+                <p>No reviews available for this property yet.</p>
+            </div>
+        `;
+
+        return;
+    }
+
+    reviews.forEach(review => {
+
+        const card = document.createElement("div");
+
+        card.className = "review";
+
+        card.innerHTML = `
+            <h3></h3>
+            <p style="margin-top:8px;"></p>
+        `;
+
+        card.querySelector("h3").textContent =
+            review.name || "Guest";
+
+        card.querySelector("p").textContent =
+            review.comment || "";
+
+        container.appendChild(card);
+    });
+}
+
+// ========================================
+// BOOKING
+// ========================================
+
+function configureBooking(property) {
+
+    const bookButton = document.getElementById("bookButton");
+
+    const status = property.status || property.availability || "Available";
+
+    if (status !== "Available" && status !== "Approved") {
+
+        bookButton.disabled = true;
+
+        bookButton.textContent = "Property Not Available";
+
+    } else {
+
+        bookButton.disabled = false;
+
+        bookButton.textContent = "Book This Property";
+    }
+
+    bookButton.addEventListener("click", function() {
+
+        if (bookButton.disabled) return;
+
+        localStorage.setItem(
+            "selectedProperty",
+            JSON.stringify(property)
+        );
+
+        localStorage.setItem(
+            "rentalBookingProperty",
+            JSON.stringify(property)
+        );
+
+        window.location.href = "booking.html";
+    });
+}
+
+// ========================================
+// CHAT WITH OWNER
+// ========================================
+
+document.getElementById("chatOwnerButton")
+.addEventListener("click", function() {
+
+    localStorage.setItem(
+        "rentalChatPropertyContext",
+        JSON.stringify(selectedProperty)
+    );
+
+    window.location.href =
+        "chat.html?propertyId=" + encodeURIComponent(selectedProperty.id || "");
+});
+
+// ========================================
+// BACK BUTTON
+// ========================================
+
+document.getElementById("backButton")
+.addEventListener("click", function() {
+
+    window.location.href = "house-listings.html";
+});
+
+// ========================================
+// CLEAN UP VIDEO URL
+// ========================================
+
+window.addEventListener("beforeunload", function() {
+
+    propertyVideoPlayer.pause();
+
+    if (activeVideoObjectURL) {
+
+        URL.revokeObjectURL(activeVideoObjectURL);
+    }
+});
+</script>
+
+</body>
 </html>

@@ -1,10 +1,11 @@
+
 <!DOCTYPE html>
 <html lang="en">
-
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Booking - Smart Rental Finder</title>
+
     <style>
         * {
             margin: 0;
@@ -14,7 +15,7 @@
         }
 
         body {
-            background: rgb(19, 171, 5);
+            background: #f4f7fb;
             color: #172554;
             min-height: 100vh;
             padding: 25px;
@@ -33,12 +34,12 @@
             display: flex;
             align-items: center;
             justify-content: space-between;
+            gap: 15px;
             margin-bottom: 25px;
         }
 
         .logo {
             color: #0755d9;
-            font-size: 20px;
             font-size: 20px;
             font-weight: bold;
         }
@@ -52,7 +53,7 @@
             font-size: 13px;
         }
 
-        h2 {
+        .page-title {
             font-size: 23px;
             margin-bottom: 22px;
         }
@@ -82,8 +83,8 @@
         }
 
         .price {
-            color: #0755d9 ;
-            font-size: 18px ;
+            color: #0755d9 !important;
+            font-size: 18px !important;
             font-weight: bold;
         }
 
@@ -103,20 +104,17 @@
             margin-bottom: 7px;
         }
 
-        input,
-        textarea,
-        select {
+        input, textarea, select {
             width: 100%;
             padding: 12px;
             border: 1px solid #dbe3f0;
             border-radius: 7px;
             outline: none;
             font-size: 13px;
+            background: white;
         }
 
-        input:focus,
-        textarea:focus,
-        select:focus {
+        input:focus, textarea:focus, select:focus {
             border-color: #0755d9;
         }
 
@@ -125,216 +123,375 @@
             resize: vertical;
         }
 
-        
-            .summary {
-                background: #f4f7ff;
-                padding: 18px;
-                border-radius: 10px;
-                margin-top: 20px;
+        .summary {
+            background: #f4f7ff;
+            padding: 18px;
+            border-radius: 10px;
+            margin-top: 20px;
+        }
+
+        .summary h3 {
+            font-size: 17px;
+            margin-bottom: 15px;
+        }
+
+        .summary-row {
+            display: flex;
+            justify-content: space-between;
+            gap: 10px;
+            margin-bottom: 13px;
+            font-size: 14px;
+            color: #475569;
+        }
+
+        .total {
+            border-top: 1px solid #d5deed;
+            padding-top: 14px;
+            margin-top: 10px;
+            font-size: 17px;
+            font-weight: bold;
+            color: #0755d9;
+        }
+
+        .confirm-btn {
+            width: 100%;
+            background: #0755e8;
+            color: white;
+            border: none;
+            padding: 14px;
+            border-radius: 8px;
+            margin-top: 18px;
+            cursor: pointer;
+            font-size: 15px;
+            font-weight: bold;
+        }
+
+        .confirm-btn:hover {
+            background: #003db5;
+        }
+
+        .note {
+            font-size: 12px;
+            color: #64748b;
+            margin-top: 12px;
+            text-align: center;
+        }
+
+        @media(max-width: 700px) {
+            body {
+                padding: 10px;
             }
 
-            .summary h3 {
-                font-size: 17px;
-                margin-bottom: 15px;
+            .container {
+                padding: 17px;
             }
 
-            .summary-row {
-                display: flex;
-                justify-content: space-between;
-                margin-bottom: 13px;
-                font-size: 14px;
-                color: #475569;
+            .booking-content {
+                grid-template-columns: 1fr;
             }
 
-            .total {
-                border-top: 1px solid #d5deed;
-                padding-top: 14px;
-                margin-top: 10px;
-                font-size: 17px;
-                font-weight: bold;
-                color: #0755d9;
+            .property-image {
+                height: 220px;
             }
 
-            .confirm-btn {
-                width: 100%;
-                background: #0755e8;
-                color: white;
-                border: none;
-                padding: 14px;
-                border-radius: 8px;
-                margin-top: 18px;
-                cursor: pointer;
-                font-size: 15px;
-                font-weight: bold;
+            .header {
+                flex-wrap: wrap;
             }
 
-            .confirm-btn:hover {
-                background: #003db5;
+            .page-title {
+                font-size: 20px;
             }
-
-            .note {
-                font-size: 12px;
-                color: #64748b;
-                margin-top: 12px;
-                text-align: center;
-            }
-
-            @media(max-width: 700px) {
-                body {
-                    padding: 10px;
-                }
-
-                .container {
-                    padding: 17px;
-                }
-
-                .booking-content {
-                    grid-template-columns: 1fr;
-                }
-
-                .property-image {
-                    height: 220px;
-                }
-
-                .header {
-                    gap: 10px;
-                }
-            }
+        }
     </style>
 </head>
 
 <body>
-    <div class="container">
-        <div class="header">
-            <div class="logo">
-                <div class="logo">
-                    Smart Rental Finder
-                </div>
-                <a href="house-details.html" class="back-btn">
-                    ← Back
-                </a>
-            </div>
-            <h2>Book This Property</h2>
-            <div class="booking-content">
-                <!-- PROPERTY INFORMATION -->
-                <div class="property-info">
-                    <img src="image019.jpg" class="property-image"
-                        alt="Three bedroom rental house">
-                    <h3>3 Bedroom House</h3>
-                    <p> Big Mjini, Morogoro</p>
-                    <p class="price">
-                        TZS 550,000 / month
-                    </p>
-                    <p> Property Type: House</p>
-                    <p> Bedrooms: 3</p>
-                    <p> Bathrooms: 2</p>
-                    <p> Parking: 1</p>
-                </div>
-                <!-- BOOKING FORM -->
-                <div class="form-section">
-                    <h3>Booking Information</h3>
-                    <form id="bookingForm">
-                        <div class="form-group">
-                            <label>Visit Date:</label>
-                            <input type="date" id="visitDate" required>
-                        </div>
-                        <div class="form-group">
-                            <label>Rental Duration:</label>
-                            <select id="duration">
-                                <option value="1">1 Month</option>
-                                <option value="2">2 Months</option>
-                                <option value="3">3 Months</option>
-                                <option value="6">6 Months</option>
-                                <option value="12">12 Months</option>
-                            </select>
-                        </div>
-                        <div class="form-group">
-                            <label>Message (Optional):</label>
-                            <textarea id="message" placeholder="I would like to visit this house..."></textarea>
-                        </div>
-                        <!-- RENTAL PRICE SUMMARY -->
-                        <div class="summary">
-                            <h3>Rental Price Summary</h3>
-                            <div class="summary-row">
-                                <span>Monthly Rent:</span>
-                                <span>TZS 550,000</span>
-                            </div>
-                            <div class="summary-row">
-                                <span>Duration:</span>
-                                <span>Duration:</span>
-                                <span id="months">1 Month</span>
-                            </div>
-                            <div class="summary-row">
-                                <span>Booking Fee:</span>
-                                <span>TZS 0</span>
-                            </div>
-                            <div class="summary-row total">
-                                <span>Total Amount:</span>
-                                <span id="total">TZS 550,000</span>
-                            </div>
-                        </div>
-                        <button type="submit" class="confirm-btn">
-                            Confirm Booking
-                        </button>
-                        <p class="note">
-                            Your booking will be sent to the property owner
-                            for approval.
-                        </p>
-                    </form>
-                </div>
-            </div>
-        </div>
-        <script>
-            const monthlyRent = 550000;
-            const duration = document.getElementById("duration");
-            const total = document.getElementById("total");
-            const months = document.getElementById("months");
-            
-                function calculateTotal() {
-                    let selectedMonths = Number(duration.value);
-                    let amount = monthlyRent * selectedMonths;
-                    total.textContent = "TZS " +
-                        amount.toLocaleString("en-US");
-                    months.textContent = selectedMonths +
-                        (selectedMonths === 1 ? " Month" : " Months");
-                }
-                duration.addEventListener("change", calculateTotal);
-                document.getElementById("bookingForm")
-                    .addEventListener("submit", function (event) {
-                        event.preventDefault();
-                        const visitDate = document.getElementById("visitDate").value;
-                        if (!visitDate) {
-                            alert("Please select your visit date.");
-                            return;
-                        }
-                        const selectedDate = new Date(visitDate + "T00:00:00");
-                        const today = new Date();
-                        today.setHours(0, 0, 0, 0);
-                        if (selectedDate < today) {
-                            alert("Please select a valid future visit date.");
-                            return;
-                        }
-                        const booking = {
-                            property: "3 Bedroom House",
-                            location: "Big Mjini, Morogoro",
-                            visitDate: visitDate,
-                            duration: duration.value,
-                            totalAmount: monthlyRent * Number(duration.value),
-                            totalAmount: monthlyRent * Number(duration.value),
-                            message: document.getElementById("message").value
-                        };
-                        localStorage.setItem(
-                            "rentalBooking",
-                            JSON.stringify(booking)
-                        );
-                        alert(
-                            "Booking submitted successfully!\n" +
-                            "Total: TZS " +
-                            booking.totalAmount.toLocaleString("en-US")
-                        );
-                    });
-                calculateTotal();
-        </script>
-</body>
 
+    <div class="container">
+
+        <!-- HEADER -->
+        <header class="header">
+            <div class="logo">Smart Rental Finder</div>
+
+            <a href="house-details.html" class="back-btn">
+                ← Back
+            </a>
+        </header>
+
+        <h2 class="page-title">Book This Property</h2>
+
+        <div class="booking-content">
+
+            <!-- PROPERTY INFORMATION -->
+            <div class="property-info">
+
+                <img src="image019.jpg"
+                     class="property-image"
+                     alt="Three bedroom rental house">
+
+                <h3>3 Bedroom House</h3>
+
+                <p>Big Mjini, Morogoro</p>
+
+                <p class="price">
+                    TZS 550,000 / month
+                </p>
+
+                <p>Property Type: House</p>
+                <p>Bedrooms: 3</p>
+                <p>Bathrooms: 2</p>
+                <p>Parking: 1</p>
+
+            </div>
+
+            <!-- BOOKING FORM -->
+            <div class="form-section">
+
+                <h3>Booking Information</h3>
+
+                <form id="bookingForm">
+
+                    <div class="form-group">
+                        <label for="tenantName">Full Name</label>
+                        <input type="text"
+                               id="tenantName"
+                               placeholder="Enter your full name"
+                               required>
+                    </div>
+
+                    <div class="form-group">
+                        <label for="tenantPhone">Phone Number</label>
+                        <input type="tel"
+                               id="tenantPhone"
+                               placeholder="e.g. 07XXXXXXXX"
+                               required>
+                    </div>
+
+                    <div class="form-group">
+                        <label for="visitDate">Visit Date</label>
+                        <input type="date"
+                               id="visitDate"
+                               required>
+                    </div>
+
+                    <div class="form-group">
+                        <label for="duration">Rental Duration</label>
+                        <select id="duration" required>
+                            <option value="1">1 Month</option>
+                            <option value="2">2 Months</option>
+                            <option value="3">3 Months</option>
+                            <option value="6">6 Months</option>
+                            <option value="12">12 Months</option>
+                        </select>
+                    </div>
+
+                    <div class="form-group">
+                        <label for="message">Message (Optional)</label>
+                        <textarea id="message"
+                                  placeholder="I would like to visit this house..."></textarea>
+                    </div>
+
+                    <!-- RENT SUMMARY -->
+                    <div class="summary">
+
+                        <h3>Rental Price Summary</h3>
+
+                        <div class="summary-row">
+                            <span>Monthly Rent:</span>
+                            <span>TZS 550,000</span>
+                        </div>
+
+                        <div class="summary-row">
+                            <span>Duration:</span>
+                            <span id="months">1 Month</span>
+                        </div>
+
+                        <div class="summary-row">
+                            <span>Booking Fee:</span>
+                            <span>TZS 0</span>
+                        </div>
+
+                        <div class="summary-row total">
+                            <span>Total Rent:</span>
+                            <span id="total">TZS 550,000</span>
+                        </div>
+
+                    </div>
+
+                    <button type="submit" class="confirm-btn">
+                        Confirm Booking
+                    </button>
+
+                    <p class="note">
+                        Your booking request will be sent to the property owner
+                        for approval.
+                    </p>
+
+                </form>
+
+            </div>
+
+        </div>
+
+    </div>
+
+    <script>
+
+        // PROPERTY INFORMATION
+        const monthlyRent = 550000;
+
+        const propertyName = "3 Bedroom House";
+        const propertyLocation = "Big Mjini, Morogoro";
+
+        const duration = document.getElementById("duration");
+        const total = document.getElementById("total");
+        const months = document.getElementById("months");
+
+        // CALCULATE TOTAL RENT
+        function calculateTotal() {
+
+            const selectedMonths = Number(duration.value);
+            const amount = monthlyRent * selectedMonths;
+
+            total.textContent =
+                "TZS " + amount.toLocaleString("en-US");
+
+            months.textContent =
+                selectedMonths +
+                (selectedMonths === 1 ? " Month" : " Months");
+
+        }
+
+        duration.addEventListener("change", calculateTotal);
+
+        // SET MINIMUM VISIT DATE TO TODAY
+        const visitDateInput = document.getElementById("visitDate");
+
+        const today = new Date();
+
+        const year = today.getFullYear();
+        const month = String(today.getMonth() + 1).padStart(2, "0");
+        const day = String(today.getDate()).padStart(2, "0");
+
+        visitDateInput.min = `${year}-${month}-${day}`;
+
+        // SUBMIT BOOKING
+        document.getElementById("bookingForm")
+            .addEventListener("submit", function(event) {
+
+                event.preventDefault();
+
+                const tenantName =
+                    document.getElementById("tenantName").value.trim();
+
+                const tenantPhone =
+                    document.getElementById("tenantPhone").value.trim();
+
+                const visitDate = visitDateInput.value;
+
+                const selectedMonths = Number(duration.value);
+
+                const message =
+                    document.getElementById("message").value.trim();
+
+                if (!tenantName || !tenantPhone || !visitDate) {
+                    alert("Please fill in all required information.");
+                    return;
+                }
+
+                const selectedDate =
+                    new Date(visitDate + "T00:00:00");
+
+                const todayDate = new Date();
+                todayDate.setHours(0, 0, 0, 0);
+
+                if (selectedDate < todayDate) {
+                    alert("Please select a valid visit date.");
+                    return;
+                }
+
+                // CREATE BOOKING REQUEST
+                const booking = {
+                    id: Date.now(),
+
+                    tenant: tenantName,
+
+                    initials: tenantName
+                        .split(/\s+/)
+                        .filter(Boolean)
+                        .map(word => word[0])
+                        .join("")
+                        .substring(0, 2)
+                        .toUpperCase(),
+
+                    property: propertyName,
+
+                    location: propertyLocation,
+
+                    date: visitDate,
+
+            rent: "Tsh " + monthlyRent.toLocaleString("en-US"),
+
+            duration: selectedMonths + 
+                (selectedMonths === 1 ? " Month" : " Months"),
+
+            phone: tenantPhone,
+
+            totalAmount: monthlyRent * selectedMonths,
+
+            message: message,
+
+            status: "Pending"
+        };
+
+        // GET EXISTING REQUESTS
+        let requests = [];
+
+        try {
+            requests = JSON.parse(
+                localStorage.getItem("ownerBookingRequests") || "[]"
+            );
+
+            if (!Array.isArray(requests)) {
+                requests = [];
+            }
+
+        } catch (error) {
+            requests = [];
+        }
+
+        // ADD NEW BOOKING
+        requests.push(booking);
+
+        // SAVE REQUESTS
+        localStorage.setItem(
+            "ownerBookingRequests",
+            JSON.stringify(requests)
+        );
+
+        // ALSO SAVE RENTER'S LAST BOOKING
+        localStorage.setItem(
+            "rentalBooking",
+            JSON.stringify(booking)
+        );
+
+        alert(
+            "Booking request submitted successfully!\n\n" +
+            "Property: " + booking.property + "\n" +
+            "Total Rent: TZS " +
+            booking.totalAmount.toLocaleString("en-US") + "\n" +
+            "Status: Pending"
+        );
+
+        // REDIRECT TO MY BOOKINGS
+        window.location.href = "my-bookings.html";
+
+    });
+
+    // INITIAL CALCULATION
+    calculateTotal();
+
+    </script>
+
+</body>
 </html>

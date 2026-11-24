@@ -1,0 +1,1236 @@
+
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Owner Verification - Rental House Finder</title>
+
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: Arial, sans-serif;
+        }
+
+        body {
+            background: #f3f6fb;
+            color: #1e293b;
+        }
+
+        .container {
+            width: 90%;
+            max-width: 1000px;
+            margin: 40px auto;
+        }
+
+        .back-btn {
+            display: inline-block;
+            margin-bottom: 20px;
+            color: #2563eb;
+            text-decoration: none;
+            font-weight: bold;
+        }
+
+        .header {
+            background: linear-gradient(135deg, #2563eb, #4f46e5);
+            color: white;
+            padding: 30px;
+            border-radius: 15px 15px 0 0;
+        }
+
+        .header h1 {
+            margin-bottom: 10px;
+        }
+
+        .header p {
+            color: #e0e7ff;
+            line-height: 1.6;
+        }
+
+        .main-content {
+            background: white;
+            padding: 30px;
+            border-radius: 0 0 15px 15px;
+            box-shadow: 0 5px 20px rgba(0,0,0,0.08);
+        }
+
+        .notice {
+            background: #eff6ff;
+            border-left: 4px solid #2563eb;
+            padding: 15px;
+            margin-bottom: 25px;
+            border-radius: 5px;
+            color: #1e40af;
+            line-height: 1.6;
+        }
+
+        .section-title {
+            margin: 25px 0 15px;
+            padding-bottom: 10px;
+            border-bottom: 1px solid #e5e7eb;
+            color: #1e40af;
+        }
+
+        .form-grid {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 20px;
+        }
+
+        .form-group {
+            margin-bottom: 18px;
+        }
+
+        .form-group.full {
+            grid-column: 1 / -1;
+        }
+
+        label {
+            display: block;
+            margin-bottom: 8px;
+            font-weight: 600;
+            font-size: 14px;
+        }
+
+        input, select, textarea {
+            width: 100%;
+            padding: 12px;
+            border: 1px solid #d1d5db;
+            border-radius: 8px;
+            outline: none;
+            font-size: 14px;
+            background: #fff;
+        }
+
+        input:focus, select:focus, textarea:focus {
+            border-color: #2563eb;
+            box-shadow: 0 0 0 3px rgba(37,99,235,0.1);
+        }
+
+        input:disabled, select:disabled, textarea:disabled {
+            background: #f1f5f9;
+            cursor: not-allowed;
+        }
+
+        textarea {
+            resize: vertical;
+            min-height: 100px;
+        }
+
+        .upload-box {
+            border: 2px dashed #cbd5e1;
+            padding: 20px;
+            border-radius: 10px;
+            background: #f8fafc;
+        }
+
+        .upload-box p {
+            font-size: 13px;
+            color: #64748b;
+            margin-bottom: 12px;
+            line-height: 1.5;
+        }
+
+        .file-name {
+            margin-top: 10px;
+            font-size: 12px;
+            color: #166534;
+            overflow-wrap: anywhere;
+        }
+
+        .checkbox-group {
+            display: flex;
+            align-items: flex-start;
+            gap: 10px;
+            margin: 20px 0;
+        }
+
+        .checkbox-group input {
+            width: auto;
+            margin-top: 3px;
+        }
+
+        .checkbox-group label {
+            font-weight: normal;
+            line-height: 1.5;
+        }
+
+        .buttons {
+            display: flex;
+            gap: 12px;
+            margin-top: 25px;
+        }
+
+        button {
+            padding: 13px 22px;
+            border: none;
+            border-radius: 8px;
+            cursor: pointer;
+            font-weight: bold;
+            font-size: 14px;
+        }
+
+        button:disabled {
+            opacity: .6;
+            cursor: not-allowed;
+        }
+
+        .submit-btn {
+            background: #2563eb;
+            color: white;
+        }
+
+        .submit-btn:hover {
+            background: #1d4ed8;
+        }
+
+        .reset-btn {
+            background: #e5e7eb;
+            color: #374151;
+        }
+
+        .status-card {
+            background: #f8fafc;
+            border: 1px solid #e2e8f0;
+            padding: 20px;
+            border-radius: 10px;
+            margin-top: 25px;
+        }
+
+        .status-card h3 {
+            margin-bottom: 10px;
+        }
+
+        .status {
+            display: inline-block;
+            padding: 7px 13px;
+            border-radius: 20px;
+            font-size: 12px;
+            font-weight: bold;
+            margin-top: 10px;
+        }
+
+        .status.pending {
+            background: #fef3c7;
+            color: #92400e;
+        }
+
+        .status.approved {
+            background: #dcfce7;
+            color: #166534;
+        }
+
+        .status.rejected {
+            background: #fee2e2;
+            color: #991b1b;
+        }
+
+        .status-details {
+            margin-top: 12px;
+            font-size: 13px;
+            color: #64748b;
+            line-height: 1.7;
+        }
+
+        .admin-note {
+            margin-top: 12px;
+            padding: 12px;
+            border-radius: 7px;
+            background: #fff7ed;
+            color: #9a3412;
+            font-size: 13px;
+            line-height: 1.6;
+        }
+
+        .form-locked {
+            display: none;
+            background: #f1f5f9;
+            color: #475569;
+            padding: 15px;
+            border-radius: 8px;
+            margin-top: 20px;
+            font-size: 13px;
+            line-height: 1.6;
+        }
+
+        .footer {
+            text-align: center;
+            margin-top: 25px;
+            color: #64748b;
+            font-size: 13px;
+            line-height: 1.8;
+        }
+
+        @media (max-width: 650px) {
+            .form-grid {
+                grid-template-columns: 1fr;
+            }
+
+            .main-content {
+                padding: 20px;
+            }
+
+            .header {
+                padding: 22px;
+            }
+
+            .buttons {
+                flex-direction: column;
+            }
+
+            button {
+                width: 100%;
+            }
+        }
+    </style>
+</head>
+
+<body>
+
+<div class="container">
+
+    <a href="owner-dashboard.html" class="back-btn">
+        ← Back to Dashboard
+    </a>
+
+    <div class="header">
+
+        <h1>Owner Verification</h1>
+
+        <p>
+            Verify your identity and property ownership to build trust
+            and provide a secure rental experience for tenants.
+        </p>
+
+    </div>
+
+    <div class="main-content">
+
+        <div class="notice">
+
+            <strong>Important:</strong>
+
+            Submit accurate information. Your verification details will
+            be reviewed by the system administrator before your account
+            is marked as verified.
+
+        </div>
+
+        <!-- VERIFICATION STATUS -->
+        <div class="status-card" id="statusCard">
+
+            <h3>Verification Status</h3>
+
+            <p id="statusDescription">
+                You have not submitted a verification request yet.
+            </p>
+
+            <span class="status" id="statusBadge">
+                Not Submitted
+            </span>
+
+            <div class="status-details" id="statusDetails"></div>
+
+            <div class="admin-note" id="adminNote" hidden></div>
+
+        </div>
+
+        <div class="form-locked" id="formLocked">
+            Your verification request has already been submitted.
+            You cannot submit another request while it is being reviewed
+            or after it has been approved.
+        </div>
+
+        <!-- VERIFICATION FORM -->
+        <form id="verificationForm">
+
+            <h3 class="section-title">Personal Information</h3>
+
+            <div class="form-grid">
+
+                <div class="form-group">
+                    <label for="fullName">Full Name</label>
+
+                    <input type="text" id="fullName"
+                           placeholder="Enter your full name" required>
+                </div>
+
+                <div class="form-group">
+                    <label for="phone">Phone Number</label>
+
+                    <input type="tel" id="phone"
+                           placeholder="Enter your phone number" required>
+                </div>
+
+                <div class="form-group">
+                    <label for="email">Email Address</label>
+
+                    <input type="email" id="email"
+                           placeholder="Enter your email address" required>
+                </div>
+
+                <div class="form-group">
+                    <label for="nationality">Nationality</label>
+
+                    <input type="text" id="nationality"
+                           placeholder="Enter nationality" required>
+                </div>
+
+                <div class="form-group">
+                    <label for="documentType">
+                        Identification Document
+                    </label>
+
+                    <select id="documentType" required>
+                        <option value="">Select document type</option>
+                        <option value="National ID">National ID</option>
+                        <option value="Passport">Passport</option>
+                        <option value="Driving License">Driving License</option>
+                        <option value="Other">Other</option>
+                    </select>
+                </div>
+
+                <div class="form-group">
+                    <label for="documentNumber">Document Number</label>
+
+                    <input type="text" id="documentNumber"
+                           placeholder="Enter document number" required>
+                </div>
+
+            </div>
+
+            <h3 class="section-title">
+                Property Ownership Information
+            </h3>
+
+            <div class="form-grid">
+
+                <div class="form-group">
+                    <label for="propertyName">
+                        Property Name (Optional)
+                    </label>
+
+                    <input type="text" id="propertyName"
+                           placeholder="Enter property name">
+                </div>
+
+                <div class="form-group">
+                    <label for="propertyType">Property Type</label>
+
+                    <select id="propertyType" required>
+                        <option value="">Select property type</option>
+                        <option value="Single Room">Single Room</option>
+                        <option value="Self Contained">Self Contained</option>
+                        <option value="Apartment">Apartment</option>
+                        <option value="Family House">Family House</option>
+                        <option value="Commercial Property">Commercial Property</option>
+                        <option value="Other">Other</option>
+                    </select>
+                </div>
+
+                <div class="form-group full">
+                    <label for="propertyLocation">
+                        Property Location
+                    </label>
+
+                    <input type="text" id="propertyLocation"
+                           placeholder="Region, District, Street or Area"
+                           required>
+                </div>
+
+                <div class="form-group">
+                    <label for="ownershipType">Ownership Status</label>
+
+                    <select id="ownershipType" required>
+                        <option value="">Select ownership status</option>
+                        <option value="Property Owner">Property Owner</option>
+                        <option value="Authorized Property Manager">
+                            Authorized Property Manager
+                        </option>
+                    </select>
+                </div>
+
+                <div class="form-group">
+                    <label for="propertyCount">
+                        Number of Properties
+                    </label>
+
+                    <input type="number" id="propertyCount"
+                           min="1" max="1000"
+                           placeholder="Enter number of properties"
+                           required>
+                </div>
+
+                <div class="form-group full">
+                    <label for="description">
+                        Additional Information
+                    </label>
+
+                    <textarea id="description"
+                              placeholder="Provide additional information about your property or ownership"></textarea>
+                </div>
+
+            </div>
+
+            <h3 class="section-title">Verification Documents</h3>
+
+            <div class="notice">
+                Upload PDF, JPG, JPEG or PNG files. Maximum file size:
+                5 MB per document. For this learning prototype, use sample
+                documents rather than real personal identity documents.
+            </div>
+
+            <div class="form-grid">
+
+                <div class="form-group">
+
+                    <label for="identityFile">
+                        Identity Document
+                    </label>
+
+                    <div class="upload-box">
+
+                        <p>
+                            Upload identity document (PDF, JPG or PNG).
+                        </p>
+
+                        <input type="file" id="identityFile"
+                               accept=".pdf,.jpg,.jpeg,.png"
+                               required>
+
+                        <div class="file-name" id="identityFileName"></div>
+
+                    </div>
+
+                </div>
+
+                <div class="form-group">
+
+                    <label for="ownershipFile">
+                        Property Ownership Document
+                    </label>
+
+                    <div class="upload-box">
+
+                        <p>
+                            Upload property ownership proof.
+                        </p>
+
+                        <input type="file" id="ownershipFile"
+                               accept=".pdf,.jpg,.jpeg,.png"
+                               required>
+
+                        <div class="file-name" id="ownershipFileName"></div>
+
+                    </div>
+
+                </div>
+
+            </div>
+
+            <div class="checkbox-group">
+
+                <input type="checkbox" id="confirmation" required>
+
+                <label for="confirmation">
+                    I confirm that the information provided is accurate
+                    and that I am authorized to manage or rent this property.
+                </label>
+
+            </div>
+
+            <div class="buttons">
+
+                <button type="submit" class="submit-btn" id="submitButton">
+                    Submit Verification
+                </button>
+
+                <button type="reset" class="reset-btn">
+                    Reset Form
+                </button>
+
+            </div>
+
+        </form>
+
+    </div>
+
+    <div class="footer">
+
+        <p>Rental House Finder System &copy; 2026</p>
+        <p>Secure • Trusted • Reliable</p>
+
+    </div>
+
+</div>
+
+<script>
+
+    // =====================================
+    // 1. CURRENT OWNER
+    // =====================================
+
+    function getCurrentOwner() {
+
+        try {
+
+            const savedUser = localStorage.getItem("rentalCurrentUser");
+
+            if (!savedUser) {
+                return null;
+            }
+
+            const owner = JSON.parse(savedUser);
+
+            if (owner && typeof owner === "object") {
+                return owner;
+            }
+
+            return null;
+
+        } catch (error) {
+
+            return null;
+
+        }
+
+    }
+
+
+    const currentOwner = getCurrentOwner();
+
+
+    if (!currentOwner) {
+
+        alert("Please login as an owner before accessing verification.");
+
+        window.location.href = "login.html";
+
+    }
+
+
+    // =====================================
+    // 2. OWNER PROFILE
+    // =====================================
+
+    let ownerProfile = {};
+
+    try {
+
+        ownerProfile = JSON.parse(
+            localStorage.getItem("ownerProfile") || "{}"
+        );
+
+    } catch (error) {
+
+        ownerProfile = {};
+
+    }
+
+
+    const ownerId =
+        currentOwner?.id ||
+        currentOwner?.userId ||
+        currentOwner?.ownerId ||
+        currentOwner?.email ||
+        "owner-default";
+
+
+    // =====================================
+    // 3. STORAGE KEYS
+    // =====================================
+
+    const VERIFICATION_KEY = "ownerVerifications";
+
+    const DB_NAME = "RentalOwnerVerificationDB";
+
+    const STORE_NAME = "verificationFiles";
+
+
+    // =====================================
+    // 4. OPEN INDEXEDDB
+    // =====================================
+
+    function openVerificationDB() {
+
+        return new Promise((resolve, reject) => {
+
+            const request = indexedDB.open(DB_NAME, 1);
+
+            request.onupgradeneeded = function(event) {
+
+                const db = event.target.result;
+
+                if (!db.objectStoreNames.contains(STORE_NAME)) {
+
+                    db.createObjectStore(STORE_NAME, {
+                        keyPath: "fileId"
+                    });
+
+                }
+
+            };
+
+            request.onsuccess = function(event) {
+
+                resolve(event.target.result);
+
+            };
+
+            request.onerror = function() {
+
+                reject(request.error);
+
+            };
+
+        });
+
+    }
+
+
+    // =====================================
+    // 5. SAVE DOCUMENT FILES
+    // =====================================
+
+    async function saveVerificationFile(fileId, file) {
+
+        const db = await openVerificationDB();
+
+        return new Promise((resolve, reject) => {
+
+            const transaction = db.transaction(
+                STORE_NAME,
+                "readwrite"
+            );
+
+            const store = transaction.objectStore(STORE_NAME);
+
+            store.put({
+
+                fileId: fileId,
+                file: file,
+                fileName: file.name,
+                fileType: file.type,
+                uploadedAt: new Date().toISOString()
+
+            });
+
+            transaction.oncomplete = function() {
+
+                db.close();
+
+                resolve();
+
+            };
+
+            transaction.onerror = function() {
+
+                db.close();
+
+                reject(transaction.error);
+
+            };
+
+        });
+
+    }
+
+
+    // =====================================
+    // 6. GET OWNER VERIFICATIONS
+    // =====================================
+
+    function getAllVerifications() {
+
+        try {
+
+            return JSON.parse(
+                localStorage.getItem(VERIFICATION_KEY) || "[]"
+            );
+
+        } catch (error) {
+
+            return [];
+
+        }
+
+    }
+
+
+    function getOwnerVerification() {
+
+        const allVerifications = getAllVerifications();
+
+        const ownerRecords = allVerifications.filter(record =>
+            String(record.ownerId) === String(ownerId)
+        );
+
+        return ownerRecords.sort((a, b) =>
+            new Date(b.submittedAt) - new Date(a.submittedAt)
+        )[0] || null;
+
+    }
+
+
+    // =====================================
+    // 7. FILL OWNER INFORMATION
+    // =====================================
+
+    function fillOwnerInformation() {
+
+        document.getElementById("fullName").value =
+            ownerProfile.fullName ||
+            currentOwner.name ||
+            currentOwner.fullName ||
+            currentOwner.username ||
+            "";
+
+        document.getElementById("phone").value =
+            ownerProfile.phone ||
+            currentOwner.phone ||
+            currentOwner.phoneNumber ||
+            "";
+
+        document.getElementById("email").value =
+            ownerProfile.email ||
+            currentOwner.email ||
+            "";
+
+    }
+
+
+    // =====================================
+    // 8. DISPLAY VERIFICATION STATUS
+    // =====================================
+
+    function displayStatus() {
+
+        const verification = getOwnerVerification();
+
+        const badge = document.getElementById("statusBadge");
+
+        const description = document.getElementById("statusDescription");
+
+        const details = document.getElementById("statusDetails");
+
+        const adminNote = document.getElementById("adminNote");
+
+        const form = document.getElementById("verificationForm");
+
+        const lockedMessage = document.getElementById("formLocked");
+
+        if (!verification) {
+
+            badge.textContent = "Not Submitted";
+
+            badge.className = "status";
+
+            description.textContent =
+                "You have not submitted a verification request yet.";
+
+            details.textContent = "";
+
+            adminNote.hidden = true;
+
+            form.style.display = "block";
+
+            lockedMessage.style.display = "none";
+
+            return;
+
+        }
+
+
+        const status = verification.status || "Pending Verification";
+
+
+        badge.textContent = status;
+
+        badge.className = "status";
+
+
+        if (status === "Approved") {
+
+            badge.classList.add("approved");
+
+            description.textContent =
+                "Congratulations! Your owner verification has been approved.";
+
+            form.style.display = "none";
+
+            lockedMessage.style.display = "block";
+
+            lockedMessage.textContent =
+                "Your account has been verified. You cannot submit another verification request.";
+
+        }
+
+        else if (status === "Rejected") {
+
+            badge.classList.add("rejected");
+
+            description.textContent =
+                "Your verification request was rejected. Review the administrator's feedback before submitting a new request.";
+
+            form.style.display = "block";
+
+            lockedMessage.style.display = "none";
+
+        }
+
+        else {
+
+            badge.classList.add("pending");
+
+            description.textContent =
+                "Your verification request has been submitted and is waiting for administrator review.";
+
+            form.style.display = "none";
+
+            lockedMessage.style.display = "block";
+
+            lockedMessage.textContent =
+                "Your request is currently under review. Please wait for the administrator's decision.";
+
+        }
+
+
+        details.innerHTML = `
+            <strong>Reference:</strong>
+            ${escapeHTML(verification.id)}<br>
+
+            <strong>Submitted:</strong>
+            ${new Date(verification.submittedAt).toLocaleString()}<br>
+
+            <strong>Owner:</strong>
+            ${escapeHTML(verification.fullName)}
+        `;
+
+
+        if (verification.adminNote) {
+
+            adminNote.hidden = false;
+
+            adminNote.textContent =
+                "Administrator Feedback: " + verification.adminNote;
+
+        } else {
+
+            adminNote.hidden = true;
+
+        }
+
+    }
+
+
+    // =====================================
+    // 9. ESCAPE DISPLAYED TEXT
+    // =====================================
+
+    function escapeHTML(value) {
+
+        return String(value ?? "").replace(/[&<>"']/g, character => {
+
+            const characters = {
+                "&": "&amp;",
+                "<": "&lt;",
+                ">": "&gt;",
+                '"': "&quot;",
+                "'": "&#039;"
+            };
+
+            return characters[character];
+
+        });
+
+    }
+
+
+    // =====================================
+    // 10. FILE VALIDATION
+    // =====================================
+
+    function validateFile(file) {
+
+        if (!file) {
+            return "Please select the required document.";
+        }
+
+        const allowedTypes = [
+            "application/pdf",
+            "image/jpeg",
+            "image/png"
+        ];
+
+        if (!allowedTypes.includes(file.type)) {
+
+            return "Only PDF, JPG, JPEG and PNG files are allowed.";
+
+        }
+
+        const maxSize = 5 * 1024 * 1024;
+
+        if (file.size > maxSize) {
+
+            return "Each document must not exceed 5 MB.";
+
+        }
+
+        return null;
+
+    }
+
+
+    // =====================================
+    // 11. SHOW SELECTED FILE NAMES
+    // =====================================
+
+    document.getElementById("identityFile")
+        .addEventListener("change", function() {
+
+            const file = this.files[0];
+
+            document.getElementById("identityFileName").textContent =
+                file ? "Selected: " + file.name : "";
+
+        });
+
+
+    document.getElementById("ownershipFile")
+        .addEventListener("change", function() {
+
+            const file = this.files[0];
+
+            document.getElementById("ownershipFileName").textContent =
+                file ? "Selected: " + file.name : "";
+
+        });
+
+
+    // =====================================
+    // 12. SUBMIT VERIFICATION
+    // =====================================
+
+    document.getElementById("verificationForm")
+        .addEventListener("submit", async function(event) {
+
+            event.preventDefault();
+
+            const existing = getOwnerVerification();
+
+            if (existing &&
+                (existing.status === "Pending Verification" ||
+                 existing.status === "Approved")) {
+
+                alert("You already have an active verification request.");
+
+                displayStatus();
+
+                return;
+
+            }
+
+
+            const identityFile =
+                document.getElementById("identityFile").files[0];
+
+            const ownershipFile =
+                document.getElementById("ownershipFile").files[0];
+
+
+            const identityError = validateFile(identityFile);
+
+            if (identityError) {
+
+                alert("Identity Document: " + identityError);
+
+                return;
+
+            }
+
+
+            const ownershipError = validateFile(ownershipFile);
+
+            if (ownershipError) {
+
+                alert("Ownership Document: " + ownershipError);
+
+                return;
+
+            }
+
+
+            const submitButton =
+                document.getElementById("submitButton");
+
+
+            try {
+
+                submitButton.disabled = true;
+
+                submitButton.textContent = "Submitting...";
+
+
+                const verificationId =
+                    "VER-" + Date.now();
+
+
+                const identityFileId =
+                    verificationId + "-IDENTITY";
+
+                const ownershipFileId =
+                    verificationId + "-OWNERSHIP";
+
+
+                // Save files in IndexedDB
+                await saveVerificationFile(
+                    identityFileId,
+                    identityFile
+                );
+
+                await saveVerificationFile(
+                    ownershipFileId,
+                    ownershipFile
+                );
+
+
+                // Create verification record
+                const verification = {
+
+                    id: verificationId,
+
+                    ownerId: ownerId,
+
+                    fullName:
+                        document.getElementById("fullName").value.trim(),
+
+                    phone:
+                        document.getElementById("phone").value.trim(),
+
+                    email:
+                        document.getElementById("email").value.trim(),
+
+                    nationality:
+                        document.getElementById("nationality").value.trim(),
+
+                    documentType:
+                        document.getElementById("documentType").value,
+
+                    documentNumber:
+                        document.getElementById("documentNumber").value.trim(),
+
+                    propertyName:
+                        document.getElementById("propertyName").value.trim(),
+
+                    propertyType:
+                        document.getElementById("propertyType").value,
+
+                    propertyLocation:
+                        document.getElementById("propertyLocation").value.trim(),
+
+                    ownershipType:
+                        document.getElementById("ownershipType").value,
+
+                    propertyCount:
+                        Number(document.getElementById("propertyCount").value),
+
+                    description:
+                        document.getElementById("description").value.trim(),
+
+                    identityFileId: identityFileId,
+
+                    identityFileName: identityFile.name,
+
+                    ownershipFileId: ownershipFileId,
+
+                    ownershipFileName: ownershipFile.name,
+
+                    status: "Pending Verification",
+
+                    adminNote: "",
+
+                    submittedAt: new Date().toISOString()
+
+                };
+
+
+                // Save verification in localStorage
+                const allVerifications = getAllVerifications();
+
+                allVerifications.push(verification);
+
+                localStorage.setItem(
+                    VERIFICATION_KEY,
+                    JSON.stringify(allVerifications)
+                );
+
+
+                alert(
+                    "Your verification request has been submitted successfully. It is now pending administrator review."
+                );
+
+
+                displayStatus();
+
+            }
+
+            catch (error) {
+
+                console.error("Verification submission error:", error);
+
+                alert(
+                    "Unable to save your verification. Please try again."
+                );
+
+            }
+
+            finally {
+
+                submitButton.disabled = false;
+
+                submitButton.textContent = "Submit Verification";
+
+            }
+
+        });
+
+
+    // =====================================
+    // 13. RESET FORM
+    // =====================================
+
+    document.getElementById("verificationForm")
+        .addEventListener("reset", function() {
+
+            setTimeout(() => {
+
+                document.getElementById("identityFileName").textContent = "";
+
+                document.getElementById("ownershipFileName").textContent = "";
+
+                fillOwnerInformation();
+
+            }, 0);
+
+        });
+
+
+    // =====================================
+    // 14. INITIALIZE PAGE
+    // =====================================
+
+    if (currentOwner) {
+
+        fillOwnerInformation();
+
+        displayStatus();
+
+    }
+
+</script>
+
+</body>
+</html>

@@ -1,3 +1,4 @@
+
 <!DOCTYPE html>
 <html lang="en">
 
@@ -5,6 +6,7 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Owner Settings - Smart Rental Finder</title>
+
     <style>
         * {
             margin: 0;
@@ -16,6 +18,7 @@
         body {
             background: #f5f7fb;
             color: #1e293b;
+            transition: background .3s, color .3s;
         }
 
         .container {
@@ -31,12 +34,14 @@
             padding: 25px 18px;
             position: fixed;
             height: 100vh;
+            overflow-y: auto;
         }
 
         .logo {
-            font-size: 21px;
+            font-size: 20px;
             font-weight: bold;
             margin-bottom: 38px;
+            line-height: 1.5;
         }
 
         .logo span {
@@ -91,8 +96,8 @@
         }
 
         .avatar {
-            width: 40px;
-            height: 40px;
+            width: 42px;
+            height: 42px;
             border-radius: 50%;
             background: #dbeafe;
             color: #1d4ed8;
@@ -100,9 +105,15 @@
             justify-content: center;
             align-items: center;
             font-weight: bold;
+            overflow: hidden;
         }
 
-        /* INTRO */
+        .avatar img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+        }
+
         .intro {
             margin-bottom: 25px;
         }
@@ -126,6 +137,7 @@
             padding: 25px;
             border-radius: 12px;
             box-shadow: 0 3px 12px #00000008;
+            transition: background .3s;
         }
 
         .settings-card h3 {
@@ -140,7 +152,6 @@
             margin-bottom: 20px;
         }
 
-        /* SETTING ROW */
         .setting-row {
             display: flex;
             justify-content: space-between;
@@ -161,7 +172,6 @@
         .setting-info p {
             color: #64748b;
             font-size: 12px;
-            margin-top: 5px;
             margin-top: 5px;
             line-height: 1.5;
         }
@@ -202,18 +212,22 @@
             transition: .3s;
         }
 
-        .switch input:checked+.slider {
-            background: #2563eb;
+        .switch input:checked + .slider {
             background: #2563eb;
         }
 
-        .switch input:checked+.slider:before {
+        .switch input:checked + .slider:before {
             transform: translateX(20px);
         }
 
-        /* SELECT */
+        .switch input:focus-visible + .slider {
+            outline: 2px solid #2563eb;
+            outline-offset: 3px;
+        }
+
+        /* PREFERENCES */
         .preference {
-            margin-top: 15px;
+            margin-top: 18px;
         }
 
         .preference label {
@@ -230,6 +244,7 @@
             border-radius: 7px;
             outline: none;
             background: white;
+            color: #1e293b;
         }
 
         .preference select:focus {
@@ -240,6 +255,10 @@
         .security-item {
             padding: 16px 0;
             border-bottom: 1px solid #eef2f7;
+        }
+
+        .security-item:last-child {
+            border-bottom: none;
         }
 
         .security-item strong {
@@ -260,6 +279,10 @@
             font-size: 13px;
             text-decoration: none;
             font-weight: bold;
+        }
+
+        .action-link:hover {
+            text-decoration: underline;
         }
 
         /* BUTTONS */
@@ -287,7 +310,6 @@
         .save-btn {
             background: #2563eb;
             color: white;
-            color: white;
         }
 
         .btn:hover {
@@ -303,6 +325,34 @@
             background: #dcfce7;
             color: #166534;
             font-size: 13px;
+        }
+
+        /* DARK MODE */
+        body.dark-mode {
+            background: #111827;
+            color: #f8fafc;
+        }
+
+        body.dark-mode .settings-card {
+            background: #1f2937;
+        }
+
+        body.dark-mode .setting-row,
+        body.dark-mode .security-item {
+            border-color: #374151;
+        }
+
+        body.dark-mode .intro p,
+        body.dark-mode .card-description,
+        body.dark-mode .setting-info p,
+        body.dark-mode .security-item p {
+            color: #cbd5e1;
+        }
+
+        body.dark-mode .preference select {
+            background: #374151;
+            color: white;
+            border-color: #4b5563;
         }
 
         /* RESPONSIVE */
@@ -328,7 +378,6 @@
             }
 
             .sidebar a {
-                font-size: 0;
                 font-size: 0;
                 text-align: center;
                 padding: 15px 3px;
@@ -364,308 +413,605 @@
 </head>
 
 <body>
+
     <div class="container">
+
         <!-- SIDEBAR -->
         <aside class="sidebar">
-            <div class="logo">Smart <span>Rental House Finder</span></div>
 
-            <a href="owner-dashboard.html"> Dashboard</a>
-            <a href="add-property.html">¦ Add Property</a>
-            <a href="manage-properties.html"> Manage Properties</a>
-            <a href="booking-requests.html"> Booking Requests</a>
-            <a href="chat.html"> Messages</a>
-            <a href="owner-profile.html"> My Profile</a>
+            <div class="logo">
+                Smart <span>Rental House Finder</span>
+            </div>
+
+            <h4>Main Menu</h4>
+
+            <a href="owner-dashboard.html">🏠 Dashboard</a>
+            <a href="add-property.html">➕ Add Property</a>
+            <a href="manage-properties.html">🏘 Manage Properties</a>
+            <a href="booking-requests.html">📋 Booking Requests</a>
+            <a href="chat.html">💬 Messages</a>
+            <a href="notifications.html">🔔 Notifications</a>
+            <a href="owner-profile.html">👤 My Profile</a>
             <a href="owner-settings.html" class="active">⚙ Settings</a>
-            <a href="home.html">↪ Logout</a>
+
+            <h4>Account</h4>
+            <a href="#" id="logoutLink">↪ Logout</a>
+
         </aside>
+
         <!-- MAIN CONTENT -->
         <main class="main">
+
             <div class="topbar">
+
                 <h2>Settings</h2>
+
                 <div class="user">
-                    <div class="avatar">OW</div>
+
+                    <div class="avatar" id="ownerAvatar">OW</div>
+
                     <div>
-                        <strong>Property Owner</strong>
-                        <p style="font-size:12px;color:#64748b;">Owner Account</p>
+                        <strong id="ownerName">Property Owner</strong>
+                        <p style="font-size:12px;color:#64748b;">
+                            Owner Account
+                        </p>
                     </div>
+
                 </div>
+
             </div>
+
             <div class="intro">
+
                 <h3>Account Settings</h3>
+
                 <p>
                     Manage your notifications, privacy and account preferences
                     from one place.
                 </p>
+
             </div>
+
+            <form id="settingsForm">
+
+                <div class="settings-layout">
+
+                    <!-- NOTIFICATIONS -->
+                    <section class="settings-card">
+
+                        <h3>🔔 Notification Settings</h3>
+
+                        <p class="card-description">
+                            Choose how you want to receive updates about
+                            your rental activities.
+                        </p>
+
+                        <div class="setting-row">
+
+                            <div class="setting-info">
+                                <strong>Email Notifications</strong>
+                                <p>Receive important updates through email.</p>
+                            </div>
+
+                            <label class="switch">
+                                <input type="checkbox" id="emailNotifications">
+                                <span class="slider"></span>
+                            </label>
+
+                        </div>
+
+                        <div class="setting-row">
+
+                            <div class="setting-info">
+                                <strong>New Booking Requests</strong>
+                                <p>Get notified when a tenant sends a booking request.</p>
+                            </div>
+
+                            <label class="switch">
+                                <input type="checkbox" id="bookingNotifications">
+                                <span class="slider"></span>
+                            </label>
+
+                        </div>
+
+                        <div class="setting-row">
+
+                            <div class="setting-info">
+                                <strong>New Messages</strong>
+                                <p>Receive notifications when someone sends a message.</p>
+                            </div>
+
+                            <label class="switch">
+                                <input type="checkbox" id="messageNotifications">
+                                <span class="slider"></span>
+                            </label>
+
+                        </div>
+
+                        <div class="setting-row">
+
+                            <div class="setting-info">
+                                <strong>System Updates</strong>
+                                <p>Receive information about system improvements.</p>
+                            </div>
+
+                            <label class="switch">
+                                <input type="checkbox" id="systemNotifications">
+                                <span class="slider"></span>
+                            </label>
+
+                        </div>
+
+                    </section>
+
+                    <!-- PRIVACY -->
+                    <section class="settings-card">
+
+                        <h3>🔒 Privacy Settings</h3>
+
+                        <p class="card-description">
+                            Control how your profile information is displayed.
+                        </p>
+
+                        <div class="setting-row">
+
+                            <div class="setting-info">
+                                <strong>Show Phone Number</strong>
+                                <p>Allow tenants to see your contact number.</p>
+                            </div>
+
+                            <label class="switch">
+                                <input type="checkbox" id="showPhone">
+                                <span class="slider"></span>
+                            </label>
+
+                        </div>
+
+                        <div class="setting-row">
+
+                            <div class="setting-info">
+                                <strong>Show Email Address</strong>
+                                <p>Allow tenants to view your email address.</p>
+                            </div>
+
+                            <label class="switch">
+                                <input type="checkbox" id="showEmail">
+                                <span class="slider"></span>
+                            </label>
+
+                        </div>
+
+                        <div class="setting-row">
+
+                            <div class="setting-info">
+                                <strong>Profile Visibility</strong>
+                                <p>Allow your owner profile to be visible to users.</p>
+                            </div>
+
+                            <label class="switch">
+                                <input type="checkbox" id="profileVisibility">
+                                <span class="slider"></span>
+                            </label>
+
+                        </div>
+
+                    </section>
+
+                    <!-- PREFERENCES -->
+                    <section class="settings-card">
+
+                        <h3>⚙ Account Preferences</h3>
+
+                        <p class="card-description">
+                            Customize how you use the Smart Rental Finder system.
+                        </p>
+
+                        <div class="preference">
+
+                            <label for="language">Preferred Language</label>
+
+                            <select id="language">
+                                <option value="English">English</option>
+                                <option value="Swahili">Kiswahili</option>
+                            </select>
+
+                        </div>
+
+                        <div class="preference">
+
+                            <label for="timezone">Time Zone</label>
+
+                            <select id="timezone">
+                                <option value="Africa/Dar_es_Salaam">
+                                    East Africa Time (GMT+3)
+                                </option>
+
+                                <option value="UTC">UTC</option>
+                            </select>
+
+                        </div>
+
+                        <div class="preference">
+
+                            <label for="theme">Display Theme</label>
+
+                            <select id="theme">
+                                <option value="Light">Light Mode</option>
+                                <option value="Dark">Dark Mode</option>
+                            </select>
+
+                        </div>
+
+                    </section>
+
+                    <!-- SECURITY -->
+                    <section class="settings-card">
+
+                        <h3>🛡 Security & Account</h3>
+
+                        <p class="card-description">
+                            Manage your account security and important account actions.
+                        </p>
+
+                        <div class="security-item">
+
+                            <strong>Password Management</strong>
+
+                            <p>
+                                Keep your account secure by maintaining a strong password.
+                            </p>
+
+                            <a href="owner-profile.html" class="action-link">
+                                Change Password →
+                            </a>
+
+                        </div>
+
+                        <div class="security-item">
+
+                            <strong>Account Information</strong>
+
+                            <p>
+                                Update your personal details and contact information.
+                            </p>
+
+                            <a href="owner-profile.html" class="action-link">
+                                Manage Profile →
+                            </a>
+
+                        </div>
+
+                        <div class="security-item">
+
+                            <strong>Sign Out</strong>
+
+                            <p>Leave your current owner account.</p>
+
+                            <a href="#" class="action-link" id="logoutAction">
+                                Logout →
+                            </a>
+
+                        </div>
+
+                    </section>
+
+                </div>
+
+                <!-- ACTION BUTTONS -->
+                <div class="footer-actions">
+
+                    <button type="button" class="btn reset-btn" id="resetButton">
+                        Reset Defaults
+                    </button>
+
+                    <button type="submit" class="btn save-btn">
+                        Save Settings
+                    </button>
+
+                </div>
+
+                <div class="message" id="successMessage">
+                    ✓ Your settings have been saved successfully!
+                </div>
+
+            </form>
+
+        </main>
+
     </div>
-    <form id="settingsForm">
-        <div class="settings-layout">
-            <!-- NOTIFICATIONS -->
-            <section class="settings-card">
-                <h3> Notification Settings</h3>
-                <p class="card-description">
-                    Choose how you want to receive updates about
-                    your rental activities.
-                </p>
-                <div class="setting-row">
-                    <div class="setting-info">
-                        <strong>Email Notifications</strong>
-                        <p>Receive important updates through email.</p>
-                    </div>
-                    <label class="switch">
-                        <input type="checkbox" id="emailNotifications" checked>
-                        <span class="slider"></span>
-                    </label>
-                </div>
-                <div class="setting-row">
-                    <div class="setting-info">
-                        <strong>New Booking Requests</strong>
-                        <p>Get notified when a tenant sends a booking request.</p>
-                    </div>
-                    <label class="switch">
-                        <input type="checkbox" id="bookingNotifications" checked>
-                        <span class="slider"></span>
-                    </label>
-                </div>
-                <div class="setting-row">
-                    <div class="setting-info">
-                        <div class="setting-info">
-                            <strong>New Messages</strong>
-                            <p>Receive notifications when someone sends a message.</p>
-                        </div>
-                        <label class="switch">
-                            <input type="checkbox" id="messageNotifications" checked>
-                            <span class="slider"></span>
-                        </label>
-                    </div>
-                    <div class="setting-row">
-                        <div class="setting-info">
-                            <strong>System Updates</strong>
-                            <p>Receive information about system improvements.</p>
-                        </div>
-                        <label class="switch">
-                            <input type="checkbox" id="systemNotifications">
-                            <span class="slider"></span>
-                        </label>
-                    </div>
-            </section>
-            <!-- PRIVACY -->
-            <section class="settings-card">
-                <h3> Privacy Settings</h3>
-                <p class="card-description">
-                    Control how your profile information is displayed.
-                </p>
-                <div class="setting-row">
-                    <div class="setting-info">
-                        <strong>Show Phone Number</strong>
-                        <p>Allow tenants to see your contact number.</p>
-                    </div>
-                    <label class="switch">
-                        <input type="checkbox" id="showPhone" checked>
-                        <input type="checkbox" id="showPhone" checked>
-                        <span class="slider"></span>
-                    </label>
-                </div>
-                <div class="setting-row">
-                    <div class="setting-info">
-                        <strong>Show Email Address</strong>
-                        <p>Allow tenants to view your email address.</p>
-                    </div>
-                    <label class="switch">
-                        <input type="checkbox" id="showEmail">
-                        <span class="slider"></span>
-                    </label>
-                </div>
-                <div class="setting-row">
-                    <div class="setting-info">
-                        <strong>Profile Visibility</strong>
-                        <p>Allow your owner profile to be visible to users.</p>
-                    </div>
-                    <label class="switch">
-                        <input type="checkbox" id="profileVisibility" checked>
-                        <span class="slider"></span>
-                    </label>
-                </div>
-            </section>
-            <!-- PREFERENCES -->
-            <section class="settings-card">
-                <h3> Account Preferences</h3>
-                <p class="card-description">
-                    Customize how you use the Smart Rental Finder system.
-                </p>
-                <div class="preference">
-                    <label for="language">Preferred Language</label>
-                    <label for="language">Preferred Language</label>
-                    <select id="language">
-                        <option value="English">English</option>
-                        <option value="Swahili">Kiswahili</option>
-                    </select>
-                </div>
-                <div class="preference">
-                    <label for="timezone">Time Zone</label>
-                    <select id="timezone">
-                        <option value="Africa/Dar_es_Salaam">
-                            East Africa Time (GMT+3)
-                        </option>
-                        <option value="UTC">UTC</option>
-                    </select>
-                </div>
-                <div class="preference">
-                    <label for="theme">Display Theme</label>
-                    <select id="theme">
-                        <option value="Light">Light Mode</option>
-                        <option value="Dark">Dark Mode</option>
-                    </select>
-                </div>
-            </section>
-            <!-- SECURITY -->
-            <section class="settings-card">
-                <h3> Security & Account</h3>
-                <p class="card-description">
-                    Manage your account security and important account actions.
-                </p>
-                <div class="security-item">
-                    <strong>Password Management</strong>
-                    <p>
-                        Keep your account secure by maintaining
-                        a strong password.
-                    </p>
-                    </p>
-                    <a href="owner-profile.html" class="action-link">
-                        Change Password →
-                    </a>
-                </div>
-                <div class="security-item">
-                    <strong>Account Information</strong>
-                    <p>
-                        Update your personal details and contact information.
-                    </p>
-                    <a href="owner-profile.html" class="action-link">
-                        Manage Profile →
-                    </a>
-                </div>
-                <div class="security-item">
-                    <strong>Sign Out</strong>
-                    <p>Leave your current owner account.</p>
-                    <a href="home.html" class="action-link">
-                        Logout →
-                    </a>
-                </div>
-            </section>
-        </div>
-        <div class="footer-actions">
-            <button type="button" class="btn reset-btn" id="resetButton">
-                Reset Defaults
-            </button>
-            <button type="submit" class="btn save-btn">
-                Save Settings
-            </button>
-        </div>
-        <div class="message" id="successMessage">
-            <div class="message" id="successMessage">
-                ✓ Your settings have been saved successfully!
-            </div>
-        </div>
-            </div>
-    </form>
-    </main>
-
-
-
-
-
-
 
     <script>
+
         // DEFAULT SETTINGS
         const defaults = {
             emailNotifications: true,
             bookingNotifications: true,
             messageNotifications: true,
             systemNotifications: false,
+
             showPhone: true,
             showEmail: false,
             profileVisibility: true,
+
             language: "English",
             timezone: "Africa/Dar_es_Salaam",
             theme: "Light"
         };
-        // ALL SETTING INPUTS
+
+
+        // SETTING INPUT IDs
         const settingIds = Object.keys(defaults);
+
+
+        // GET CURRENT OWNER
+        function getCurrentOwner() {
+
+            try {
+
+                const owner = JSON.parse(
+                    localStorage.getItem("rentalCurrentUser")
+                );
+
+                return owner && typeof owner === "object" ? owner : {};
+
+            } catch (error) {
+
+                return {};
+
+            }
+
+        }
+
+
+        // DISPLAY OWNER INFORMATION
+        function displayOwner() {
+
+            const owner = getCurrentOwner();
+
+            const profile = JSON.parse(
+                localStorage.getItem("ownerProfile") || "{}"
+            );
+
+            const name =
+                profile.fullName ||
+                owner.name ||
+                owner.fullName ||
+                owner.username ||
+                "Property Owner";
+
+            document.getElementById("ownerName").textContent = name;
+
+            const photo =
+                profile.photo ||
+                owner.profileImage ||
+                owner.image;
+
+            const avatar = document.getElementById("ownerAvatar");
+
+            if (photo) {
+
+                avatar.innerHTML = "";
+
+                const image = document.createElement("img");
+
+                image.src = photo;
+                image.alt = "Owner Profile";
+
+                avatar.appendChild(image);
+
+            } else {
+
+                avatar.textContent = name
+                    .split(" ")
+                    .filter(Boolean)
+                    .map(word => word[0])
+                    .join("")
+                    .substring(0, 2)
+                    .toUpperCase();
+
+            }
+
+        }
+
+
         // SAVE SETTINGS
         function saveSettings() {
+
             const settings = {};
+
             settingIds.forEach(id => {
+
                 const element = document.getElementById(id);
+
                 if (element.type === "checkbox") {
+
                     settings[id] = element.checked;
-                    settings[id] = element.checked;
+
                 } else {
+
                     settings[id] = element.value;
+
                 }
+
             });
+
             localStorage.setItem(
                 "ownerSettings",
                 JSON.stringify(settings)
             );
+
+            applyTheme(settings.theme);
+
         }
+
+
         // LOAD SETTINGS
         function loadSettings() {
-            const saved = localStorage.getItem("ownerSettings");
-            const settings = saved
-                ? { ...defaults, ...JSON.parse(saved) }
-                : defaults;
+
+            let savedSettings = {};
+
+            try {
+
+                savedSettings = JSON.parse(
+                    localStorage.getItem("ownerSettings") || "{}"
+                );
+
+            } catch (error) {
+
+                savedSettings = {};
+
+            }
+
+            const settings = {
+                ...defaults,
+                ...savedSettings
+            };
+
             settingIds.forEach(id => {
+
                 const element = document.getElementById(id);
+
                 if (element.type === "checkbox") {
+
                     element.checked = settings[id];
+
                 } else {
+
                     element.value = settings[id];
+
                 }
+
             });
+
             applyTheme(settings.theme);
+
         }
+
+
+        // APPLY DISPLAY THEME
+        function applyTheme(theme) {
+
+            if (theme === "Dark") {
+
+                document.body.classList.add("dark-mode");
+
+            } else {
+
+                document.body.classList.remove("dark-mode");
+
+            }
+
+        }
+
+
         // SAVE BUTTON
         document.getElementById("settingsForm")
-            .addEventListener("submit"), function (event) {
-                Value
-                    .addEventListener("submit", function (event) {
-                        event.preventDefault();
-                        saveSettings();
-                        const message = document.getElementById("successMessage");
-                        message.style.display = "block";
-                        setTimeout(() => {
-                            message.style.display = "none";
-                        }, 3000);
-                    });
-                // RESET DEFAULTS
-                document.getElementById("resetButton")
-                    .addEventListener("click", function () {
-                        if (!confirm("Are you sure you want to reset all settings?")) {
-                            return;
-                        }
-                        localStorage.removeItem("ownerSettings");
-                        loadSettings();
-                    });
-                // APPLY DISPLAY THEME
-                function applyTheme(theme) {
-                    if (theme === "Dark") {
-                        document.body.style.background = "#111827";
-                        document.body.style.color = "#f8fafc";
-                    } else {
-                        document.body.style.background = "#f5f7fb";
-                        document.body.style.color = "#1e293b";
-                    }
+            .addEventListener("submit", function(event) {
+
+                event.preventDefault();
+
+                saveSettings();
+
+                const message = document.getElementById("successMessage");
+
+                message.style.display = "block";
+
+                setTimeout(() => {
+
+                    message.style.display = "none";
+
+                }, 3000);
+
+            });
+
+
+        // RESET DEFAULT SETTINGS
+        document.getElementById("resetButton")
+            .addEventListener("click", function() {
+
+                const confirmReset = confirm(
+                    "Are you sure you want to reset all settings?"
+                );
+
+                if (!confirmReset) {
+                    return;
                 }
-            }
+
+                localStorage.removeItem("ownerSettings");
+
+                loadSettings();
+
+                const message = document.getElementById("successMessage");
+
+                message.textContent = "✓ Settings have been reset to default values.";
+
+                message.style.display = "block";
+
+                setTimeout(() => {
+
+                    message.style.display = "none";
+
+                    message.textContent = "✓ Your settings have been saved successfully!";
+
+                }, 3000);
+
+            });
+
+
         // APPLY THEME WHEN CHANGED
         document.getElementById("theme")
-            .addEventListener("change", function () {
+            .addEventListener("change", function() {
+
                 applyTheme(this.value);
+
             });
-        // INITIALIZE
+
+
+        // LOGOUT
+        function logoutOwner() {
+
+            const confirmLogout = confirm(
+                "Are you sure you want to logout?"
+            );
+
+            if (!confirmLogout) {
+                return;
+            }
+
+            localStorage.removeItem("rentalCurrentUser");
+
+            window.location.href = "login.html";
+
+        }
+
+
+        document.getElementById("logoutLink")
+            .addEventListener("click", function(event) {
+
+                event.preventDefault();
+
+                logoutOwner();
+
+            });
+
+
+        document.getElementById("logoutAction")
+            .addEventListener("click", function(event) {
+
+                event.preventDefault();
+
+                logoutOwner();
+
+            });
+
+
+        // INITIALIZE PAGE
         loadSettings();
+
+        displayOwner();
+
     </script>
+
 </body>
 
 </html>

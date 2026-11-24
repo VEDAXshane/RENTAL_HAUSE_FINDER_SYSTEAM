@@ -4,11 +4,14 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Google Map & Route - Smart Rental Finder</title>
-    <!-- LEAFLET CSS -->
-    <link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css" />
+
+    <title>Property Map - Smart Rental Finder</title>
+
+    <!-- Leaflet CSS -->
+    <link rel="stylesheet"
+        href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css">
+
     <style>
-        /* GENERAL */
         * {
             margin: 0;
             padding: 0;
@@ -17,385 +20,683 @@
         }
 
         body {
-            background: rgb(19, 171, 5);
+            min-height: 100vh;
+            background: #f1f5f9;
             color: #14234e;
         }
 
         /* MAIN CONTAINER */
         .container {
             max-width: 1250px;
-            margin: 20px auto;
-            padding: 12px;
+            margin: 25px auto;
+            padding: 15px;
         }
 
+        /* MAIN CARD */
         .map-card {
             background: white;
-            border-radius: 13px;
-            padding: 12px;
-            padding: 12px;
+            border-radius: 16px;
+            padding: 15px;
             display: grid;
             grid-template-columns: 1.65fr 1fr;
-            gap: 12px;
-            box-shadow: 0 3px 12px rgba(0, 0, 0, 0.06);
-            min-height: 390px;
+            gap: 18px;
+            box-shadow: 0 8px 30px rgba(15, 45, 100, 0.08);
         }
 
-        /* LEFT MAP SECTION */
+        /* MAP SECTION */
         .map-section {
             position: relative;
+            height: 500px;
             min-width: 0;
-            height: 365px;
-            border-radius: 10px;
+            border-radius: 12px;
             overflow: hidden;
         }
 
-        .map-tabs {
-            position: absolute;
-            top: 10px;
-            left: 10px;
-            z-index: 500;
-            display: flex;
-            background: white;
-            border-radius: 6px;
-            overflow: hidden;
-            box-shadow: 0 2px 8px rgba(0, 0, 0, 0.15);
-        }
-
-        .map-tabs button {
-            padding: 9px 15px;
-            border: none;
-            background: white;
-            color: #253657;
-            font-size: 12px;
-            font-weight: bold;
-            cursor: pointer;
-        }
-
-        .map-tabs button.active {
-            background: #075bea;
-            color: white;
-            color: white;
-        }
-
-        /* MAP */
         #map {
             width: 100%;
             height: 100%;
             z-index: 1;
         }
 
-        /* ROUTE INFORMATION */
-        .route-info {
+        /* MAP BUTTONS */
+        .map-tabs {
             position: absolute;
-            top: 43%;
-            left: 50%;
-            transform: translate(-50%, -50%);
-            background: white;
-            padding: 9px 16px;
-            border-radius: 8px;
-            text-align: center;
-            z-index: 400;
-            box-shadow: 0 3px 12px rgba(0, 0, 0, 0.15);
-            pointer-events: none;
-            min-width: 100px;
-        }
-
-        .route-info h3 {
-            font-size: 14px;
-            margin-bottom: 3px;
-        }
-
-        .route-info p {
-            font-size: 12px;
-            font-weight: bold;
-        }
-
-        /* RIGHT PROPERTY SECTION */
-        .property-section {
-            padding: 12px;
+            top: 12px;
+            left: 12px;
+            z-index: 500;
             display: flex;
-            flex-direction: column;
-            gap: 12px;
-            gap: 12px;
-        }
-
-        .property-section h2 {
-            font-size: 18px;
-            margin-bottom: 2px;
-        }
-
-        .property-section h3 {
-            font-size: 13px;
-            color: #172b54;
-        }
-
-        .property-section p {
-            font-size: 12px;
-            color: #64748b;
-        }
-
-        /* PROPERTY IMAGE */
-        .property-image {
-            width: 100%;
-            height: 160px;
-            border-radius: 9px;
-            object-fit: cover;
-            display: block;
-        }
-
-        /* DIRECTIONS BUTTON */
-        .directions-btn {
-            background: #075bea;
-            color: white;
-            border: none;
+            background: white;
             border-radius: 8px;
-            padding: 12px;
+            overflow: hidden;
+            box-shadow: 0 3px 12px rgba(0, 0, 0, 0.15);
+        }
+
+        .map-tabs button {
+            padding: 10px 13px;
+            border: none;
+            background: white;
+            color: #253657;
             font-size: 12px;
             font-weight: bold;
             cursor: pointer;
             transition: 0.3s;
         }
 
-        .directions-btn:hover {
-            background: #003eb8;
-            background: #003eb8;
+        .map-tabs button.active {
+            background: #075bea;
+            color: white;
         }
 
-        /* STATUS */
-        .status {
+        .map-tabs button:hover {
+            background: #eaf2ff;
+        }
+
+        .map-tabs button.active:hover {
+            background: #0645cf;
+        }
+
+        /* PROPERTY SECTION */
+        .property-section {
+            padding: 15px;
+            display: flex;
+            flex-direction: column;
+            gap: 13px;
+        }
+
+        .property-section h2 {
+            font-size: 21px;
+            color: #10234d;
+        }
+
+        .property-name {
+            font-size: 17px;
+            color: #075bea;
+            font-weight: bold;
+        }
+
+        .property-location {
+            font-size: 13px;
+            color: #64748b;
+            line-height: 1.6;
+        }
+
+        /* PROPERTY IMAGE */
+        .property-image {
+            width: 100%;
+            height: 230px;
+            border-radius: 12px;
+            object-fit: cover;
+            display: block;
+            background: #eaf2ff;
+        }
+
+        /* PRICE */
+        .property-price {
+            font-size: 20px;
+            font-weight: bold;
+            color: #075bea;
+        }
+
+        .price-label {
+            font-size: 12px;
+            color: #64748b;
+        }
+
+        /* DIRECTIONS BUTTON */
+        .directions-btn {
+            background: linear-gradient(90deg, #075bea, #0645cf);
+            color: white;
+            border: none;
+            border-radius: 9px;
+            padding: 14px;
+            font-size: 13px;
+            font-weight: bold;
+            cursor: pointer;
+            transition: 0.3s;
+        }
+
+        .directions-btn:hover {
+            background: #003bb5;
+            transform: translateY(-2px);
+        }
+
+        /* BACK BUTTON */
+        .back-btn {
+            text-decoration: none;
+            display: block;
+            text-align: center;
+            padding: 12px;
+            border: 1px solid #dbe4f0;
+            border-radius: 9px;
+            color: #334155;
+            font-size: 13px;
+            font-weight: bold;
+            transition: 0.3s;
+        }
+
+        .back-btn:hover {
+            background: #f1f5f9;
+        }
+
+        /* MAP STATUS */
+        .map-status {
             font-size: 11px;
             color: #64748b;
             text-align: center;
+            line-height: 1.6;
         }
 
-        /* MAP CONTROLS */
-        .leaflet-control-zoom a {
-            color: #075bea !important;
+        .map-note {
+            background: #eff6ff;
+            border: 1px solid #dbeafe;
+            border-radius: 9px;
+            padding: 12px;
+            color: #1e40af;
+            font-size: 12px;
+            line-height: 1.6;
         }
 
         /* TABLET */
         @media(max-width: 850px) {
+
             .map-card {
-                grid-template-columns: 1.4fr 1fr;
+                grid-template-columns: 1fr;
             }
 
             .map-section {
-                height: 340px;
+                height: 430px;
             }
 
             .property-image {
-                height: 140px;
+                height: 250px;
             }
         }
 
         /* MOBILE */
-        @media(max-width: 600px) {
+        @media(max-width: 550px) {
+
             .container {
                 margin: 5px auto;
                 padding: 8px;
             }
 
             .map-card {
-                grid-template-columns: 1fr;
-                grid-template-columns: 1fr;
                 padding: 9px;
+                gap: 10px;
             }
 
             .map-section {
-                height: 330px;
+                height: 350px;
+            }
+
+            .map-tabs button {
+                padding: 9px 11px;
+                font-size: 11px;
             }
 
             .property-section {
-                padding: 8px;
+                padding: 10px;
             }
 
             .property-image {
-                height: 190px;
+                height: 210px;
             }
 
             .property-section h2 {
-                font-size: 17px;
+                font-size: 18px;
             }
         }
     </style>
 </head>
 
 <body>
+
     <div class="container">
+
         <main class="map-card">
-            <!-- LEFT MAP -->
+
+            <!-- LEFT: MAP -->
             <section class="map-section">
-                <!-- MAP / SATELLITE BUTTONS -->
+
+                <!-- MAP CONTROLS -->
                 <div class="map-tabs">
-                    <button id="mapBtn" class="active" >
-                       <a href="renter-dashboard.html"> GO back</a>
+
+                    <button type="button"
+                        onclick="goBack()">
+                        ← Back
                     </button>
-                    <button id="mapBtn" class="active" onclick="showMap()">
+
+                    <button type="button"
+                        id="mapBtn"
+                        class="active"
+                        onclick="showMap()">
                         Map
                     </button>
-                    <button id="satelliteBtn" onclick="showSatellite()">
+
+                    <button type="button"
+                        id="satelliteBtn"
+                        onclick="showSatellite()">
                         Satellite
                     </button>
+
                 </div>
+
                 <!-- INTERACTIVE MAP -->
                 <div id="map"></div>
-                <!-- ROUTE DISTANCE -->
-                <div class="route-info">
-                    <h3>2.5 km</h3>
-                    <p>(7 min)</p>
-                </div>
+
             </section>
-            <!-- RIGHT PROPERTY INFORMATION -->
+
+
+            <!-- RIGHT: PROPERTY INFORMATION -->
             <section class="property-section">
+
                 <h2>Property Location</h2>
-                <h3 id="propertyLocation">
-                    Morogoro Town
+
+                <h3 class="property-name" id="propertyName">
+                    Rental Property
                 </h3>
-                <p>
-                <p>
+
+                <p class="property-location" id="propertyLocation">
                     Morogoro, Tanzania
                 </p>
-                <!-- HOUSE IMAGE -->
-                <img class="property-image" id="propertyImage"
-                    src="image001.jpg" alt="Rental Property">
-                <!-- DIRECTIONS BUTTON -->
-                <button class="directions-btn" onclick="getDirections()">
+
+                <!-- PROPERTY IMAGE -->
+                <img
+                    class="property-image"
+                    id="propertyImage"
+                    src="image001.jpg"
+                    alt="Rental Property">
+
+                <!-- RENT -->
+                <div>
+                    <div class="property-price" id="propertyPrice">
+                        Price not available
+                    </div>
+
+                    <div class="price-label">
+                        Rental price
+                    </div>
+                </div>
+
+                <!-- DIRECTIONS -->
+                <button class="directions-btn"
+                    onclick="getDirections()">
                     Get Directions ↗
                 </button>
-                <p class="status" id="mapStatus">
+
+                <!-- STATUS -->
+                <p class="map-status" id="mapStatus">
                     Property location preview
                 </p>
+
+                <!-- LOCATION NOTE -->
+                <div class="map-note" id="mapNote">
+                    The displayed map location may be approximate.
+                    Confirm the exact location with the property owner.
+                </div>
+
+                <!-- BACK -->
+                <a href="house-details.html"
+                    class="back-btn"
+                    id="backButton">
+                    ← Back to Property Details
+                </a>
+
             </section>
+
         </main>
+
     </div>
-    <!-- LEAFLET JAVASCRIPT -->
+
+
+    <!-- LEAFLET JS -->
     <script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"></script>
+
     <script>
-        /* ==================================
-        /* ==================================
-        1. PROPERTY LOCATION
-        ================================== */
-        // Approximate Morogoro Town coordinates
-        // Replace these with the real property coordinates
-        // when connecting to the database.
-        const propertyCoordinates = [-6.8235, 37.6591];
-        // Demo starting point
-        const startingCoordinates = [-6.8340, 37.6470];
-        /* ==================================
-        2. CREATE MAP
-        ================================== */
+
+        /* =========================================
+           1. GET SELECTED PROPERTY
+        ========================================= */
+
+        let property = null;
+
+        try {
+
+            const savedProperty =
+                localStorage.getItem("selectedProperty");
+
+            if (savedProperty) {
+                property = JSON.parse(savedProperty);
+            }
+
+        } catch (error) {
+
+            console.error("Unable to read property:", error);
+
+        }
+
+
+        /* =========================================
+           2. DEFAULT LOCATION
+        ========================================= */
+
+        // Approximate Morogoro Town coordinates.
+        // Used only when property coordinates are unavailable.
+
+        const defaultCoordinates = [-6.8235, 37.6591];
+
+
+        /* =========================================
+           3. GET PROPERTY COORDINATES
+        ========================================= */
+
+        function getPropertyCoordinates(property) {
+
+            if (!property) {
+                return defaultCoordinates;
+            }
+
+            // Support common coordinate formats.
+
+            const latitude =
+                property.latitude ??
+                property.lat ??
+                property.coordinates?.[0];
+
+            const longitude =
+                property.longitude ??
+                property.lng ??
+                property.lon ??
+                property.coordinates?.[1];
+
+            if (
+                latitude !== undefined &&
+                longitude !== undefined &&
+                !isNaN(Number(latitude)) &&
+                !isNaN(Number(longitude))
+            ) {
+
+                const lat = Number(latitude);
+                const lng = Number(longitude);
+
+                if (
+                    lat >= -90 && lat <= 90 &&
+                    lng >= -180 && lng <= 180
+                ) {
+                    return [lat, lng];
+                }
+            }
+
+            return defaultCoordinates;
+        }
+
+
+        const propertyCoordinates =
+            getPropertyCoordinates(property);
+
+
+        /* =========================================
+           4. INITIALIZE MAP
+        ========================================= */
+
         const map = L.map("map", {
             zoomControl: true
-        }).setView(propertyCoordinates, 14);
-        /* ==================================
-        3. MAP LAYERS
-        ================================== */
-        // Normal map
+        }).setView(propertyCoordinates, 15);
+
+
+        /* =========================================
+           5. NORMAL MAP
+        ========================================= */
+
         const normalMap = L.tileLayer(
             "https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png",
             {
                 maxZoom: 19,
-                attribution: '&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a>'
+
+                attribution:
+                    '&copy; <a href="https://www.openstreetmap.org/copyright">' +
+                    'OpenStreetMap</a>'
             }
         );
-        // Satellite map
+
+
+        /* =========================================
+           6. SATELLITE MAP
+        ========================================= */
+
         const satelliteMap = L.tileLayer(
             "https://server.arcgisonline.com/ArcGIS/rest/services/World_Imagery/MapServer/tile/{z}/{y}/{x}",
-           
+            {
+                maxZoom: 19,
+
+                attribution:
+                    'Tiles &copy; Esri'
+            }
         );
-        // Default map
+
+
+        // Default layer
         normalMap.addTo(map);
-        /* ==================================
-        4. LOCATION MARKERS
-        ================================== */
-        // Starting point
-        const startMarker = L.marker(startingCoordinates)
-            .addTo(map)
-            .bindPopup("Starting Point");
-        // Property marker
+
+
+        /* =========================================
+           7. PROPERTY MARKER
+        ========================================= */
+
+        const propertyName =
+            property?.name ||
+            property?.propertyName ||
+            "Rental Property";
+
+        const propertyLocation =
+            property?.location ||
+            property?.city ||
+            "Morogoro, Tanzania";
+
+
         const propertyMarker = L.marker(propertyCoordinates)
             .addTo(map)
-            .bindPopup("Property Location - Morogoro Town");
-        /* ==================================
-        5. DRAW ROUTE
-        ================================== */
-        // Illustrative route for the UI demonstration.
-        // This is not a verified road-navigation route.
-        const routeCoordinates = [
-            startingCoordinates,
-            [-6.8320, 37.6500],
-            [-6.8290, 37.6530],
-            [-6.8260, 37.6560],
-            propertyCoordinates
-        ];
-        const route = L.polyline(
-            routeCoordinates,
-            {
-                color: "#075bea",
-                color: "#075bea",
-                weight: 5,
-                opacity: 0.9
-            }
-        ).addTo(map);
-        // Fit route into map
-        map.fitBounds(route.getBounds(), {
-            padding: [35, 35]
-        });
-        /* ==================================
-        6. MAP BUTTON
-        ================================== */
+            .bindPopup(`
+                <strong>${propertyName}</strong><br>
+                ${propertyLocation}
+            `);
+
+
+        propertyMarker.openPopup();
+
+
+        /* =========================================
+           8. DISPLAY PROPERTY INFORMATION
+        ========================================= */
+
+        document.getElementById("propertyName")
+            .textContent = propertyName;
+
+
+        document.getElementById("propertyLocation")
+            .textContent = propertyLocation;
+
+
+        /* PROPERTY PRICE */
+
+        const propertyPrice =
+            property?.price;
+
+        if (
+            propertyPrice !== undefined &&
+            propertyPrice !== null &&
+            propertyPrice !== ""
+        ) {
+
+            document.getElementById("propertyPrice")
+                .textContent =
+                "TZS " +
+                Number(propertyPrice).toLocaleString("en-TZ");
+
+        } else {
+
+            document.getElementById("propertyPrice")
+                .textContent = "Price not available";
+
+        }
+
+
+        /* PROPERTY IMAGE */
+
+        let propertyImage =
+            property?.image ||
+            property?.images?.[0] ||
+            "image001.jpg";
+
+
+        document.getElementById("propertyImage")
+            .src = propertyImage;
+
+
+        /* =========================================
+           9. LOCATION STATUS
+        ========================================= */
+
+        const hasExactCoordinates =
+            property &&
+            (
+                property.latitude !== undefined ||
+                property.lat !== undefined ||
+                property.coordinates?.length >= 2
+            );
+
+
+        const mapStatus =
+            document.getElementById("mapStatus");
+
+        const mapNote =
+            document.getElementById("mapNote");
+
+
+        if (hasExactCoordinates) {
+
+            mapStatus.textContent =
+                "Property coordinates available.";
+
+            mapNote.textContent =
+                "The map is using the coordinates saved for this property. " +
+                "Please confirm the location with the owner.";
+
+        } else {
+
+            mapStatus.textContent =
+                "Showing approximate Morogoro location.";
+
+            mapNote.textContent =
+                "The exact property coordinates have not yet been saved. " +
+                "This marker shows an approximate location, not the exact house.";
+
+        }
+
+
+        /* =========================================
+           10. MAP BUTTON
+        ========================================= */
+
         function showMap() {
-            map.removeLayer(satelliteMap);
-            normalMap.addTo(map);
+
+            if (map.hasLayer(satelliteMap)) {
+                map.removeLayer(satelliteMap);
+            }
+
+            if (!map.hasLayer(normalMap)) {
+                normalMap.addTo(map);
+            }
+
             document.getElementById("mapBtn")
                 .classList.add("active");
+
             document.getElementById("satelliteBtn")
                 .classList.remove("active");
         }
-        /* ==================================
-        7. SATELLITE BUTTON
-        ================================== */
+
+
+        /* =========================================
+           11. SATELLITE BUTTON
+        ========================================= */
+
         function showSatellite() {
-            map.removeLayer(normalMap);
-            satelliteMap.addTo(map);
-            document.getElementById("satelliteBtn")
+
+            if (map.hasLayer(normalMap)) {
+                map.removeLayer(normalMap);
+            }
+
+            if (!map.hasLayer(satelliteMap)) {
+                satelliteMap.addTo(map);
+            }
+
             document.getElementById("satelliteBtn")
                 .classList.add("active");
+
             document.getElementById("mapBtn")
                 .classList.remove("active");
         }
-        /* ==================================
-        8. GET DIRECTIONS
-        ================================== */
+
+
+        /* =========================================
+           12. GET DIRECTIONS
+        ========================================= */
+
         function getDirections() {
+
             const latitude = propertyCoordinates[0];
+
             const longitude = propertyCoordinates[1];
+
             const destination =
                 latitude + "," + longitude;
+
             const googleMapsURL =
-                "https://www.google.com/maps/dir/?api=1&destination="
-                + destination
-                + "&travelmode=driving";
+                "https://www.google.com/maps/dir/?api=1" +
+                "&destination=" +
+                encodeURIComponent(destination) +
+                "&travelmode=driving";
+
             window.open(
                 googleMapsURL,
-                "_blank"
+                "_blank",
+                "noopener,noreferrer"
             );
         }
-        /* ==================================
-        9. GET SELECTED PROPERTY
-        ================================== */
-        const savedProperty =
-            localStorage.getItem("selectedProperty");
-        if (savedProperty) {
-            const property = JSON.parse(savedProperty);
-            document.getElementById("propertyLocation")
-                .textContent = property.location;
-        }
-        // Map needs recalculation after page layout
-        setTimeout(function () {
-            map.invalidateSize();
-        }, 300);
-    </script>
-</body>
 
+
+        /* =========================================
+           13. BACK BUTTON
+        ========================================= */
+
+        function goBack() {
+
+            if (property) {
+
+                window.location.href =
+                    "house-details.html";
+
+            } else {
+
+                window.location.href =
+                    "renter-dashboard.html";
+
+            }
+        }
+
+
+        /* =========================================
+           14. MAP SIZE FIX
+        ========================================= */
+
+        setTimeout(function () {
+
+            map.invalidateSize();
+
+        }, 300);
+
+
+    </script>
+
+</body>
 </html>
