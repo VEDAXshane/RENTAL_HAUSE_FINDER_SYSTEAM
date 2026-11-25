@@ -1,0 +1,503 @@
+```html
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Create Admin - Smart Rental Finder</title>
+
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: Arial, sans-serif;
+        }
+
+        body {
+            min-height: 100vh;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            padding: 25px;
+            background: linear-gradient(135deg, #eef4ff, #f5f7fb);
+        }
+
+        .container {
+            width: 100%;
+            max-width: 480px;
+            background: white;
+            padding: 38px;
+            border-radius: 18px;
+            box-shadow: 0 15px 45px rgba(0, 0, 0, 0.10);
+        }
+
+        .logo {
+            width: 65px;
+            height: 65px;
+            background: linear-gradient(135deg, #2563eb, #4f46e5);
+            color: white;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 28px;
+            font-weight: bold;
+            border-radius: 16px;
+            margin: 0 auto 20px;
+        }
+
+        h1 {
+            text-align: center;
+            color: #1e293b;
+            font-size: 26px;
+            margin-bottom: 10px;
+        }
+
+        .subtitle {
+            text-align: center;
+            color: #64748b;
+            font-size: 14px;
+            margin-bottom: 28px;
+            line-height: 1.6;
+        }
+
+        .form-group {
+            margin-bottom: 18px;
+        }
+
+        label {
+            display: block;
+            font-size: 14px;
+            font-weight: bold;
+            color: #334155;
+            margin-bottom: 8px;
+        }
+
+        input {
+            width: 100%;
+            padding: 13px;
+            border: 1px solid #dbe2ea;
+            border-radius: 9px;
+            outline: none;
+            font-size: 14px;
+            transition: 0.3s;
+        }
+
+        input:focus {
+            border-color: #2563eb;
+            box-shadow: 0 0 0 3px rgba(37, 99, 235, 0.10);
+        }
+
+        .password-box {
+            position: relative;
+        }
+
+        .password-box input {
+            padding-right: 75px;
+        }
+
+        .toggle-password {
+            position: absolute;
+            right: 12px;
+            top: 50%;
+            transform: translateY(-50%);
+            background: none;
+            border: none;
+            color: #2563eb;
+            font-size: 12px;
+            font-weight: bold;
+            cursor: pointer;
+        }
+
+        .create-btn {
+            width: 100%;
+            padding: 14px;
+            border: none;
+            border-radius: 9px;
+            color: white;
+            font-size: 15px;
+            font-weight: bold;
+            background: linear-gradient(135deg, #2563eb, #4f46e5);
+            cursor: pointer;
+            transition: 0.3s;
+            margin-top: 5px;
+        }
+
+        .create-btn:hover {
+            opacity: 0.92;
+            transform: translateY(-1px);
+        }
+
+        .message {
+            display: none;
+            padding: 12px;
+            border-radius: 8px;
+            margin-bottom: 18px;
+            font-size: 14px;
+            text-align: center;
+            line-height: 1.5;
+        }
+
+        .success {
+            display: block;
+            background: #dcfce7;
+            color: #166534;
+        }
+
+        .error {
+            display: block;
+            background: #fee2e2;
+            color: #991b1b;
+        }
+
+        .back-link {
+            display: block;
+            text-align: center;
+            margin-top: 22px;
+            text-decoration: none;
+            color: #2563eb;
+            font-size: 14px;
+            font-weight: bold;
+        }
+
+        .security-note {
+            background: #fff7ed;
+            border: 1px solid #fed7aa;
+            color: #9a3412;
+            padding: 12px;
+            border-radius: 9px;
+            font-size: 12px;
+            line-height: 1.6;
+            margin-top: 22px;
+        }
+
+        .disabled-form {
+            opacity: 0.6;
+            pointer-events: none;
+        }
+
+        @media(max-width: 480px) {
+            .container {
+                padding: 25px;
+            }
+
+            h1 {
+                font-size: 23px;
+            }
+        }
+    </style>
+</head>
+
+<body>
+
+<div class="container">
+
+    <div class="logo">SR</div>
+
+    <h1>Create Admin Account</h1>
+
+    <p class="subtitle">
+        Set up the first administrator of Smart Rental Finder System.
+    </p>
+
+    <div id="message" class="message"></div>
+
+    <form id="adminForm">
+
+        <div class="form-group">
+            <label for="fullname">Admin Full Name</label>
+            <input
+                type="text"
+                id="fullname"
+                placeholder="Enter full name"
+                required
+            >
+        </div>
+
+        <div class="form-group">
+            <label for="email">Email Address</label>
+            <input
+                type="email"
+                id="email"
+                placeholder="admin@example.com"
+                required
+            >
+        </div>
+
+        <div class="form-group">
+            <label for="phone">Phone Number</label>
+            <input
+                type="tel"
+                id="phone"
+                placeholder="Enter phone number"
+                required
+            >
+        </div>
+
+        <div class="form-group">
+            <label for="password">Password</label>
+
+            <div class="password-box">
+                <input
+                    type="password"
+                    id="password"
+                    placeholder="Create password"
+                    minlength="8"
+                    required
+                >
+
+                <button
+                    type="button"
+                    class="toggle-password"
+                    onclick="togglePassword('password', this)"
+                >
+                    Show
+                </button>
+            </div>
+        </div>
+
+        <div class="form-group">
+            <label for="confirmPassword">Confirm Password</label>
+
+            <div class="password-box">
+                <input
+                    type="password"
+                    id="confirmPassword"
+                    placeholder="Confirm password"
+                    minlength="8"
+                    required
+                >
+
+                <button
+                    type="button"
+                    class="toggle-password"
+                    onclick="togglePassword('confirmPassword', this)"
+                >
+                    Show
+                </button>
+            </div>
+        </div>
+
+        <button type="submit" class="create-btn" id="createBtn">
+            Create Admin Account
+        </button>
+
+    </form>
+
+    <a href="login.html" class="back-link">
+        ← Back to Login
+    </a>
+
+    <div class="security-note">
+        <strong>Developer Notice:</strong>
+        This page is for initial setup of the local prototype only.
+        Do not expose it on a live website. Delete or disable this
+        setup page after creating your administrator account.
+    </div>
+
+</div>
+
+<script>
+
+    const adminForm = document.getElementById("adminForm");
+    const message = document.getElementById("message");
+    const createBtn = document.getElementById("createBtn");
+
+    // Check if an Admin already exists
+    function adminExists() {
+
+        let users = JSON.parse(
+            localStorage.getItem("rentalUsers") || "[]"
+        );
+
+        return users.some(user =>
+            String(user.role || "").toLowerCase() === "admin"
+        );
+    }
+
+    // Display messages
+    function showMessage(text, type) {
+
+        message.textContent = text;
+        message.className = "message " + type;
+    }
+
+    // Show or hide password
+    function togglePassword(id, button) {
+
+        const input = document.getElementById(id);
+
+        if (input.type === "password") {
+            input.type = "text";
+            button.textContent = "Hide";
+        } else {
+            input.type = "password";
+            button.textContent = "Show";
+        }
+    }
+
+    // Prevent creating another Admin
+    function checkExistingAdmin() {
+
+        if (adminExists()) {
+
+            adminForm.classList.add("disabled-form");
+            createBtn.disabled = true;
+            createBtn.textContent = "Admin Already Exists";
+
+            showMessage(
+                "An Admin account already exists. Please login using your Admin account.",
+                "error"
+            );
+        }
+    }
+
+    checkExistingAdmin();
+
+    // Create first Admin
+    adminForm.addEventListener("submit", function(e) {
+
+        e.preventDefault();
+
+        // Check again before creating
+        if (adminExists()) {
+
+            showMessage(
+                "Admin account already exists. No new Admin can be created.",
+                "error"
+            );
+
+            adminForm.classList.add("disabled-form");
+            createBtn.disabled = true;
+
+            return;
+        }
+
+        const fullname = document.getElementById("fullname").value.trim();
+        const email = document.getElementById("email").value.trim().toLowerCase();
+        const phone = document.getElementById("phone").value.trim();
+        const password = document.getElementById("password").value;
+        const confirmPassword = document.getElementById("confirmPassword").value;
+
+        // Validate fields
+        if (!fullname || !email || !phone || !password || !confirmPassword) {
+
+            showMessage(
+                "Please fill in all required fields.",
+                "error"
+            );
+
+            return;
+        }
+
+        // Validate password
+        if (password.length < 8) {
+
+            showMessage(
+                "Password must contain at least 8 characters.",
+                "error"
+            );
+
+            return;
+        }
+
+        // Confirm password
+        if (password !== confirmPassword) {
+
+            showMessage(
+                "Passwords do not match. Please try again.",
+                "error"
+            );
+
+            return;
+        }
+
+        let users = JSON.parse(
+            localStorage.getItem("rentalUsers") || "[]"
+        );
+
+        // Check duplicate email
+        const emailExists = users.some(user =>
+            (user.email || "").toLowerCase() === email
+        );
+
+        if (emailExists) {
+
+            showMessage(
+                "This email is already registered.",
+                "error"
+            );
+
+            return;
+        }
+
+        // Check duplicate phone
+        const normalizedPhone = phone.replace(/\s+/g, "");
+
+        const phoneExists = users.some(user =>
+            (user.phone || "").replace(/\s+/g, "") === normalizedPhone
+        );
+
+        if (phoneExists) {
+
+            showMessage(
+                "This phone number is already registered.",
+                "error"
+            );
+
+            return;
+        }
+
+        // Create Admin user
+        const newAdmin = {
+
+            id: "ADMIN-" + Date.now(),
+            userId: "ADMIN-" + Date.now(),
+
+            fullname: fullname,
+            fullName: fullname,
+            name: fullname,
+
+            email: email,
+            phone: phone,
+            phoneNumber: phone,
+
+            password: password,
+
+            role: "admin",
+
+            createdAt: new Date().toISOString()
+        };
+
+        // Save Admin to existing users
+        users.push(newAdmin);
+
+        localStorage.setItem(
+            "rentalUsers",
+            JSON.stringify(users)
+        );
+
+        showMessage(
+            "Admin account created successfully! Redirecting to Login...",
+            "success"
+        );
+
+        adminForm.reset();
+
+        createBtn.disabled = true;
+        createBtn.textContent = "Admin Created";
+
+        // Redirect to Login
+        setTimeout(function() {
+
+            window.location.href = "login.html";
+
+        }, 2000);
+
+    });
+
+</script>
+
+</body>
+</html>
+```
