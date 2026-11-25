@@ -425,11 +425,11 @@
 
             <a href="home.html">Home</a>
 
-            <a href="house-listings.html">Properties</a>
+            <a href="#" onclick="openProtectedPage('house-listings.html'); return false;">Properties</a>
 
-            <a href="about-us.html">About</a>
+            <a href="#" onclick="openProtectedPage('about-us.html'); return false;">About</a>
 
-            <a href="help-support.html">Help</a>
+            <a href="#" onclick="openProtectedPage('help-support.html'); return false;">Help</a>
 
         </nav>
 
@@ -539,7 +539,7 @@
 
             <p>
                 We are here to help
-            </p>
+        </p>
 
         </div>
 
@@ -566,7 +566,7 @@
         </p>
 
         <p>
-            <a href="help-support.html">
+            <a href="#" onclick="openProtectedPage('help-support.html'); return false;">
                 Contact Support
             </a>
         </p>
@@ -592,11 +592,27 @@
         }
 
 
+        // ================= CURRENT USER =================
+        function getCurrentUser() {
+
+            try {
+
+                return JSON.parse(
+                    localStorage.getItem("rentalCurrentUser")
+                );
+
+            } catch (error) {
+
+                return null;
+
+            }
+        }
+
+
         // ================= LOGIN =================
         function goToLogin() {
 
             window.location.href = "login.html";
-
         }
 
 
@@ -604,12 +620,49 @@
         function goToRegister() {
 
             window.location.href = "register.html";
-
         }
 
 
-        // ================= SEARCH =================
+        // ================= PROTECTED PAGE ACCESS =================
+        function openProtectedPage(page) {
+
+            const user = getCurrentUser();
+
+            if (!user) {
+
+                alert("Please register or login first!");
+
+                // Save the destination before registration/login
+                sessionStorage.setItem("rentalRedirectAfterLogin", page);
+
+                window.location.href = "register.html";
+
+                return;
+            }
+
+            window.location.href = page;
+        }
+
+
+        // ================= SEARCH PROPERTIES =================
         function searchProperties() {
+
+            // Require login before searching
+            const user = getCurrentUser();
+
+            if (!user) {
+
+                alert("Please register or login first!");
+
+                sessionStorage.setItem(
+                    "rentalRedirectAfterLogin",
+                    "advanced-search.html"
+                );
+
+                window.location.href = "register.html";
+
+                return;
+            }
 
             const keyword = document
                 .getElementById("searchInput")
@@ -623,12 +676,10 @@
                 return;
             }
 
-            // Store search keyword
+            // Save search keyword
             localStorage.setItem("propertySearch", keyword);
 
-            // Navigate to search page
             window.location.href = "advanced-search.html";
-
         }
 
 
@@ -640,13 +691,11 @@
                 if (event.key === "Enter") {
 
                     searchProperties();
-
                 }
-
             });
 
 
-        // ================= CLOSE MENU AFTER CLICK =================
+        // ================= CLOSE MOBILE MENU =================
         document
             .querySelectorAll(".nav-links a")
             .forEach(function(link) {
@@ -661,10 +710,61 @@
                     menuBtn.innerHTML = "☰";
 
                     menuBtn.setAttribute("aria-expanded", "false");
-
                 });
-
             });
+
+
+        // ================= UPDATE NAVIGATION BASED ON LOGIN =================
+        const loggedInUser = getCurrentUser();
+
+        if (loggedInUser) {
+
+            const loginButton = document.querySelector(".login-btn");
+            const registerButton = document.querySelector(".register-btn");
+
+            if (loginButton) {
+
+                loginButton.innerHTML = "Dashboard";
+
+                loginButton.onclick = function() {
+
+                    const role = loggedInUser.role;
+
+                    if (role === "owner") {
+
+                        window.location.href = "owner-dashboard.html";
+
+                    } else if (role === "admin") {
+
+                        window.location.href = "admin-dashboard.html";
+
+                    } else {
+
+                        window.location.href = "renter-dashboard.html";
+                    }
+                };
+            }
+
+
+            if (registerButton) {
+
+                registerButton.innerHTML = "Logout";
+
+                registerButton.onclick = function() {
+
+                    if (confirm("Are you sure you want to logout?")) {
+
+                        localStorage.removeItem("rentalCurrentUser");
+
+                        sessionStorage.removeItem(
+                            "rentalRedirectAfterLogin"
+                        );
+
+                        window.location.href = "home.html";
+                    };
+                };
+            }
+        }
 
     </script>
 
